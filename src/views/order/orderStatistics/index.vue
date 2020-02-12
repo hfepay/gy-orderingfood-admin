@@ -1,0 +1,62 @@
+<template>
+  <div>
+    <!--table模板-->
+    <base-table-layout
+      :page-obj="Mixins_$PageObj"
+      :headers="Headers"
+      :data="Mixins_$TableData"
+      @sizeChange="Mixins_$SizeChange"
+      @currentChange="Mixins_$CurrentChange"
+    >
+      <template slot="layout-search">
+        <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
+          <el-form-item>
+            <base-date-picker v-model="QueryParams.account" placeholder="请选择配送时间"/>
+          </el-form-item>
+          <el-form-item>
+            <deliveryTimeSelect v-model="QueryParams.account" placeholder="请选择配送时间段"/>
+          </el-form-item>
+          <el-form-item>
+            <base-input v-model="QueryParams.account" placeholder="请输入菜品名称"/>
+          </el-form-item>
+          <el-button type="primary" @click="Mixins_$Search">
+            查询
+          </el-button>
+        </base-form>
+      </template>
+    </base-table-layout>
+  </div>
+</template>
+<script>
+import { Mixins } from '@/mixins/mixins'
+import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
+import { deliveryTimeStatus } from '@/constants/module/status.constans'
+
+export default {
+  name: 'Account',
+  components: { deliveryTimeSelect },
+  mixins: [Mixins],
+  data() {
+    return {
+      ApiObject: ApiObject,
+      Headers: [
+        { type: 'index', label: '序号' },
+        { label: '配送日期', prop: 'account' },
+        { label: '配送时间段', prop: 'account', format: deliveryTimeStatus },
+        { label: '菜品名称', prop: 'account' },
+        { label: '菜品类别', prop: 'account' },
+        { label: '数量', prop: 'account' }
+      ],
+      QueryParams: {
+        account: '',
+        name: '',
+        deptName: ''
+      }
+    }
+  },
+  methods: {}
+}
+</script>
+<style lang="scss" scoped>
+</style>

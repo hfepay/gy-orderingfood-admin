@@ -11,28 +11,24 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入菜品名称"/>
+            <base-input v-model="QueryParams.account" placeholder="请输入会员姓名"/>
           </el-form-item>
           <el-form-item>
-            <base-select v-model="QueryParams.account" placeholder="请选择菜品类别"/>
+            <base-input v-model="QueryParams.account" placeholder="请输入会员类别"/>
           </el-form-item>
           <el-form-item>
-            <base-date-picker v-model="QueryParams.account" placeholder="请选择配送日期"/>
+            <base-input v-model="QueryParams.account" placeholder="请输入一级单位"/>
           </el-form-item>
           <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.account" placeholder="请选择送时间段"/>
+            <base-input v-model="QueryParams.account" placeholder="请输入员工工号"/>
           </el-form-item>
           <el-form-item>
+            <base-input v-model="QueryParams.account" placeholder="请输入联系方式"/>
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>
         </base-form>
-      </template>
-      <template slot="layout-operate">
-        <el-button type="primary" @click="Mixins_$Add">
-          新增
-        </el-button>
       </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
@@ -40,13 +36,10 @@
           编辑
         </el-button>
         <el-button type="danger" @click.stop="Mixins_$Del(scope.row)">
-          菜品下架
+          冻结账号
         </el-button>
         <el-button @click.stop="Mixins_$Del(scope.row)">
-          菜品上架
-        </el-button>
-        <el-button @click.stop="Mixins_$Del(scope.row)">
-          菜品删除
+          解封账号
         </el-button>
       </template>
     </base-table-layout>
@@ -72,30 +65,35 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/account/AccountSysUserApi'
-import { vip, topOrDown } from '@/constants/module/status.constans'
-import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
-import { deliveryTimeStatus } from '@/constants/module/status.constans'
 
 export default {
   name: 'Account',
-  components: { deliveryTimeSelect },
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品名称', prop: 'account' },
-        { label: '菜品类别', prop: 'account' },
-        { label: '单价', prop: 'account' },
-        { label: '是否启用员工折扣', type: 'radio', prop: 'account', options: vip },
-        { label: '库存', prop: 'account' },
-        { label: '配送日期', prop: 'account' },
-        { label: '配送时间', prop: 'account' },
-        { label: '配送时间', prop: 'account' },
-        { label: '上架/下架', type: 'radio', prop: 'account', options: topOrDown }
+        { label: '会员姓名', prop: 'account' },
+        { label: '会员类别', prop: 'account' },
+        { label: '一级单位', prop: 'account' },
+        { label: '一级部门', prop: 'a' },
+        { label: '员工工号', prop: 'account' },
+        { label: '联系方式', prop: 'account' }
       ],
       DialogForm: {
-        account: ''
+        account: '',
+        password: '',
+        name: '',
+        mobile: '',
+        email: '',
+        birthday: '',
+        sex: '',
+        deptId: [],
+        empCode: '',
+        roles: [],
+        titleCode: '',
+        status: '1',
+        titleName: ''
       },
       DialogFormRules: {
         account: [
@@ -104,22 +102,26 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '菜品名称', prop: 'account' },
-        { label: '菜品类别', prop: 'account' },
-        { label: '单价', prop: 'account' },
-        { label: '库存', prop: 'account' },
-        { label: '已销售数量', prop: 'account' },
-        { label: '是否启用员工折扣', prop: 'account' },
-        { label: '配送日期', prop: 'account' },
-        { label: '配送时间', prop: 'account', format: deliveryTimeStatus },
+        { label: '微信昵称', prop: 'account' },
+        { label: '会员姓名', prop: 'account' },
+        { label: '会员类别', prop: 'account' },
+        { label: '一级单位', prop: 'account' },
+        { label: '一级部门', prop: 'account' },
+        { label: '员工工号', prop: 'account' },
+        { label: '联系方式', prop: 'account' },
+        { label: '注册时间', prop: 'account' },
+        { label: '消费金额', prop: 'account' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ],
       QueryParams: {
-        account: ''
+        account: '',
+        name: '',
+        deptName: ''
       }
     }
   },
-  methods: {}
+  methods: {
+  }
 }
 </script>
 <style lang="scss" scoped>
