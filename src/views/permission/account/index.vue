@@ -10,15 +10,15 @@
     >
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
-          <el-form-item label="用户账号：">
+          <el-form-item label="用户名：">
             <base-input v-model="QueryParams.account" placeholder="请输入用户账号" />
           </el-form-item>
-          <!--<el-form-item label="用户姓名：">
-            <base-input v-model="QueryParams.name" placeholder="请输入用户姓名" />
+          <el-form-item label="角色：">
+            <base-input v-model="QueryParams.roles" placeholder="请输入用户姓名" />
           </el-form-item>
-          <el-form-item label="所属部门：">
-            <base-input v-model="QueryParams.deptName" placeholder="请输入所属部门" />
-          </el-form-item>-->
+          <el-form-item label="联系方式：">
+            <base-input v-model="QueryParams.mobile" placeholder="请输入所属部门" />
+          </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>
@@ -172,12 +172,7 @@ export default {
         { label: '姓名', prop: 'name', placeholder: '请输入姓名' },
         { label: '手机号', prop: 'mobile', maxlength: 11, placeholder: '请输入手机号' },
         { label: '邮箱', prop: 'email', placeholder: '请输入邮箱' },
-        { label: '生日', prop: 'birthday', type: 'date' },
         { label: '性别', prop: 'sex', type: 'radio', options: this.$utils.toOptions(SEX_CONSTANTS) },
-        { label: '所属部门', slot: 'deptId' },
-        { label: '工号', prop: 'empCode', placeholder: '请输入工号' },
-        { label: '职位编码', prop: 'titleCode', placeholder: '请输入职位编码' },
-        { label: '职位名称', prop: 'titleName', placeholder: '请输入职位名称' },
         { label: '选择角色', slot: 'roles' },
         { label: '是否启用', prop: 'status', type: 'radio', options: this.$utils.toOptions(ACCOUNT_STATUS) },
         { label: '备注', prop: 'remarks', maxlength: 200, type: 'textarea', placeholder: '请输入备注' }
@@ -229,11 +224,11 @@ export default {
         { type: 'index', label: '序号' },
         { label: '用户账号', prop: 'account' },
         { label: '用户姓名', prop: 'name' },
-        { label: '状态', prop: 'status', format: ACCOUNT_STATUS },
-        { label: '所属部门', prop: 'deptName' },
-        { label: '添加人', prop: 'createBy' },
+        { label: '性别', prop: 'sex' },
+        { label: '手机号', prop: 'mobile', maxlength: 11, placeholder: '请输入手机号' },
+        { label: '角色', slot: 'roles' },
+        { label: '邮箱', prop: 'email', placeholder: '请输入邮箱' },
         { label: '添加时间', prop: 'createTime' },
-        { label: '最后登录时间', prop: 'lastLoginTime' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ],
       QueryParams: {
