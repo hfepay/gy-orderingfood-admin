@@ -14,10 +14,10 @@
             <base-input v-model="QueryParams.account" placeholder="请输入用户账号" />
           </el-form-item>
           <el-form-item label="角色：">
-            <base-input v-model="QueryParams.roles" placeholder="请输入用户姓名" />
+            <base-select v-model="QueryParams.roles" placeholder="请选择用户角色" />
           </el-form-item>
           <el-form-item label="联系方式：">
-            <base-input v-model="QueryParams.mobile" placeholder="请输入所属部门" />
+            <base-input v-model="QueryParams.mobile" placeholder="请输入联系方式" />
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询

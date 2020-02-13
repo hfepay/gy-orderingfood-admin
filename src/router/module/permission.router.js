@@ -45,4 +45,4 @@ const router = [{
     }
   ]
 }]
-export default router
+export default []

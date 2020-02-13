@@ -18,6 +18,9 @@
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           编辑
         </el-button>
+        <el-button @click.stop="Mixins_$Del(scope.row)">
+          删除
+        </el-button>
       </template>
     </base-table-layout>
     <base-dialog
@@ -42,7 +45,6 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/account/AccountSysUserApi'
-import { OFFOrNO } from '@/constants/module/status.constans'
 
 export default {
   name: 'Account',
@@ -51,9 +53,13 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '折扣', prop: 'account' },
-        { label: '会员类别', prop: 'account' },
-        { label: '是否启用', type: 'radio', prop: 'account', options: OFFOrNO }
+        { label: '商户全称', prop: 'account' },
+        { label: '商户简称', prop: 'account' },
+        { label: '商户logo', slot: 'account' },
+        { label: '商户电话', prop: 'account' },
+        { label: '商户地址', prop: 'account' },
+        { label: '商户简介', type: 'textarea', prop: 'account' },
+        { label: '营业执照', slot: 'account' }
       ],
       DialogForm: {
         account: ''
@@ -65,14 +71,12 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '会员类别', prop: 'account' },
-        { label: '折扣', prop: 'account' },
-        { label: '是否启用', prop: 'account' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
-      ],
-      QueryParams: {
-        account: ''
-      }
+        { label: '商户全称', prop: 'account' },
+        { label: '商户简称', prop: 'account' },
+        { label: '商户电话', prop: 'account' },
+        { label: '商户地址', prop: 'account' },
+        { label: '操作', slot: 'operator', fixed: 'right', width: 180 }
+      ]
     }
   },
   methods: {}

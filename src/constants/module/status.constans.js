@@ -4,3 +4,4 @@ export const vip = [{ label: '是', value: 1 }, { label: '否', value: 0 }]
 export const topOrDown = [{ label: '上架', value: 1 }, { label: '下架', value: 0 }]
 export const OFFOrNO = [{ label: '启用', value: 1 }, { label: '停用', value: 0 }]
 export const deliveryTimeStatus = { 0: '全部', 1: '早餐', 2: '午餐', 3: '晚餐' }
+export const vipType = { 0: '全部', 1: '集团员工', 2: '驻场单位员工' }

@@ -14,7 +14,7 @@
             <base-input v-model="QueryParams.account" placeholder="请输入会员姓名"/>
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入会员类别"/>
+            <vip-type-select v-model="QueryParams.account" placeholder="请选择会员类别"/>
           </el-form-item>
           <el-form-item>
             <base-input v-model="QueryParams.account" placeholder="请输入一级单位"/>
@@ -65,9 +65,11 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
 
 export default {
   name: 'Account',
+  components: { vipTypeSelect },
   mixins: [Mixins],
   data() {
     return {
@@ -120,8 +122,7 @@ export default {
       }
     }
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 <style lang="scss" scoped>

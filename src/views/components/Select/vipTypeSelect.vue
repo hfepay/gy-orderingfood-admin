@@ -1,7 +1,7 @@
 <template>
   <el-select
     v-bind="$attrs"
-    placeholder="请选择配送时间段"
+    placeholder="请选择会员种类"
     v-on="$listeners">
     <el-option
       v-for="item in options"
@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import { deliveryTimeStatus } from '@/constants/module/status.constans'
+import { vipType } from '@/constants/module/status.constans'
 
 export default {
   name: 'DeptSelect',
   computed: {
     options() {
-      return Object.keys(deliveryTimeStatus).map((item) => ({
+      return Object.keys(vipType).map((item) => ({
         value: item,
-        label: deliveryTimeStatus[item]
+        label: vipType[item]
       }))
     }
   }
