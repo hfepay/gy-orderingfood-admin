@@ -41,8 +41,8 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
-import { OFFOrNO } from '@/constants/module/status.constans'
+import ApiObject from '../../../api/module/trade/TradeMemberDiscountApi'
+import { OFFOrNO, OFFOrNOStatus } from '@/constants/module/status.constans'
 
 export default {
   name: 'Account',
@@ -51,8 +51,8 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '折扣', prop: 'account' },
-        { label: '会员类别', prop: 'account' },
+        { label: '折扣', prop: 'discountValue' },
+        { label: 'memberType', prop: 'account' },
         { label: '是否启用', type: 'radio', prop: 'account', options: OFFOrNO }
       ],
       DialogForm: {
@@ -65,18 +65,15 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '会员类别', prop: 'account' },
-        { label: '折扣', prop: 'account' },
-        { label: '是否启用', prop: 'account' },
+        { label: '会员类别', prop: 'memberTypeName' },
+        { label: '折扣', prop: 'discountValue' },
+        { label: '是否启用', prop: 'status', format: OFFOrNOStatus },
         { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
       ],
       QueryParams: {
-        account: ''
       }
     }
   },
   methods: {}
 }
 </script>
-<style lang="scss" scoped>
-</style>

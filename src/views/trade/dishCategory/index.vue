@@ -44,10 +44,10 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import ApiObject from '../../../api/module/trade/TradeFoodMenuApi'
 
 export default {
-  name: 'Account',
+  name: 'FoodMenu',
   mixins: [Mixins],
   data() {
     return {

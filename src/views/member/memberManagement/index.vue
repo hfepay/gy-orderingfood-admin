@@ -11,19 +11,19 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入会员姓名"/>
+            <base-input v-model="QueryParams.name" placeholder="请输入会员姓名"/>
           </el-form-item>
           <el-form-item>
-            <vip-type-select v-model="QueryParams.account" placeholder="请选择会员类别"/>
+            <vip-type-select v-model="QueryParams.staffType" placeholder="请选择会员类别"/>
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入一级单位"/>
+            <base-input v-model="QueryParams.staffOneUnit" placeholder="请输入一级单位"/>
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入员工工号"/>
+            <base-input v-model="QueryParams.staffNo" placeholder="请输入员工工号"/>
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入联系方式"/>
+            <base-input v-model="QueryParams.mobile" placeholder="请输入联系方式"/>
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
@@ -35,10 +35,10 @@
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           编辑
         </el-button>
-        <el-button type="danger" @click.stop="Mixins_$Del(scope.row)">
+        <el-button v-if="+scope.row.status !== 0" type="danger" @click.stop="freeze(scope.row)">
           冻结账号
         </el-button>
-        <el-button @click.stop="Mixins_$Del(scope.row)">
+        <el-button v-else @click.stop="unblock(scope.row)">
           解封账号
         </el-button>
       </template>
@@ -64,7 +64,7 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import ApiObject from '../../../api/module/trade/TradeMemberApi'
 import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
 
 export default {
@@ -75,44 +75,33 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '会员姓名', prop: 'account' },
-        { label: '会员类别', prop: 'account' },
-        { label: '一级单位', prop: 'account' },
-        { label: '一级部门', prop: 'a' },
-        { label: '员工工号', prop: 'account' },
-        { label: '联系方式', prop: 'account' }
+        { label: '会员姓名', prop: 'name' },
+        { label: '会员类别', slot: 'staffType' },
+        { label: '一级单位', prop: 'staffOneUnit' },
+        { label: '一级部门', prop: 'staffOneDepartment' },
+        { label: '员工工号', prop: 'staffNo' },
+        { label: '联系方式', prop: 'mobile' }
       ],
       DialogForm: {
-        account: '',
-        password: '',
-        name: '',
-        mobile: '',
-        email: '',
-        birthday: '',
-        sex: '',
-        deptId: [],
-        empCode: '',
-        roles: [],
-        titleCode: '',
-        status: '1',
-        titleName: ''
       },
       DialogFormRules: {
-        account: [
-          { required: true }
-        ]
+        name: [{ required: true, message: '必填项不能为空' }],
+        staffType: [{ required: true, message: '必填项不能为空' }],
+        staffOneUnit: [{ required: true, message: '必填项不能为空' }],
+        staffNo: [{ required: true, message: '必填项不能为空' }],
+        mobile: [{ required: true, message: '必填项不能为空' }]
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '微信昵称', prop: 'account' },
-        { label: '会员姓名', prop: 'account' },
-        { label: '会员类别', prop: 'account' },
-        { label: '一级单位', prop: 'account' },
-        { label: '一级部门', prop: 'account' },
-        { label: '员工工号', prop: 'account' },
-        { label: '联系方式', prop: 'account' },
-        { label: '注册时间', prop: 'account' },
-        { label: '消费金额', prop: 'account' },
+        { label: '微信昵称', prop: 'wechatNickName' },
+        { label: '会员姓名', prop: 'name' },
+        { label: '会员类别', prop: 'staffType' },
+        { label: '一级单位', prop: 'staffOneUnit' },
+        { label: '一级部门', prop: 'staffOneDepartment' },
+        { label: '员工工号', prop: 'staffNo' },
+        { label: '联系方式', prop: 'mobile' },
+        { label: '注册时间', prop: 'createTime' },
+        { label: '消费金额', prop: 'consumptionAmount' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ],
       QueryParams: {
@@ -122,7 +111,26 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    async freeze(obj) {
+      try {
+        await ApiObject.frozen(obj.id, 0)
+        this.$message.success('操作成功')
+        this.Mixins_$Init()
+      } catch (e) {
+        this.Mixins_$Init()
+      }
+    },
+    async unblock(obj) {
+      try {
+        await ApiObject.frozen(obj.id, 1)
+        this.$message.success('操作成功')
+        this.Mixins_$Init()
+      } catch (e) {
+        this.Mixins_$Init()
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

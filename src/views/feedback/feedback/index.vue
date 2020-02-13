@@ -37,10 +37,10 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import ApiObject from '../../../api/module/trade/TradeFeedbackApi'
 
 export default {
-  name: 'Account',
+  name: 'Feedback',
   mixins: [Mixins],
   data() {
     return {
@@ -66,7 +66,7 @@ export default {
         { label: '联系方式', prop: 'mobile' },
         { label: '反馈内容', prop: 'content' },
         { label: '反馈时间', prop: 'createTime' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
+        { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
       ],
       QueryParams: {
         account: ''

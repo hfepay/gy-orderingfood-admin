@@ -14,7 +14,7 @@
             <base-input v-model="QueryParams.foodName" placeholder="请输入菜品名称"/>
           </el-form-item>
           <el-form-item>
-            <base-select v-model="QueryParams.foodTypeId" placeholder="请选择菜品类别"/>
+            <food-type-select v-model="QueryParams.foodTypeId"/>
           </el-form-item>
           <el-form-item>
             <base-date-picker v-model="QueryParams.distributeDate" placeholder="请选择配送日期"/>
@@ -34,7 +34,7 @@
           新增
         </el-button>
       </template>
-      <template #distributeTime slot-scope="{scope}">
+      <template #distributeTime v-slot="{scope}">
         {{scope.row.distributeTime}}  <!--todo 添加配送类型-->
       </template>
       <!--操作-->
@@ -42,10 +42,10 @@
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           编辑
         </el-button>
-        <el-button type="danger" @click.stop="Mixins_$Del(scope.row)">
+        <el-button v-if="scope.row.status !== '0'" type="danger" @click.stop="Mixins_$Del(scope.row)">
           菜品下架
         </el-button>
-        <el-button @click.stop="Mixins_$Del(scope.row)">
+        <el-button v-else @click.stop="Mixins_$Del(scope.row)">
           菜品上架
         </el-button>
         <el-button @click.stop="Mixins_$Del(scope.row)">
@@ -68,6 +68,11 @@
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
+        <template #foodTypeId v-slot="{scope}">
+          <el-form-item label="菜品类型">
+            <food-type-select v-model="QueryParams.foodTypeId"/>
+          </el-form-item>
+        </template>
       </base-form>
     </base-dialog>
   </div>
@@ -78,17 +83,18 @@ import ApiObject from '../../../api/module/trade/TradeFoodApi'
 import { vip, topOrDown } from '@/constants/module/status.constans'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { deliveryTimeStatus } from '@/constants/module/status.constans'
+import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
 
 export default {
   name: 'RecipeManagement',
-  components: { deliveryTimeSelect },
+  components: { deliveryTimeSelect, foodTypeSelect },
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
         { label: '菜品名称', prop: 'foodName' },
-        { label: '菜品类别', prop: 'foodTypeId' },
+        { label: '菜品类别', slot: 'foodTypeId' },
         { label: '单价', prop: 'price' },
         { label: '是否启用员工折扣', type: 'radio', prop: 'isDiscount', options: vip },
         { label: '库存', prop: 'stock' },
@@ -101,9 +107,15 @@ export default {
         account: ''
       },
       DialogFormRules: {
-        account: [
-          { required: true }
-        ]
+        foodName: [{ required: true, message: '必填项不能为空' }],
+        foodTypeId: [{ required: true, message: '必填项不能为空' }],
+        price: [{ required: true, message: '必填项不能为空' }],
+        isDiscount: [{ required: true, message: '必填项不能为空' }],
+        stock: [{ required: true, message: '必填项不能为空' }],
+        distributeDate: [{ required: true, message: '必填项不能为空' }],
+        distributeType: [{ required: true, message: '必填项不能为空' }],
+        distributeTime: [{ required: true, message: '必填项不能为空' }],
+        status: [{ required: true, message: '必填项不能为空' }]
       },
       Headers: [
         { type: 'index', label: '序号' },

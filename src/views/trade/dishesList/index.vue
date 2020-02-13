@@ -38,29 +38,34 @@
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
+        <template #foodImg>
+          <el-form-item label="图片">
+            <base-upload></base-upload>
+          </el-form-item>
+        </template>
       </base-form>
     </base-dialog>
   </div>
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import ApiObject from '../../../api/module/trade/TradeFoodTypeApi'
 
 export default {
-  name: 'Account',
+  name: 'FoodType',
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
         { label: '菜品类别', prop: 'foodName' },
-        { label: '图片', prop: 'foodImg' }
+        { label: '图片', slot: 'foodImg' }
       ],
       DialogForm: {
       },
       DialogFormRules: {
-        account: [
-          { foodName: true, message: '必填项不能为空' }
+        foodName: [
+          { required: true, message: '必填项不能为空' }
         ]
       },
       Headers: [
