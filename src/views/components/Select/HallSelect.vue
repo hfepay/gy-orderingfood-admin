@@ -2,6 +2,7 @@
   <base-select
     v-bind="$attrs"
     placeholder="请选择服务厅房"
+    clearable
     :list="list"
     v-on="$listeners"
   />

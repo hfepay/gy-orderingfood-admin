@@ -44,7 +44,7 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeFoodMenuApi'
+import ApiObject from '../../../api/module/trade/TradeFoodTypeApi'
 
 export default {
   name: 'FoodMenu',

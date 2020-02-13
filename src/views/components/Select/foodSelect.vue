@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ApiObject from '../../../api/module/trade/TradeFoodTypeApi'
+import ApiObject from '../../../api/module/trade/TradeFoodApi'
 export default {
   name: 'FoodTypeSelect',
   data() {

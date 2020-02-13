@@ -66,6 +66,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeMemberApi'
 import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
+import { vipType } from '@/constants/module/status.constans'
 
 export default {
   name: 'Account',
@@ -82,8 +83,7 @@ export default {
         { label: '员工工号', prop: 'staffNo' },
         { label: '联系方式', prop: 'mobile' }
       ],
-      DialogForm: {
-      },
+      DialogForm: {},
       DialogFormRules: {
         name: [{ required: true, message: '必填项不能为空' }],
         staffType: [{ required: true, message: '必填项不能为空' }],
@@ -95,7 +95,7 @@ export default {
         { type: 'index', label: '序号' },
         { label: '微信昵称', prop: 'wechatNickName' },
         { label: '会员姓名', prop: 'name' },
-        { label: '会员类别', prop: 'staffType' },
+        { label: '会员类别', prop: 'staffType', format: vipType },
         { label: '一级单位', prop: 'staffOneUnit' },
         { label: '一级部门', prop: 'staffOneDepartment' },
         { label: '员工工号', prop: 'staffNo' },

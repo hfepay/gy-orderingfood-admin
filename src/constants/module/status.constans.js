@@ -8,7 +8,7 @@ export const OFFOrNOStatus = { 1: '启用', 0: '停用' }
 // 配送类型
 export const deliveryTimeStatus = { 0: '全部', 1: '早餐', 2: '午餐', 3: '晚餐' }
 // 会员类型
-export const vipType = { 0: '全部', 1: '集团员工', 2: '驻场单位员工' }
+export const vipType = { 1: '集团员工', 2: '驻场单位员工' }
 // 订单状态
 export const orderStatus = {
   1: '待付款',

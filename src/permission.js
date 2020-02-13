@@ -26,10 +26,11 @@ setTimeout(_ => {
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (store.getters.token) {
-    if (freshFlag) {
-      // 如果是刷新
-      generatorRouters()
-    }
+    // todo 出现卡死情况，注释掉先
+    // if (freshFlag) {
+    //   // 如果是刷新
+    //   generatorRouters()
+    // }
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it

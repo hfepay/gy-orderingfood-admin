@@ -38,6 +38,11 @@
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
+        <template #foodTypeId>
+          <el-form-item label="菜品类别">
+            <food-type-select v-model="DialogForm.foodTypeId"/>
+          </el-form-item>
+        </template>
         <template #foodImg>
           <el-form-item label="图片">
             <base-upload></base-upload>
@@ -49,20 +54,22 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeFoodTypeApi'
+import ApiObject from '../../../api/module/trade/TradeFoodApi'
+import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
 
 export default {
   name: 'FoodType',
+  components: { foodTypeSelect },
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品类别', prop: 'foodName' },
+        { label: '菜品名称', prop: 'foodName' },
+        { label: '菜品类别', slot: 'foodTypeId' },
         { label: '图片', slot: 'foodImg' }
       ],
-      DialogForm: {
-      },
+      DialogForm: {},
       DialogFormRules: {
         foodName: [
           { required: true, message: '必填项不能为空' }

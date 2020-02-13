@@ -2,6 +2,7 @@
   <el-select
     v-bind="$attrs"
     placeholder="请选择配送时间段"
+    clearable
     v-on="$listeners">
     <el-option
       v-for="item in options"

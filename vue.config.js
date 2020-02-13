@@ -20,7 +20,7 @@ module.exports = {
    * Detail https://cli.vuejs.org/config/#baseurl
    */
   outputDir: 'dist',
-  assetsDir: 'static',
+  assetsDir: './foadmin/static',
   lintOnSave: process.env.NODE_ENV !== 'production',
   productionSourceMap: false,
   devServer: {
@@ -32,7 +32,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://vipmp.cn/admin',
+        target: 'https://zhair.hfsmrz.cn/foadminserver/',
         // target: 'http://172.16.42.109:18080',
         changeOrigin: true,
         pathRewrite: {
