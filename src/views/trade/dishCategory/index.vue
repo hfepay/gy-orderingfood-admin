@@ -53,7 +53,7 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品类别', prop: 'account' },
+        { label: '菜品类别', prop: 'foodTypeCn' }
       ],
       DialogForm: {
         account: ''
@@ -65,7 +65,7 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '菜品类别', prop: 'account' },
+        { label: '菜品类别', prop: 'foodTypeCn' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ]
     }

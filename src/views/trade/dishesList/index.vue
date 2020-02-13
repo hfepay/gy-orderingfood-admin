@@ -53,21 +53,20 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品类别', prop: 'account' },
-        { label: '图片', prop: 'account' }
+        { label: '菜品类别', prop: 'foodName' },
+        { label: '图片', prop: 'foodImg' }
       ],
       DialogForm: {
-        account: ''
       },
       DialogFormRules: {
         account: [
-          { required: true }
+          { foodName: true, message: '必填项不能为空' }
         ]
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '菜品名称', prop: 'account' },
-        { label: '图片', prop: 'account' },
+        { label: '菜品名称', prop: 'foodName' },
+        { label: '图片', prop: 'foodImg' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ]
     }

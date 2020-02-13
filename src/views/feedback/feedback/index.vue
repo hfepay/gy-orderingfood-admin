@@ -46,11 +46,11 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '微信昵称', prop: 'account' },
-        { label: '会员姓名', prop: 'account' },
-        { label: '联系方式', prop: 'account' },
-        { label: '反馈内容', prop: 'account' },
-        { label: '反馈时间', prop: 'account' }
+        { label: '微信昵称', prop: 'wechatName' },
+        { label: '会员姓名', prop: 'vipName ' },
+        { label: '联系方式', prop: 'mobile' },
+        { label: '反馈内容', prop: 'content' },
+        { label: '反馈时间', prop: 'createTime' }
       ],
       DialogForm: {
         account: ''
@@ -61,11 +61,11 @@ export default {
         ]
       },
       Headers: [
-        { label: '微信昵称', prop: 'account' },
-        { label: '会员姓名', prop: 'account' },
-        { label: '联系方式', prop: 'account' },
-        { label: '反馈内容', prop: 'account' },
-        { label: '反馈时间', prop: 'account' },
+        { label: '微信昵称', prop: 'wechatName' },
+        { label: '会员姓名', prop: 'vipName ' },
+        { label: '联系方式', prop: 'mobile' },
+        { label: '反馈内容', prop: 'content' },
+        { label: '反馈时间', prop: 'createTime' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ],
       QueryParams: {

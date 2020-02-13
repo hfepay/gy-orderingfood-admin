@@ -11,16 +11,16 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item>
-            <base-input v-model="QueryParams.account" placeholder="请输入菜品名称"/>
+            <base-input v-model="QueryParams.foodName" placeholder="请输入菜品名称"/>
           </el-form-item>
           <el-form-item>
-            <base-select v-model="QueryParams.account" placeholder="请选择菜品类别"/>
+            <base-select v-model="QueryParams.foodTypeId" placeholder="请选择菜品类别"/>
           </el-form-item>
           <el-form-item>
-            <base-date-picker v-model="QueryParams.account" placeholder="请选择配送日期"/>
+            <base-date-picker v-model="QueryParams.distributeDate" placeholder="请选择配送日期"/>
           </el-form-item>
           <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.account" placeholder="请选择送时间段"/>
+            <deliveryTimeSelect v-model="QueryParams.distributeType" placeholder="请选择送时间段"/>
           </el-form-item>
           <el-form-item>
           </el-form-item>
@@ -33,6 +33,9 @@
         <el-button type="primary" @click="Mixins_$Add">
           新增
         </el-button>
+      </template>
+      <template #distributeTime slot-scope="{scope}">
+        {{scope.row.distributeTime}}  <!--todo 添加配送类型-->
       </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
@@ -71,28 +74,28 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import ApiObject from '../../../api/module/trade/TradeFoodApi'
 import { vip, topOrDown } from '@/constants/module/status.constans'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { deliveryTimeStatus } from '@/constants/module/status.constans'
 
 export default {
-  name: 'Account',
+  name: 'RecipeManagement',
   components: { deliveryTimeSelect },
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品名称', prop: 'account' },
-        { label: '菜品类别', prop: 'account' },
-        { label: '单价', prop: 'account' },
-        { label: '是否启用员工折扣', type: 'radio', prop: 'account', options: vip },
-        { label: '库存', prop: 'account' },
-        { label: '配送日期', prop: 'account' },
-        { label: '配送时间', prop: 'account' },
-        { label: '配送时间', prop: 'account' },
-        { label: '上架/下架', type: 'radio', prop: 'account', options: topOrDown }
+        { label: '菜品名称', prop: 'foodName' },
+        { label: '菜品类别', prop: 'foodTypeId' },
+        { label: '单价', prop: 'price' },
+        { label: '是否启用员工折扣', type: 'radio', prop: 'isDiscount', options: vip },
+        { label: '库存', prop: 'stock' },
+        { label: '配送日期', prop: 'distributeDate' },
+        { label: '配送类型', prop: 'distributeType' },
+        { label: '配送时间', prop: 'distributeTime' },
+        { label: '上架/下架', type: 'radio', prop: 'status', options: topOrDown }
       ],
       DialogForm: {
         account: ''
@@ -104,18 +107,18 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '菜品名称', prop: 'account' },
-        { label: '菜品类别', prop: 'account' },
-        { label: '单价', prop: 'account' },
-        { label: '库存', prop: 'account' },
-        { label: '已销售数量', prop: 'account' },
-        { label: '是否启用员工折扣', prop: 'account' },
-        { label: '配送日期', prop: 'account' },
-        { label: '配送时间', prop: 'account', format: deliveryTimeStatus },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
+        { label: '菜品名称', prop: 'foodName' },
+        { label: '菜品类别', prop: 'foodTypeCn' },
+        { label: '单价', prop: 'price' },
+        { label: '库存', prop: 'stock' },
+        { label: '已销售数量', prop: 'saledNum' },
+        { label: '是否启用员工折扣', prop: ' isDiscount' },
+        { label: '配送日期', prop: 'distributeDate' },
+        { label: '配送时间', slot: 'distributeTime', format: deliveryTimeStatus },
+        { label: '操作', slot: 'operator', fixed: 'right', width: 180 }
       ],
       QueryParams: {
-        account: ''
+        distributeDate: ''
       }
     }
   },
