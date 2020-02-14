@@ -18,8 +18,11 @@
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           编辑
         </el-button>
-        <el-button @click.stop="Mixins_$Del(scope.row)">
+        <el-button type="danger" @click.stop="Mixins_$Del(scope.row)">
           删除
+        </el-button>
+        <el-button @click.stop="manageBusiness(scope.row)">
+          管理角色
         </el-button>
       </template>
     </base-table-layout>
@@ -42,28 +45,46 @@
       >
         <template #logoImg>
           <el-form-item label="商户logo" prop="logoImg">
-            <base-upload></base-upload>
+            <base-upload
+              :show-file-list="false"
+            ></base-upload>
           </el-form-item>
         </template>
         <template #qualityImg>
           <el-form-item label="营业执照" prop="qualityImg">
-            <base-upload></base-upload>
+            <base-upload :show-file-list="false"></base-upload>
           </el-form-item>
         </template>
       </base-form>
+    </base-dialog>
+    <base-dialog
+      title="角色管理"
+      top="5vh"
+      width="600px"
+      :visible.sync="RoleDialogVisible"
+      center
+      @closed="Mixins_$Reset"
+    >
+      <role-transfer
+        v-model="RoleDialogForm.roles"
+        filterable>
+      </role-transfer>
     </base-dialog>
   </div>
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeBusinessApi'
+import RoleTransfer from '@/views/components/Transfer/RoleTransfer'
 
 export default {
   name: 'Account',
+  components: { RoleTransfer },
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
+      RoleDialogVisible: true,
       DialogFormHeader: [
         { label: '商户全称', prop: 'businessName' },
         { label: '商户简称', prop: 'businessShortName' },
@@ -74,14 +95,16 @@ export default {
         { label: '营业执照', slot: 'qualityImg' }
       ],
       DialogForm: {
-        account: ''
+      },
+      RoleDialogForm: {
+        roles: []
       },
       DialogFormRules: {
         businessName: [{ required: true, message: '必填项不能为空' }],
         businessShortName: [{ required: true, message: '必填项不能为空' }],
         mobile: [{ required: true, message: '必填项不能为空' }],
         address: [{ required: true, message: '必填项不能为空' }],
-        qualityImg: [{ required: true, message: '必填项不能为空' }]
+        qualityImg: [{ required: false, message: '必填项不能为空' }]
       },
       Headers: [
         { type: 'index', label: '序号' },
@@ -89,10 +112,14 @@ export default {
         { label: '商户简称', prop: 'businessShortName' },
         { label: '商户电话', prop: 'mobile' },
         { label: '商户地址', prop: 'address' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 180 }
+        { label: '操作', slot: 'operator', width: 240 }
       ]
     }
   },
-  methods: {}
+  methods: {
+    manageBusiness(row) {
+      this.RoleDialogVisible = true
+    }
+  }
 }
 </script>

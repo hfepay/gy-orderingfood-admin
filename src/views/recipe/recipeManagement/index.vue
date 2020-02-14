@@ -42,13 +42,13 @@
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           编辑
         </el-button>
-        <el-button v-if="scope.row.status !== '0'" type="danger" @click.stop="Mixins_$Del(scope.row)">
+        <el-button v-if="scope.row.status !== '0'" @click.stop="setStatus(scope.row, 0)">
           菜品下架
         </el-button>
-        <el-button v-else @click.stop="Mixins_$Del(scope.row)">
+        <el-button v-else @click.stop="setStatus(scope.row, 1)" type="success" >
           菜品上架
         </el-button>
-        <el-button @click.stop="Mixins_$Del(scope.row)">
+        <el-button @click.stop="Mixins_$Del(scope.row)" type="danger">
           菜品删除
         </el-button>
       </template>
@@ -155,12 +155,23 @@ export default {
     }
   },
   watch: {
-    'DialogForm.foodId': function(newVal, oldVal) {
-      this.DialogForm.foodTypeCn = this.$refs.foodId.list.find(
-        item => item.value === this.DialogForm.foodId).foodTypeCn
+    'DialogForm.foodId': function() {
+      this.DialogForm.foodTypeCn = this.$refs.foodId?.list?.find(
+        item => item.value === this.DialogForm.foodId)?.foodTypeCn
     }
   },
-  methods: {}
+  methods: {
+    // 0上/1下架
+    setStatus(row, status) {
+      try {
+        ApiObject.setStatus(row.id, status)
+        this.$message.success('操作成功')
+        this.Mixins_$Init()
+      } catch (e) {
+        this.Mixins_$Init()
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

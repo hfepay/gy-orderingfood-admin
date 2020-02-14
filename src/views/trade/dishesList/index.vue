@@ -40,7 +40,7 @@
       >
         <template #foodTypeId>
           <el-form-item label="菜品类别">
-            <food-type-select v-model="DialogForm.foodTypeId"/>
+            <food-type-select ref="foodTypeId" v-model="DialogForm.foodTypeId"/>
           </el-form-item>
         </template>
         <template #foodImg>
@@ -79,11 +79,17 @@ export default {
         { type: 'index', label: '序号' },
         { label: '菜品名称', prop: 'foodName' },
         { label: '图片', prop: 'foodImg' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
+        { label: '操作', slot: 'operator', width: 240 }
       ]
     }
   },
-  methods: {}
+  methods: {
+    // 提交表单之前的回调
+    Mixins_$SubmitBefore() {
+      this.DialogForm.foodTypeCn = this.$refs.foodTypeId?.list?.find(
+        item=> item.value===this.DialogForm.foodTypeId)?.label
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

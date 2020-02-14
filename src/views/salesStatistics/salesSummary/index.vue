@@ -11,10 +11,10 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item>
-            <base-date-picker v-model="QueryParams.account" placeholder="请选择配送日期"/>
+            <base-date-picker v-model="QueryParams.distributionDate" placeholder="请选择配送日期"/>
           </el-form-item>
           <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.account" placeholder="请选择送时间段"/>
+            <delivery-time-select v-model="QueryParams.distributionType" placeholder="请选择送时间段"/>
           </el-form-item>
           <el-form-item>
           </el-form-item>
@@ -25,7 +25,7 @@
       </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
-        <el-button type="primary" @click="Mixins_$Add(scope.row)">
+        <el-button type="primary" @click="Mixins_$ExportExcel(scope.row)">
           导出excel
         </el-button>
       </template>
@@ -34,7 +34,7 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/account/AccountSysUserApi'
+import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 
 export default {
@@ -46,18 +46,23 @@ export default {
       ApiObject: ApiObject,
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '配送日期', prop: 'account' },
-        { label: '订单金额', prop: 'account' },
-        { label: '实收金额', prop: 'account' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
+        { label: '配送日期', prop: 'distributionDate' },
+        { label: '订单金额', prop: 'orderAmount' },
+        { label: '实收金额', prop: 'discountAmount' },
+        { label: '操作', slot: 'operator' }
       ],
       QueryParams: {
-        account: ''
       }
     }
   },
-  methods: {}
+  computed: {
+    Mixins_PageApi() { return this.ApiObject.subtotalSale }
+  },
+  methods: {
+    // 如果表格数据不符合规范，这里可自定义返回数据
+    Mixins_GetFinalTableData(data) {
+      return data
+    }
+  }
 }
 </script>
-<style lang="scss" scoped>
-</style>

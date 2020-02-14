@@ -44,6 +44,12 @@
       <template slot="distributionDate" slot-scope="{scope}">
         {{scope.row.distributionDate || '' + deliveryTimeStatus[scope.row.distributionType]}}
       </template>
+      <template #selection>
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+      </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
@@ -111,7 +117,7 @@ export default {
       ],
       DialogForm: {},
       Headers: [
-        { type: 'index', label: '序号' },
+        { slot: 'selection' },
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
         { label: '菜品名称及数量', prop: 'account' },

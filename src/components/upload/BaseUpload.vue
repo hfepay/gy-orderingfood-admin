@@ -59,7 +59,7 @@ export default {
     },
     fileSize: {
       type: Number,
-      default: 0
+      default: 5
     },
     accept: {
       type: String,
@@ -79,7 +79,7 @@ export default {
     },
     action: {
       type: String,
-      default: 'shared-file/imgs/upload'
+      default: 'file/upload'
     }
   },
   data() {

@@ -16,7 +16,7 @@
       </template>
     </base-table-layout>
     <base-dialog
-      :title="详情"
+      title="详情"
       :visible.sync="Mixins_$DialogVisible"
       center
       @closed="Mixins_$Reset"
@@ -66,7 +66,7 @@ export default {
         { label: '联系方式', prop: 'mobile' },
         { label: '反馈内容', prop: 'content' },
         { label: '反馈时间', prop: 'createTime' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
+        { label: '操作', slot: 'operator', fixed: 'right', width: 120 }
       ],
       QueryParams: {
         account: ''

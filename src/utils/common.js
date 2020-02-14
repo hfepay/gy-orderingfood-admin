@@ -30,7 +30,8 @@ const reset = val => {
   throw new Error('请传入合法参数')
 }
 
-const IMG_BASE_URL = `${process.env.VUE_APP_BASE_URL}/file/imgs/show/`
+// const IMG_BASE_URL = `${process.env.VUE_APP_BASE_URL}/file/imgs/show/`
+const IMG_BASE_URL = `https://zhair.hfsmrz.cn/fopic/`
 const getVideoFullUrl = (fileName) => `${process.env.VUE_APP_BASE_URL}/file/imgs/showVideo/${fileName}`
 
 const Base64ImgWrapper = (val) => {

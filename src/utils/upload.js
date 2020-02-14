@@ -149,6 +149,9 @@ export const uploadCompressImg = (req) => {
     const file = req.file
     const type = file.type
     const url = req.action
+    // 不压缩图片
+    resolve(upload(file, url))
+    return
     if (!type.includes('image')) { // 如果不是图片
       resolve(upload(file, url))
       return
