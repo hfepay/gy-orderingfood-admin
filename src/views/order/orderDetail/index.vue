@@ -17,7 +17,7 @@
             <base-input v-model="QueryParams.memberMobile" placeholder="请输入联系方式"/>
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.foodName" placeholder="请输入菜品名称"/>
+            <base-input v-model="QueryParams.dishName" placeholder="请输入菜品名称"/>
           </el-form-item>
           <el-form-item>
             <base-date-picker v-model="QueryParams.distributionDate" placeholder="请选择配送日期"/>
@@ -37,12 +37,15 @@
         </base-form>
       </template>
       <template slot="layout-operate">
-        <el-button type="primary" @click="Mixins_$Add">
+        <el-button type="primary" @click="updateOrderStatusList()">
           批量完成配送
         </el-button>
       </template>
       <template slot="distributionDate" slot-scope="{scope}">
         {{scope.row.distributionDate || '' + deliveryTimeStatus[scope.row.distributionType]}}
+      </template>
+      <template slot="foodList" slot-scope="{scope}">
+        {{scope.row.list.map(item => `${item.dishName}：${dishNumber}`).join(',')}}
       </template>
       <el-table-column
         type="selection"
@@ -129,7 +132,7 @@ export default {
       Headers: [
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
-        { label: '菜品名称及数量', prop: 'account' },
+        { label: '菜品名称及数量', slot: 'foodList' },
         { label: '配送日期、时间段', slot: 'distributionDate' },
         { label: '订单金额', prop: 'orderAmount' },
         { label: '折扣金额', prop: 'discountAmount' },
@@ -161,6 +164,9 @@ export default {
       } catch (e) {
         this.Mixins_$Init()
       }
+    },
+    updateOrderStatusList(row) {
+      this.$message.warning('暂未完善') // todo
     }
   }
 }

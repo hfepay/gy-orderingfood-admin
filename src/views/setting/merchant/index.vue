@@ -75,6 +75,7 @@
     >
       <role-transfer
         v-model="RoleDialogForm.roles"
+        :data="rolesList"
         filterable
         :titles="['可选用户', '已选用户']"
         @left-check-change="leftCheckChange"
@@ -87,6 +88,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeBusinessApi'
 import RoleTransfer from '@/views/components/Transfer/RoleTransfer'
+import TradeUserToBusinessApi from '@/api/module/trade/TradeUserToBusinessApi'
 
 export default {
   name: 'Business',
@@ -95,7 +97,7 @@ export default {
   data() {
     return {
       ApiObject: ApiObject,
-      RoleDialogVisible: true,
+      RoleDialogVisible: false,
       DialogFormHeader: [
         { label: '商户全称', prop: 'businessName' },
         { label: '商户简称', prop: 'businessShortName' },
@@ -107,8 +109,10 @@ export default {
       ],
       DialogForm: {},
       RoleDialogForm: {
+        id: '',
         roles: []
       },
+      rolesList: [],
       DialogFormRules: {
         businessName: [{ required: true, message: '必填项不能为空' }],
         businessShortName: [{ required: true, message: '必填项不能为空' }],
@@ -127,7 +131,12 @@ export default {
     }
   },
   methods: {
-    manageBusiness(row) {
+    async manageBusiness(row) {
+      this.RoleDialogForm.id = row.id
+      const [rolesRes, rolesListRes] = await Promise.all(
+        [TradeUserToBusinessApi.get(row.id), TradeUserToBusinessApi.list()])
+      this.rolesList = [...(rolesRes.data || []), ...(rolesListRes.data || [])].map(item => ({ key: item.id, label: item.account }))
+      this.roles = rolesRes.data
       this.RoleDialogVisible = true
     },
     qualityImgSuccess(res) {
@@ -138,14 +147,25 @@ export default {
       const data = res.data
       this.DialogForm.logoImg = data.imgName
     },
-    leftCheckChange(item, key) {
-      this.RoleDialogForm.roles.push(...key)
+    async leftCheckChange(item, key) {
+      try {
+        await TradeUserToBusinessApi.setRole(+key, this.RoleDialogForm.id)
+        this.RoleDialogForm.roles.push(...key)
+        this.$message.success('添加用户成功')
+      } catch (e) {
+        this.manageBusiness(this.RoleDialogForm)
+      }
     },
-    rightCheckChange(item, key) {
-      console.log(+key)
-      const index = this.RoleDialogForm.roles.indexOf(key + '')
-      if (index > -1) {
-        this.RoleDialogForm.roles.splice(index, 1)
+    async rightCheckChange(item, key) {
+      try {
+        await TradeUserToBusinessApi.setRole(+key, this.RoleDialogForm.id)
+        const index = this.RoleDialogForm.roles.indexOf(key + '')
+        if (index > -1) {
+          this.RoleDialogForm.roles.splice(index, 1)
+        }
+        this.$message.success('移除用户成功')
+      } catch (e) {
+        this.manageBusiness(this.RoleDialogForm)
       }
     }
   }
