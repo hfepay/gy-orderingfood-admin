@@ -3,21 +3,20 @@
 </template>
 
 <script>
+import ApiObject from '../../../api/module/trade/TradeUserTobusinessApi'
 export default {
   data() {
-    const generateData = _ => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`,
-          disabled: i % 4 === 0
-        })
-      }
-      return data
-    }
     return {
-      data: generateData()
+      data: []
+    }
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    async init() {
+      const res = await ApiObject.list()
+      this.data = res?.data.map(item => ({key: item.id, label: item.account}))
     }
   }
 }

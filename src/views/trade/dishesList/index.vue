@@ -45,7 +45,12 @@
         </template>
         <template #foodImg>
           <el-form-item label="图片">
-            <base-upload></base-upload>
+            <base-upload
+              v-if="Mixins_$DialogVisible"
+              :value="DialogForm.foodImg"
+              :show-file-list="false"
+              @success="foodImgSuccess"
+            />
           </el-form-item>
         </template>
       </base-form>
@@ -88,7 +93,12 @@ export default {
     Mixins_$SubmitBefore() {
       this.DialogForm.foodTypeCn = this.$refs.foodTypeId?.list?.find(
         item=> item.value===this.DialogForm.foodTypeId)?.label
-    }
+    },
+    foodImgSuccess(res) {
+      const data = res.data
+      this.DialogForm.foodImg = data.imgName
+      this.DialogForm.foodImgSmall = data.smallImgName
+    },
   }
 }
 </script>

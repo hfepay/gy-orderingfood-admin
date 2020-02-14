@@ -124,9 +124,6 @@ export default {
         { label: '配送时间', slot: 'distributeTime' },
         { label: '上架/下架', type: 'radio', prop: 'status', options: topOrDown }
       ],
-      DialogForm: {
-        account: ''
-      },
       DialogFormRules: {
         foodId: [{ required: true, message: '必填项不能为空' }],
         price: [{ required: true, message: '必填项不能为空' }],

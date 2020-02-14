@@ -5,7 +5,7 @@ const { File } = require('./file')
 const path = require('path')
 const basePath = __dirname
 const moduleName = 'trade'
-const entity = 'ofMemberOrder'
+const entity = 'userTobusiness'
 const filePath = `../src/api/module/${moduleName}`
 const parentName = toBigHump(moduleName)
 const fileName = `${parentName}${entity.replace(/( |^)[a-z]/g, (L) => L.toUpperCase())}Api`

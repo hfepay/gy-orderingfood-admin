@@ -23,9 +23,8 @@
           </el-button>
         </base-form>
       </template>
-      <!--操作-->
-      <template slot="operator" slot-scope="{scope}">
-        <el-button type="primary" @click="Mixins_$ExportExcel(scope.row)">
+      <template slot="layout-operate">
+        <el-button type="primary" @click="Mixins_$ExportExcel()">
           导出excel
         </el-button>
       </template>
@@ -48,20 +47,19 @@ export default {
         { type: 'index', label: '序号' },
         { label: '配送日期', prop: 'distributionDate' },
         { label: '订单金额', prop: 'orderAmount' },
-        { label: '实收金额', prop: 'discountAmount' },
-        { label: '操作', slot: 'operator' }
+        { label: '实收金额', prop: 'discountAmount' }
       ],
-      QueryParams: {
-      }
+      QueryParams: {}
     }
   },
   computed: {
-    Mixins_PageApi() { return this.ApiObject.subtotalSale }
+    Mixins_PageApi() {
+      return this.ApiObject.subtotalSale
+    }
   },
   methods: {
-    // 如果表格数据不符合规范，这里可自定义返回数据
-    Mixins_GetFinalTableData(data) {
-      return data
+    Mixins_$ExportExcel() {
+      ApiObject.customize_get(`/subtotalSale/export`, { ...this.QueryParams }, { responseType: 'blob' })
     }
   }
 }

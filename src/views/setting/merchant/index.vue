@@ -46,13 +46,21 @@
         <template #logoImg>
           <el-form-item label="商户logo" prop="logoImg">
             <base-upload
+              v-if="Mixins_$DialogVisible"
+              :value="DialogForm.logoImg"
               :show-file-list="false"
-            ></base-upload>
+              @success="logoImgSuccess"
+            />
           </el-form-item>
         </template>
         <template #qualityImg>
           <el-form-item label="营业执照" prop="qualityImg">
-            <base-upload :show-file-list="false"></base-upload>
+            <base-upload
+              v-if="Mixins_$DialogVisible"
+              :value="DialogForm.qualityImg"
+              :show-file-list="false"
+              @success="qualityImgSuccess"
+            />
           </el-form-item>
         </template>
       </base-form>
@@ -67,8 +75,11 @@
     >
       <role-transfer
         v-model="RoleDialogForm.roles"
-        filterable>
-      </role-transfer>
+        filterable
+        :titles="['可选用户', '已选用户']"
+        @left-check-change="leftCheckChange"
+        @right-check-change="rightCheckChange"
+      />
     </base-dialog>
   </div>
 </template>
@@ -78,7 +89,7 @@ import ApiObject from '../../../api/module/trade/TradeBusinessApi'
 import RoleTransfer from '@/views/components/Transfer/RoleTransfer'
 
 export default {
-  name: 'Account',
+  name: 'Business',
   components: { RoleTransfer },
   mixins: [Mixins],
   data() {
@@ -94,8 +105,7 @@ export default {
         { label: '商户简介', type: 'textarea', prop: 'introduction' },
         { label: '营业执照', slot: 'qualityImg' }
       ],
-      DialogForm: {
-      },
+      DialogForm: {},
       RoleDialogForm: {
         roles: []
       },
@@ -104,7 +114,7 @@ export default {
         businessShortName: [{ required: true, message: '必填项不能为空' }],
         mobile: [{ required: true, message: '必填项不能为空' }],
         address: [{ required: true, message: '必填项不能为空' }],
-        qualityImg: [{ required: false, message: '必填项不能为空' }]
+        qualityImg: [{ required: true, message: '必填项不能为空' }]
       },
       Headers: [
         { type: 'index', label: '序号' },
@@ -119,6 +129,24 @@ export default {
   methods: {
     manageBusiness(row) {
       this.RoleDialogVisible = true
+    },
+    qualityImgSuccess(res) {
+      const data = res.data
+      this.DialogForm.qualityImg = data.imgName
+    },
+    logoImgSuccess(res) {
+      const data = res.data
+      this.DialogForm.logoImg = data.imgName
+    },
+    leftCheckChange(item, key) {
+      this.RoleDialogForm.roles.push(...key)
+    },
+    rightCheckChange(item, key) {
+      console.log(+key)
+      const index = this.RoleDialogForm.roles.indexOf(key + '')
+      if (index > -1) {
+        this.RoleDialogForm.roles.splice(index, 1)
+      }
     }
   }
 }

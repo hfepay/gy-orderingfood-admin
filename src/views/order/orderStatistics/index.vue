@@ -55,12 +55,7 @@ export default {
   computed: {
     Mixins_PageApi() { return this.ApiObject.subtotalOrder }
   },
-  methods: {
-    // 如果表格数据不符合规范，这里可自定义返回数据
-    Mixins_GetFinalTableData(data) {
-      return data
-    }
-  }
+  methods: {}
 }
 </script>
 <style lang="scss" scoped>

@@ -38,7 +38,6 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         SysUserApi.info().then(response => {
-        // const response = { 'code': 1, 'data': { 'roles': ['admin'], 'userName': 'admin', 'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif' }}
           const data = response.data
           commit('SET_USERINFO', data)
           /* if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组

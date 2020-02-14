@@ -44,12 +44,10 @@
       <template slot="distributionDate" slot-scope="{scope}">
         {{scope.row.distributionDate || '' + deliveryTimeStatus[scope.row.distributionType]}}
       </template>
-      <template #selection>
-        <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
-      </template>
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
@@ -65,8 +63,9 @@
       </template>
     </base-table-layout>
     <base-dialog
-      :title="DialogForm['id']?'修改':'新增'"
+      title="订单详情"
       :visible.sync="Mixins_$DialogVisible"
+      top="5vh"
       center
       @closed="Mixins_$Reset"
     >
@@ -80,9 +79,14 @@
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
-        <template #dingdanneirong>
-          <el-form-item label="订单内容">
-            <el-button>查看</el-button>
+        <template #orderAmount>
+          <el-form-item label="订单详情">
+            <base-table :data="DialogForm.list" :headers="DetailHeaders"></base-table>
+          </el-form-item>
+        </template>
+        <template #orderStatus>
+          <el-form-item label="订单状态">
+            {{orderStatus[DialogForm.orderStatus]}}
           </el-form-item>
         </template>
       </base-form>
@@ -104,20 +108,25 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '会员姓名', prop: 'memberName' },
-        { label: '联系方式', prop: 'memberMobile' },
+        { label: '会员姓名', prop: 'memberName', type: 'text' },
+        { label: '联系方式', prop: 'memberMobile', type: 'text' },
         { label: '订单内容', slot: 'orderAmount' },
-        { label: '配送时间', prop: 'distributionTime' },
-        { label: '订单金额', prop: 'orderAmount' },
-        { label: '折扣金额', prop: 'discountAmount' },
-        { label: '优惠后金额', prop: 'payAmount' },
-        { label: '送餐地址', prop: 'addrMore' },
-        { label: '订单状态', prop: 'orderStatus', format: orderStatus },
-        { label: '下单时间', prop: 'createTime' }
+        { label: '配送时间', prop: 'distributionTime', type: 'text' },
+        { label: '订单金额', prop: 'orderAmount', type: 'text' },
+        { label: '折扣金额', prop: 'discountAmount', type: 'text' },
+        { label: '优惠后金额', prop: 'payAmount', type: 'text' },
+        { label: '送餐地址', prop: 'addrMore', type: 'text' },
+        { label: '订单状态', slot: 'orderStatus' },
+        { label: '下单时间', prop: 'createTime', type: 'text', format(obj) { return obj } },
+        { label: '支付时间', prop: 'createTime', type: 'text' }
       ],
       DialogForm: {},
+      DetailHeaders: [
+        { label: '菜品名称', prop: 'dishName' },
+        { label: '数量', prop: 'dishNumber' },
+        { label: '单价', prop: 'dishUnitPrice' }
+      ],
       Headers: [
-        { slot: 'selection' },
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
         { label: '菜品名称及数量', prop: 'account' },
