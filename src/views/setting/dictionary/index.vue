@@ -8,15 +8,23 @@
       @sizeChange="Mixins_$SizeChange"
       @currentChange="Mixins_$CurrentChange"
     >
+      <template slot="layout-operate">
+        <el-button type="primary" @click="Mixins_$Add">
+          新增
+        </el-button>
+      </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
-        <el-button @click.stop="Mixins_$Edit(scope.row)">
-          查看详情
+        <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
+          编辑
+        </el-button>
+        <el-button @click.stop="Mixins_$Del(scope.row)">
+          删除
         </el-button>
       </template>
     </base-table-layout>
     <base-dialog
-      title="详情"
+      :title="DialogForm['id']?'修改':'新增'"
       :visible.sync="Mixins_$DialogVisible"
       center
       @closed="Mixins_$Reset"
@@ -24,11 +32,9 @@
       <base-form
         ref="form"
         :model="DialogForm"
-        :show-default-foot="false"
         :form-headers="DialogFormHeader"
         :rules="DialogFormRules"
         label-width="120px"
-        :disabled="true"
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
@@ -38,40 +44,30 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeFeedbackApi'
+import ApiObject from '../../../api/module/trade/TradeConstantApi'
 
 export default {
-  name: 'Feedback',
+  name: 'Constant',
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '微信昵称', prop: 'wechatName', type: 'text' },
-        { label: '会员姓名', prop: 'vipName ', type: 'text' },
-        { label: '联系方式', prop: 'mobile', type: 'text' },
-        { label: '反馈内容', prop: 'content', type: 'text' },
-        { label: '反馈时间', prop: 'createTime', type: 'text' }
+        { label: '常量Key', prop: 'itemKey' },
+        { label: '常量值', prop: 'itemValue' },
+        { label: '描叙', prop: 'description', type: 'textarea' }
       ],
-      DialogForm: {
-        account: ''
-      },
+      DialogForm: {},
       DialogFormRules: {
-        account: [
-          { required: true }
-        ]
+        itemKey: [{ required: true, message: '必填值不能为空' }]
       },
       Headers: [
-        { label: '微信昵称', prop: 'wechatName' },
-        { label: '会员姓名', prop: 'vipName' },
-        { label: '联系方式', prop: 'mobile' },
-        { label: '反馈内容', prop: 'content' },
-        { label: '反馈时间', prop: 'createTime' },
-        { label: '操作', slot: 'operator', fixed: 'right', width: 120 }
-      ],
-      QueryParams: {
-        account: ''
-      }
+        { type: 'index', label: '序号' },
+        { label: '常量Key', prop: 'itemKey' },
+        { label: '常量值', prop: 'itemValue' },
+        { label: '描叙', prop: 'description' },
+        { label: '操作', slot: 'operator', fixed: 'right', width: 180 }
+      ]
     }
   },
   methods: {}

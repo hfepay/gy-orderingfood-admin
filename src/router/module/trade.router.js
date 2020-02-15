@@ -18,17 +18,17 @@ const router = [{
       meta: { title: '菜品类别' }
     },
     {
-      path: 'scheduledDeadline',
-      name: 'scheduledDeadline',
-      component: () => import(`@/views${moduleName}/scheduledDeadline`),
-      meta: { title: '预定截止时间' }
-    },
-    {
       path: 'dishesList',
       name: 'DishesList',
       component: () => import(`@/views${moduleName}/dishesList`),
       meta: { title: '菜品清单' }
     }
+    /* {
+      path: 'scheduledDeadline',
+      name: 'scheduledDeadline',
+      component: () => import(`@/views${moduleName}/scheduledDeadline`),
+      meta: { title: '预定截止时间' }
+    },*/
   ]
 }]
 export default router

@@ -8,7 +8,7 @@ class TradeFoodApi extends TradeApi {
     const res = await super.page({ page: 1, limit: 999, total: 0 })
     const list = res.data && res.data.records
     if (list && list.length > 0) {
-      return list.map(item => ({ label: item.foodName, value: item.id, foodTypeCn: item.foodTypeCn || '' }))
+      return list.map(item => ({ label: item.foodName, value: item.id, foodTypeCn: item.foodTypeCn || '', foodTypeId: item.foodTypeId || '' }))
     } else return []
   }
 }

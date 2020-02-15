@@ -11,6 +11,12 @@ const router = [{
       component: () => import(`@/views${moduleName}/account`),
       meta: { title: '用户账号' }
     },
+    {
+      path: 'dictionary',
+      name: 'Dictionary',
+      component: () => import(`@/views${moduleName}/dictionary`),
+      meta: { title: '字典管理' }
+    },
     /* {
       path: 'resource',
       name: 'Resource',

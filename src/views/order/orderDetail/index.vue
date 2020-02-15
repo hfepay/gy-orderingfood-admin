@@ -138,6 +138,7 @@ export default {
       ],
       selectionList: [],
       Headers: [
+        { type: 'index', label: '序号' },
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
         { label: '菜品名称及数量', slot: 'foodList' },

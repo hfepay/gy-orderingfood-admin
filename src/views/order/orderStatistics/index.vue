@@ -45,7 +45,7 @@ export default {
         { label: '配送日期', prop: 'distributionDate' },
         { label: '配送时间段', prop: 'distributionType', format: deliveryTimeStatus },
         { label: '菜品名称', prop: 'dishName' },
-        { label: '菜品类别', prop: 'foodTypeCn ' },
+        { label: '菜品类别', prop: 'foodTypeCn' },
         { label: '数量', prop: 'subtotal' }
       ],
       QueryParams: {

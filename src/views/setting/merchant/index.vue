@@ -1,4 +1,5 @@
 <template>
+  <!--  重写elementUI穿梭框组件-->
   <div>
     <!--table模板-->
     <base-table-layout
@@ -74,6 +75,7 @@
       @closed="Mixins_$Reset"
     >
       <role-transfer
+        v-if="RoleDialogVisible"
         v-model="RoleDialogForm.roles"
         :data="rolesList"
         filterable
@@ -135,8 +137,9 @@ export default {
       this.RoleDialogForm.id = row.id
       const [rolesRes, rolesListRes] = await Promise.all(
         [TradeUserToBusinessApi.get(row.id), TradeUserToBusinessApi.list()])
-      this.rolesList = [...(rolesRes.data || []), ...(rolesListRes.data || [])].map(item => ({ key: item.id, label: item.account }))
-      this.roles = rolesRes.data
+      this.rolesList = [...(rolesRes.data || []), ...(rolesListRes.data || [])].map(
+        item => ({ key: item.id, label: `${item.name}(${item.account})` }))
+      this.RoleDialogForm.roles = rolesRes.data.map(item => item.id)
       this.RoleDialogVisible = true
     },
     qualityImgSuccess(res) {
@@ -158,7 +161,7 @@ export default {
     },
     async rightCheckChange(item, key) {
       try {
-        await TradeUserToBusinessApi.setRole(+key, this.RoleDialogForm.id)
+        await TradeUserToBusinessApi.setRole(+key, 0)
         const index = this.RoleDialogForm.roles.indexOf(key + '')
         if (index > -1) {
           this.RoleDialogForm.roles.splice(index, 1)

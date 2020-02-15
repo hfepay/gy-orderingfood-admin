@@ -74,7 +74,7 @@
           </el-form-item>
         </template>
         <template #foodTypeCn>
-          <el-form-item label="菜品类型" prop="foodTypeCn">
+          <el-form-item label="菜品类别" prop="foodTypeCn">
             <base-input v-model="DialogForm.foodTypeCn" disabled/>
           </el-form-item>
         </template>
@@ -116,9 +116,9 @@ export default {
       DialogFormHeader: [
         { label: '菜品名称', slot: 'foodId' },
         { label: '菜品类别', slot: 'foodTypeCn' },
-        { label: '单价', prop: 'price' },
+        { label: '单价', prop: 'price', type: 'number' },
         { label: '是否启用员工折扣', type: 'radio', prop: 'isDiscount', options: vip },
-        { label: '库存', prop: 'stock' },
+        { label: '库存', prop: 'stock', type: 'number' },
         { label: '配送日期', slot: 'distributeDate' },
         { label: '配送类型', slot: 'distributeType' },
         { label: '配送时间', slot: 'distributeTime' },
@@ -158,6 +158,13 @@ export default {
     }
   },
   methods: {
+    // 提交表单之前的回调
+    Mixins_$SubmitBefore() {
+      this.DialogForm.foodName = this.$refs.foodId?.list?.find(
+        item => item.value === this.DialogForm.foodId)?.label
+      this.DialogForm.foodTypeId = this.$refs.foodId?.list?.find(
+        item => item.value === this.DialogForm.foodId)?.foodTypeId
+    },
     // 0上/1下架
     setStatus(row, status) {
       try {

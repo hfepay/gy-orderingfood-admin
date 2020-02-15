@@ -35,6 +35,18 @@
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
+        <template #discountValue>
+          <el-form-item label="折扣" prop="discountValue">
+            <el-input v-model="DialogForm.discountValue" type="number">
+              <template slot="append">折</template>
+            </el-input>
+          </el-form-item>
+        </template>
+        <template #memberType>
+          <el-form-item label="会员类别" prop="memberType">
+            <vip-type-select v-model="DialogForm.memberType"/>
+          </el-form-item>
+        </template>
       </base-form>
     </base-dialog>
   </div>
@@ -42,38 +54,57 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeMemberDiscountApi'
-import { OFFOrNO, OFFOrNOStatus } from '@/constants/module/status.constans'
+import { OFFOrNO, OFFOrNOStatus, vipType } from '@/constants/module/status.constans'
+import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Account',
+  components: { vipTypeSelect },
   mixins: [Mixins],
   data() {
+    const discountValueRegex = /^0.[1-9][0-9]?$/
+    const discountValueRule = (rule, value, callback) => {
+      if (!discountValueRegex.test(value)) {
+        callback(new Error('请输入0.1-0.99的数字'))
+      } else {
+        callback()
+      }
+    }
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '折扣', prop: 'discountValue' },
-        { label: 'memberType', prop: 'account' },
-        { label: '是否启用', type: 'radio', prop: 'account', options: OFFOrNO }
+        { label: '折扣', slot: 'discountValue' },
+        { label: '会员类别', slot: 'memberType' },
+        { label: '是否启用', type: 'radio', prop: 'status', options: OFFOrNO }
       ],
-      DialogForm: {
-        account: ''
-      },
+      DialogForm: {},
       DialogFormRules: {
-        account: [
-          { required: true }
+        discountValue: [
+          { required: true, message: '必填项不能为空' },
+          { validator: discountValueRule }
         ]
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '会员类别', prop: 'memberTypeName' },
+        { label: '会员类别', prop: 'memberType', format: vipType },
         { label: '折扣', prop: 'discountValue' },
         { label: '是否启用', prop: 'status', format: OFFOrNOStatus },
         { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
       ],
-      QueryParams: {
-      }
+      QueryParams: {}
     }
   },
-  methods: {}
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
+  methods: {
+    // 提交表单之前的回调
+    Mixins_$SubmitBefore() {
+      this.DialogForm.businessId = this.userInfo.id
+    }
+  }
 }
 </script>

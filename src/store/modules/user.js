@@ -26,7 +26,9 @@ const user = {
         const { account, password } = userInfo
         SysUserApi.login({ account, password }).then(response => {
           const { token } = response.data
+          const data = response.data
           commit('SET_TOKEN', token)
+          commit('SET_USERINFO', data)
           resolve()
         }).catch(error => {
           reject(error)
