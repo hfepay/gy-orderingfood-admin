@@ -131,7 +131,7 @@ export const Mixins = {
             const startKey = key ? `${key}StartTime` : 'startTime'
             const endKey = key ? `${key}EndTime` : 'endTime'
             queryParams[startKey] = queryParams[condition][0]
-            queryParams[endKey] = queryParams[condition][1]
+            queryParams[endKey] = queryParams[condition][1] + ' 23:59:59'
           }
           delete queryParams[condition]
         }
