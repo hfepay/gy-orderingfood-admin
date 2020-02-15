@@ -24,6 +24,7 @@
       <base-form
         ref="form"
         :model="DialogForm"
+        :show-default-foot="false"
         :form-headers="DialogFormHeader"
         :rules="DialogFormRules"
         label-width="120px"
@@ -46,11 +47,11 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '微信昵称', prop: 'wechatName' },
-        { label: '会员姓名', prop: 'vipName ' },
-        { label: '联系方式', prop: 'mobile' },
-        { label: '反馈内容', prop: 'content' },
-        { label: '反馈时间', prop: 'createTime' }
+        { label: '微信昵称', prop: 'wechatName', type: 'text' },
+        { label: '会员姓名', prop: 'vipName ', type: 'text' },
+        { label: '联系方式', prop: 'mobile', type: 'text' },
+        { label: '反馈内容', prop: 'content', type: 'text' },
+        { label: '反馈时间', prop: 'createTime', type: 'text' }
       ],
       DialogForm: {
         account: ''

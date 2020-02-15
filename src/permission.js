@@ -26,7 +26,7 @@ setTimeout(_ => {
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (store.getters.token) {
-    // todo 出现卡死情况，注释掉先
+    // // todo 出现卡死情况，注释掉先
     // if (freshFlag) {
     //   // 如果是刷新
     //   generatorRouters()

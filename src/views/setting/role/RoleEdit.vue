@@ -19,7 +19,7 @@
           :default-checked-keys="checkedKeys"
           :default-expand-all="true"
           :props="{
-            label: 'name'
+            label: 'title'
           }"
         />
       </el-form-item>

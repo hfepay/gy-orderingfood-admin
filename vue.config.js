@@ -33,7 +33,7 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'https://zhair.hfsmrz.cn/foadminserver/',
-        // target: 'http://172.16.42.109:18080',
+        // target: 'http://localhost:9000',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

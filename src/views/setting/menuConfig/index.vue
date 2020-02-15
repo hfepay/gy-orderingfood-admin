@@ -46,6 +46,7 @@
     <base-dialog
       :title="DialogForm['id']?'修改':'新增'"
       :visible.sync="Mixins_$DialogVisible"
+      top="5vh"
       width="530px"
       center
       @closed="Mixins_$Reset"
@@ -158,7 +159,7 @@ export default {
       ],
       Headers: [
         // { type: 'index', label: '序号' },
-        { label: '节点名', prop: 'name' },
+        { label: '节点名', prop: 'title' },
         { label: '节点路径', prop: 'path' },
         { label: '菜单状态', prop: 'status', format: menuStatus },
         { label: '操作', slot: 'operator', fixed: 'right', align: 'center', width: 280 }

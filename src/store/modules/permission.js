@@ -82,6 +82,7 @@ const actions = {
   addRoutes({ commit }, data) {
     return new Promise((resolve, reject) => {
       const routers = getRouter(data)
+      console.log(routers, '123123')
       try {
         router.addRoutes(routers)
       } catch (e) {

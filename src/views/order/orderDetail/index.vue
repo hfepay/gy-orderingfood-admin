@@ -78,7 +78,7 @@
       <base-form
         ref="form"
         :model="DialogForm"
-        :showDefaultFoot="false"
+        :show-default-foot="false"
         :form-headers="DialogFormHeader"
         label-width="120px"
         :disabled="true"
