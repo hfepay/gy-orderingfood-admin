@@ -32,7 +32,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'https://mp.gzairports.com/foadminserver/',
+        target: 'https://zhair.hfsmrz.cn/foadminserver/',
         // target: 'http://172.16.42.109:18080',
         changeOrigin: true,
         pathRewrite: {

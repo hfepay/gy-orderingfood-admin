@@ -5,6 +5,7 @@
       :page-obj="Mixins_$PageObj"
       :headers="Headers"
       :data="Mixins_$TableData"
+      @selection-change="handleSelectionChange"
       @sizeChange="Mixins_$SizeChange"
       @currentChange="Mixins_$CurrentChange"
     >
@@ -42,13 +43,14 @@
         </el-button>
       </template>
       <template slot="distributionDate" slot-scope="{scope}">
-        {{scope.row.distributionDate || '' + deliveryTimeStatus[scope.row.distributionType]}}
+        {{scope.row.distributionDate || '' + '、' + deliveryTimeStatus[scope.row.distributionType]}}
       </template>
       <template slot="foodList" slot-scope="{scope}">
-        {{scope.row.list.map(item => `${item.dishName}：${dishNumber}`).join(',')}}
+        {{scope.row.list.map(item => `${item.dishName}：${item.dishNumber}`).join(',')}}
       </template>
       <el-table-column
         type="selection"
+        :selectable="selectable"
         width="55">
       </el-table-column>
       <!--操作-->
@@ -59,8 +61,9 @@
         <el-button v-if="+scope.row.orderStatus < 3" type="success" @click.stop="updateOrderStatus(scope.row)">
           完成配送
         </el-button>
-        <el-tag v-else type="success" size="medium" style="margin: 0 4px">{{orderStatus[scope.row.orderStatus]}}</el-tag>
-        <el-button @click.stop="Mixins_$Del(scope.row)" type="danger" >
+        <el-tag v-else type="success" size="medium" style="margin: 0 4px">{{orderStatus[scope.row.orderStatus]}}
+        </el-tag>
+        <el-button @click.stop="Mixins_$Del(scope.row)" type="danger">
           删除订单
         </el-button>
       </template>
@@ -120,7 +123,11 @@ export default {
         { label: '优惠后金额', prop: 'payAmount', type: 'text' },
         { label: '送餐地址', prop: 'addrMore', type: 'text' },
         { label: '订单状态', slot: 'orderStatus' },
-        { label: '下单时间', prop: 'createTime', type: 'text', format(obj) { return obj } },
+        {
+          label: '下单时间', prop: 'createTime', type: 'text', format(obj) {
+            return obj
+          }
+        },
         { label: '支付时间', prop: 'createTime', type: 'text' }
       ],
       DialogForm: {},
@@ -129,6 +136,7 @@ export default {
         { label: '数量', prop: 'dishNumber' },
         { label: '单价', prop: 'dishUnitPrice' }
       ],
+      selectionList: [],
       Headers: [
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
@@ -165,8 +173,23 @@ export default {
         this.Mixins_$Init()
       }
     },
-    updateOrderStatusList(row) {
-      this.$message.warning('暂未完善') // todo
+    // 批量更新订单状态
+    async updateOrderStatusList(row) {
+      if (this.selectionList && this.selectionList.length > 0) {
+        try {
+          await ApiObject.updateOrderStatus(...this.selectionList.map(item => item.id))
+        } finally {
+          this.Mixins_$Init()
+        }
+      } else this.$message.warning('请先选择订单')
+    },
+    // 获取选择订单列表
+    handleSelectionChange(val) {
+      this.selectionList = val
+    },
+    // 判断该行是否可选
+    selectable(row) {
+      return row.orderStatus < 3
     }
   }
 }

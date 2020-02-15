@@ -77,10 +77,10 @@ export default {
   },
   methods: {
     Mixins_$Add() {
-      this.$router.push('/permission/add-role')
+      this.$router.push('/setting/add-role')
     },
     Mixins_$Edit(row) {
-      this.$router.push(`/permission/edit-role/${AESUtils.encrypt(row.id)}`)
+      this.$router.push(`/setting/edit-role/${AESUtils.encrypt(row.id)}`)
     }
   }
 }

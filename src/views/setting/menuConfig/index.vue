@@ -15,7 +15,7 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item label="菜单名称：">
-            <base-input v-model="QueryParams.title" placeholder="菜单名称" />
+            <base-input v-model="QueryParams.name" placeholder="菜单名称" />
           </el-form-item>
           <el-form-item label="菜单路径：">
             <base-input v-model="QueryParams.path" placeholder="菜单路径" />
@@ -158,7 +158,7 @@ export default {
       ],
       Headers: [
         // { type: 'index', label: '序号' },
-        { label: '节点名', prop: 'title' },
+        { label: '节点名', prop: 'name' },
         { label: '节点路径', prop: 'path' },
         { label: '菜单状态', prop: 'status', format: menuStatus },
         { label: '操作', slot: 'operator', fixed: 'right', align: 'center', width: 280 }
