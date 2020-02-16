@@ -22,6 +22,12 @@ const router = [{
       name: 'DishesList',
       component: () => import(`@/views${moduleName}/dishesList`),
       meta: { title: '菜品清单' }
+    },
+    {
+      path: 'orderEarly',
+      name: 'OrderEarly',
+      component: () => import(`@/views${moduleName}/orderEarly`),
+      meta: { title: '商户限制' }
     }
     /* {
       path: 'scheduledDeadline',

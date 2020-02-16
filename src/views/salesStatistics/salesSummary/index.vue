@@ -9,12 +9,16 @@
       @currentChange="Mixins_$CurrentChange"
     >
       <template slot="layout-search">
-        <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
+        <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
           <el-form-item>
-            <base-date-picker v-model="QueryParams.distributionDate" placeholder="请选择配送日期"/>
+            <base-date-picker
+              v-model="QueryParams.timeRange"
+              type="daterange"
+              :default-time="['00:00:00', '23:59:59']"
+              placeholder="请选择配送日期"/>
           </el-form-item>
           <el-form-item>
-            <delivery-time-select v-model="QueryParams.distributionType" placeholder="请选择送时间段"/>
+            <delivery-time-select v-model="QueryParams.distributionTypes" multiple placeholder="请选择送时间段"/>
           </el-form-item>
           <el-form-item>
           </el-form-item>
@@ -35,12 +39,20 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Account',
   components: { deliveryTimeSelect },
   mixins: [Mixins],
   data() {
+    const date = new Date()
+    const getDateTime = (date) => {
+      const lastY = date.getFullYear()
+      const lastM = date.getMonth() + 1
+      const lastD = date.getDate()
+      return lastY + '-' + (lastM < 10 ? '0' + lastM : lastM) + '-' + (lastD < 10 ? '0' + lastD : lastD)
+    }
     return {
       ApiObject: ApiObject,
       Headers: [
@@ -49,17 +61,31 @@ export default {
         { label: '订单金额', prop: 'orderAmount' },
         { label: '实收金额', prop: 'discountAmount' }
       ],
-      QueryParams: {}
+      QueryParams: {
+        timeRange: [getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
+          getDateTime(new Date())],
+        distributionTypes: []
+      },
+      QueryParamsRules: {
+        distributionDate: [{ required: true, message: '必填项不能为空' }]
+      }
     }
   },
   computed: {
     Mixins_PageApi() {
       return this.ApiObject.subtotalSale
-    }
+    },
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   methods: {
-    Mixins_$ExportExcel() {
-      ApiObject.customize_get(`/subtotalSale/export`, { ...this.QueryParams }, { responseType: 'blob' })
+    Mixins_ExportApi() {
+      return ApiObject.export
+    },
+    // 获取最终查询条件
+    Mixins_GetFinalQueryParams(data) {
+      return { businessId: this.userInfo.id, ...data }
     }
   }
 }

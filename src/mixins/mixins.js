@@ -130,7 +130,7 @@ export const Mixins = {
             const key = this.$_getRangeKey(condition)
             const startKey = key ? `${key}StartTime` : 'startTime'
             const endKey = key ? `${key}EndTime` : 'endTime'
-            queryParams[startKey] = queryParams[condition][0]
+            queryParams[startKey] = queryParams[condition][0] + ' 00:00:00'
             queryParams[endKey] = queryParams[condition][1] + ' 23:59:59'
           }
           delete queryParams[condition]

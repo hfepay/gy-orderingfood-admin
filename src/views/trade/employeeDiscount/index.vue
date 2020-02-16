@@ -63,10 +63,10 @@ export default {
   components: { vipTypeSelect },
   mixins: [Mixins],
   data() {
-    const discountValueRegex = /^0.[1-9][0-9]?$/
+    const discountValueRegex = /^[1-9](\.[0-9])?$/
     const discountValueRule = (rule, value, callback) => {
       if (!discountValueRegex.test(value)) {
-        callback(new Error('请输入0.1-0.99的数字'))
+        callback(new Error('请输入1-9.9的数字'))
       } else {
         callback()
       }
@@ -88,7 +88,7 @@ export default {
       Headers: [
         { type: 'index', label: '序号' },
         { label: '会员类别', prop: 'memberType', format: vipType },
-        { label: '折扣', prop: 'discountValue' },
+        { label: '折扣', prop: 'discountValue', format: item => item.discountValue * 10 },
         { label: '是否启用', prop: 'status', format: OFFOrNOStatus },
         { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
       ],
@@ -104,6 +104,10 @@ export default {
     // 提交表单之前的回调
     Mixins_$SubmitBefore() {
       this.DialogForm.businessId = this.userInfo.id
+      this.DialogForm.discountValue /= 10
+    },
+    Mixins_EditAfter(res, finalEditParams) {
+      this.DialogForm.discountValue *= 10
     }
   }
 }

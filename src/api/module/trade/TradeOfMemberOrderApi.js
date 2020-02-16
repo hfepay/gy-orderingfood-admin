@@ -13,7 +13,10 @@ class TradeOfMemberOrderApi extends TradeApi {
     return super.customize_get(`/subtotalOrder`, data)
   }
   subtotalSale(data) {
-    return super.customize_get(`/subtotalSale`, data)
+    return super.customize_put(`/subtotalSale`, data)
+  }
+  export(data) {
+    return super.customize_put(`/subtotalSale/export`, data, { responseType: 'blob' })
   }
 }
 

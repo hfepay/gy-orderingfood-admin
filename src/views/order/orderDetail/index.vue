@@ -10,7 +10,7 @@
       @currentChange="Mixins_$CurrentChange"
     >
       <template slot="layout-search">
-        <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
+        <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
           <el-form-item>
             <base-input v-model="QueryParams.memberName" placeholder="请输入会员姓名"/>
           </el-form-item>
@@ -20,7 +20,7 @@
           <el-form-item>
             <base-input v-model="QueryParams.dishName" placeholder="请输入菜品名称"/>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="distributionDate">
             <base-date-picker v-model="QueryParams.distributionDate" placeholder="请选择配送日期"/>
           </el-form-item>
           <el-form-item>
@@ -43,7 +43,7 @@
         </el-button>
       </template>
       <template slot="distributionDate" slot-scope="{scope}">
-        {{scope.row.distributionDate || '' + '、' + deliveryTimeStatus[scope.row.distributionType]}}
+        {{(scope.row.distributionDate || '') + '、' + deliveryTimeStatus[scope.row.distributionType]}}
       </template>
       <template slot="foodList" slot-scope="{scope}">
         {{scope.row.list.map(item => `${item.dishName}：${item.dishNumber}`).join(',')}}
@@ -152,7 +152,11 @@ export default {
         { label: '操作', slot: 'operator', fixed: 'right', width: 260 }
       ],
       QueryParams: {
-        timeRange: []
+        timeRange: [],
+        distributionDate: new Date()
+      },
+      QueryParamsRules: {
+        distributionDate: [{ required: true, message: '必填项不能为空' }]
       }
     }
   },
@@ -182,7 +186,9 @@ export default {
         } finally {
           this.Mixins_$Init()
         }
-      } else this.$message.warning('请先选择订单')
+      } else {
+        this.$message.warning('请先选择订单')
+      }
     },
     // 获取选择订单列表
     handleSelectionChange(val) {

@@ -15,11 +15,11 @@
       </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
-<!--        <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">-->
-<!--          编辑-->
-<!--        </el-button>-->
+        <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
+          编辑
+        </el-button>
         <el-button @click.stop="Mixins_$Del(scope.row)" type="danger">
-          菜品删除
+          删除
         </el-button>
       </template>
     </base-table-layout>
@@ -38,19 +38,14 @@
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
-        <template #foodTypeId>
+        <template #distributeType>
           <el-form-item label="菜品类别">
-            <food-type-select ref="foodTypeId" v-model="DialogForm.foodTypeId"/>
+            <delivery-time-select v-model="DialogForm.distributeType"></delivery-time-select>
           </el-form-item>
         </template>
-        <template #foodImg>
-          <el-form-item label="图片">
-            <base-upload
-              v-if="Mixins_$DialogVisible"
-              :value="DialogForm.foodImg"
-              :show-file-list="false"
-              @success="foodImgSuccess"
-            />
+        <template #deadline>
+          <el-form-item label="截止时间">
+
           </el-form-item>
         </template>
       </base-form>
@@ -59,20 +54,23 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeFoodApi'
+import ApiObject from '../../../api/module/trade/TradeOrderEarlyApi'
 import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
+import {OFFOrNOStatus, OFFOrNO, deliveryTimeStatus} from '@/constants/module/status.constans'
+import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 
 export default {
   name: 'FoodType',
-  components: { foodTypeSelect },
+  components: { foodTypeSelect, deliveryTimeSelect },
   mixins: [Mixins],
   data() {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品名称', prop: 'foodName' },
-        { label: '菜品类别', slot: 'foodTypeId' },
-        { label: '图片', slot: 'foodImg' }
+        { label: '菜品类别', slot: 'distributeType' },
+        { label: '允许提前的天数', prop: 'earlyDay' },
+        { label: '截止时间', slot: 'deadline' },
+        { label: '状态', prop: 'status', type: '', options: OFFOrNO }
       ],
       DialogForm: {},
       DialogFormRules: {
@@ -82,8 +80,9 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '菜品名称', prop: 'foodName' },
-        { label: '图片', prop: 'foodImg' },
+        { label: '菜品类别', prop: 'distributeType', format: deliveryTimeStatus },
+        { label: '允许提前的天数', prop: 'earlyDay' },
+        { label: '状态', prop: 'status', format: OFFOrNOStatus },
         { label: '操作', slot: 'operator', width: 240 }
       ]
     }

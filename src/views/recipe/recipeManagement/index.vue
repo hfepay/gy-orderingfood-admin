@@ -164,6 +164,10 @@ export default {
         item => item.value === this.DialogForm.foodId)?.label
       this.DialogForm.foodTypeId = this.$refs.foodId?.list?.find(
         item => item.value === this.DialogForm.foodId)?.foodTypeId
+      this.DialogForm.foodImg = this.$refs.foodId?.list?.find(
+        item => item.value === this.DialogForm.foodId)?.foodImg
+      this.DialogForm.foodImgSmall = this.$refs.foodId?.list?.find(
+        item => item.value === this.DialogForm.foodId)?.foodImgSmall
     },
     // 0上/1下架
     setStatus(row, status) {
