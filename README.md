@@ -14,3 +14,8 @@ npm run deploy-sit //发布sit环境
 VUE_APP_BASE_URL = https://mp.gzairports.com/foadminserver/
 VUE_APP_IMG_URL = https://mp.gzairports.com/fopic/
 VUE_APP_SERVER_ID = 1
+
+测试环境地址
+VUE_APP_BASE_URL = https://zhair.hfsmrz.cn/foadminserver/
+VUE_APP_IMG_URL = https://zhair.hfsmrz.cn/fopic/
+VUE_APP_SERVER_ID = 1

@@ -34,18 +34,18 @@
         :model="DialogForm"
         :form-headers="DialogFormHeader"
         :rules="DialogFormRules"
-        label-width="120px"
+        label-width="120"
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
       >
         <template #distributeType>
-          <el-form-item label="菜品类别">
+          <el-form-item label="配送时间段" prop="distributeType">
             <delivery-time-select v-model="DialogForm.distributeType"></delivery-time-select>
           </el-form-item>
         </template>
         <template #deadline>
-          <el-form-item label="截止时间">
-
+          <el-form-item label="预订截止时间" prop="deadline">
+            提前一天<span><base-time-picker v-model="DialogForm.deadline"></base-time-picker></span>截止预订
           </el-form-item>
         </template>
       </base-form>
@@ -58,7 +58,7 @@ import ApiObject from '../../../api/module/trade/TradeOrderEarlyApi'
 import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
 import {OFFOrNOStatus, OFFOrNO, deliveryTimeStatus} from '@/constants/module/status.constans'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'FoodType',
   components: { foodTypeSelect, deliveryTimeSelect },
@@ -67,31 +67,41 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
-        { label: '菜品类别', slot: 'distributeType' },
-        { label: '允许提前的天数', prop: 'earlyDay' },
-        { label: '截止时间', slot: 'deadline' },
-        { label: '状态', prop: 'status', type: '', options: OFFOrNO }
+        { label: '配送时间段', slot: 'distributeType' },
+        // { label: '允许提前的天数', type: 'number', prop: 'earlyDay' },
+        { label: '提前一天截止时间', slot: 'deadline' },
+        { label: '状态', prop: 'status', type: 'radio', options: OFFOrNO }
       ],
       DialogForm: {},
       DialogFormRules: {
-        foodName: [
-          { required: true, message: '必填项不能为空' }
-        ]
+        distributeType: [{ required: true, message: '必填项不能为空' }],
+        earlyDay: [{ required: true, message: '必填项不能为空' }],
+        deadline: [{ required: true, message: '必填项不能为空' }],
+        status: [{ required: true, message: '必填项不能为空' }]
       },
       Headers: [
         { type: 'index', label: '序号' },
-        { label: '菜品类别', prop: 'distributeType', format: deliveryTimeStatus },
-        { label: '允许提前的天数', prop: 'earlyDay' },
+        { label: '商户名称', prop: 'businessName' },
+        { label: '配送时间段', prop: 'distributeType', format: deliveryTimeStatus },
+        // { label: '允许提前的天数', prop: 'earlyDay' },
+        { label: '提前一天截止时间', prop: 'deadline' },
         { label: '状态', prop: 'status', format: OFFOrNOStatus },
         { label: '操作', slot: 'operator', width: 240 }
       ]
     }
   },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
   methods: {
     // 提交表单之前的回调
     Mixins_$SubmitBefore() {
+      this.DialogForm.businessId = this.userInfo.id
       this.DialogForm.foodTypeCn = this.$refs.foodTypeId?.list?.find(
         item=> item.value===this.DialogForm.foodTypeId)?.label
+      this.DialogForm.earlyDay = 30
     },
     foodImgSuccess(res) {
       const data = res.data
@@ -101,5 +111,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>
