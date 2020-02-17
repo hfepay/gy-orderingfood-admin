@@ -153,7 +153,7 @@ export default {
       ],
       QueryParams: {
         timeRange: [],
-        distributionDate: new Date()
+        distributionDate: this.$Contants.getDateTime(new Date())
       },
       QueryParamsRules: {
         distributionDate: [{ required: true, message: '必填项不能为空' }]

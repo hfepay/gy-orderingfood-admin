@@ -107,7 +107,7 @@ export default {
       const data = res.data
       this.DialogForm.foodImg = data.imgName
       this.DialogForm.foodImgSmall = data.smallImgName
-    },
+    }
   }
 }
 </script>

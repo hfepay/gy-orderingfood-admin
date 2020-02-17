@@ -47,12 +47,6 @@ export default {
   mixins: [Mixins],
   data() {
     const date = new Date()
-    const getDateTime = (date) => {
-      const lastY = date.getFullYear()
-      const lastM = date.getMonth() + 1
-      const lastD = date.getDate()
-      return lastY + '-' + (lastM < 10 ? '0' + lastM : lastM) + '-' + (lastD < 10 ? '0' + lastD : lastD)
-    }
     return {
       ApiObject: ApiObject,
       Headers: [
@@ -62,8 +56,8 @@ export default {
         { label: '实收金额', prop: 'discountAmount' }
       ],
       QueryParams: {
-        timeRange: [getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
-          getDateTime(new Date())],
+        timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
+          this.$Contants.getDateTime(new Date())],
         distributionTypes: []
       },
       QueryParamsRules: {

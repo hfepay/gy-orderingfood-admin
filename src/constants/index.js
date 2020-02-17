@@ -28,7 +28,15 @@ const toOptions = val => {
     : {}
 }
 
+// 格式化时间年-月-日
+const getDateTime = (date) => {
+  const lastY = date.getFullYear()
+  const lastM = date.getMonth() + 1
+  const lastD = date.getDate()
+  return lastY + '-' + (lastM < 10 ? '0' + lastM : lastM) + '-' + (lastD < 10 ? '0' + lastD : lastD)
+}
 export default {
   toOptions,
-  loginConstant
+  loginConstant,
+  getDateTime
 }
