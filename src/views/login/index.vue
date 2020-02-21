@@ -1,41 +1,43 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" size="large" class="login-form">
-      <h3 class="title">
-        {{ projectName }}
-      </h3>
-      <el-form-item label="" prop="account">
-        <base-input v-model.trim="loginForm.account" placeholder="账号" />
-      </el-form-item>
-      <el-form-item label="" prop="password">
-        <base-input v-model="loginForm.password" type="password" placeholder="密码" @keyup.enter.native="handleLogin" />
-      </el-form-item>
-      <!--<el-form-item label="" prop="code_token_value">
-          <div style="position: relative;display: flex">
-            <base-input v-model="loginForm.code_token_value" style="flex: 1;" placeholder="验证码" @keyup.enter.native="handleLogin" />
-            <img
-              :key="loginForm.code_token"
-              title="点击更换验证码"
-              alt="验证码"
-              :src="verifyCodeSrc + loginForm.code_token"
-              height="40px"
-              width="84px"
-              style="cursor: pointer;"
-              @click="getCode"
-            >
-          </div>
-        </el-form-item>-->
-      <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          登录
-        </el-button>
-      </el-form-item>
-    </el-form>
+    <div class="login-left"></div>
+    <div class="login-right">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" size="large" class="login-form">
+        <div class="login-logo"></div>
+        <div class="title" style="font-weight: bold">WELCOME</div>
+        <div class="title">欢迎您，<br>使用黔易订订餐管理系统</div>
+        <br>
+        <el-form-item label="" prop="account">
+          <base-input v-model.trim="loginForm.account" placeholder="账号" prefix-icon="el-icon-user-solid"/>
+        </el-form-item>
+        <el-form-item label="" prop="password">
+          <base-input
+            v-model="loginForm.password"
+            type="password"
+            placeholder="密码"
+            prefix-icon="el-icon-s-cooperation"
+            @keyup.enter.native="handleLogin"/>
+        </el-form-item>
+        <br>
+        <el-form-item>
+          <el-button
+            :loading="loading"
+            type="primary"
+            round
+            size="medium"
+            style="margin: 0 5%; width: 90%"
+            @click.native.prevent="handleLogin">
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'Login',
   data() {
@@ -99,36 +101,61 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$font-color:#1A99FF;
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
-.login-container {
-  display: flex;
-  align-items: center;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background-image: url("./../../assets/image/login.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  .login-form {
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 480px;
-    max-width: 100%;
-    padding: 0 40px;
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 10px;
+  $font-color: #1A99FF;
+  $bg: #2d3a4b;
+  $dark_gray: #889aa4;
+  $light_gray: #eee;
+  .login-container {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+
+    .login-left, .login-right {
+      position: relative;
+      height: 100vh;
+    }
+
+    .login-left {
+      width: 65vw;
+      background-size: 60% auto;
+      background: rgba(247, 223, 198, 1) url("./../../assets/image/loginL.png") no-repeat center;
+    }
+
+    .login-right {
+      width: 35vw;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .login-logo {
+        height: 133px;
+        background: url("./../../assets/image/logo.png") no-repeat left;
+        margin-bottom: 60px;
+        background-size: auto 100%;
+      }
+    }
+
+    .login-form {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 550px;
+      max-width: 100%;
+      padding: 0 40px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 10px;
+    }
+
+    .title {
+      font-size: 35px;
+      margin: 0;
+      font-family: Source Han Sans CN;
+      font-weight: 300;
+      color: rgba(51, 51, 51, 1);
+      line-height: 50px;
+    }
   }
-  .title {
-    font-size: 26px;
-    font-weight: 400;
-    color: $font-color;
-    text-align: center;
-    font-weight: bold;
-  }
-}
 </style>
