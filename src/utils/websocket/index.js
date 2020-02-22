@@ -8,7 +8,7 @@ class WebSocketCls {
     return websock
   }
   getInstance(url, domain) {
-    return new WebSocket((domain || process.env.VUE_APP_WEBSOCKET_URL) + url)
+    return new WebSocket((domain || process.env.VUE_APP_WEBSOCKET_URL || '') + url)
   }
 }
 

@@ -48,7 +48,7 @@ export const WebsocketMixins = {
     },
     _websocketonmessage(e) {
       console.log(`${e.currentTarget.url}返回数据:`, e.data)
-      const data = JSON.parse(e.data).data
+      const data = JSON.parse(e.data)
       this.websocketonmessageCallBack(data)
     },
     websocketonmessageCallBack(data) {},
