@@ -8,7 +8,7 @@ const router = [{
     {
       path: 'recipeManagement',
       name: 'recipeManagement',
-      component: () => import(`@/views${moduleName}/recipeManagement`),
+      component: () => import(`@/views${moduleName}/recipeManagement/index1.vue`),
       meta: { title: '菜品管理' }
     }
   ]

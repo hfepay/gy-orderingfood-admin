@@ -1,101 +1,38 @@
 <template>
-  <div>
-    <!--table模板-->
-    <base-table-layout
-      :page-obj="Mixins_$PageObj"
-      :headers="Headers"
-      :data="Mixins_$TableData"
-      @sizeChange="Mixins_$SizeChange"
-      @currentChange="Mixins_$CurrentChange"
-    >
-      <template slot="layout-search">
-        <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
-          <el-form-item>
-            <base-input v-model="QueryParams.foodName" placeholder="请输入菜品名称"/>
-          </el-form-item>
-          <el-form-item>
-            <food-type-select v-model="QueryParams.foodTypeId"/>
-          </el-form-item>
-          <el-form-item>
-            <base-date-picker v-model="QueryParams.distributeDate" placeholder="请选择配送日期"/>
-          </el-form-item>
-          <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.distributeType" placeholder="请选择送时间段"/>
-          </el-form-item>
-          <el-form-item>
-          </el-form-item>
-          <el-button type="primary" @click="Mixins_$Search">
-            查询
-          </el-button>
-        </base-form>
-      </template>
-      <template slot="layout-operate">
-        <el-button type="primary" @click="Mixins_$Add">
-          新增
+  <el-container class="hf-page">
+    <el-header class="hf-title">
+      <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
+        <el-form-item>
+          <base-input v-model="QueryParams.foodName" placeholder="请输入菜品名称"/>
+        </el-form-item>
+        <el-form-item>
+          <food-type-select v-model="QueryParams.foodTypeId"/>
+        </el-form-item>
+        <el-form-item>
+          <base-date-picker v-model="QueryParams.distributeDate" placeholder="请选择配送日期"/>
+        </el-form-item>
+        <el-form-item>
+          <deliveryTimeSelect v-model="QueryParams.distributeType" placeholder="请选择送时间段"/>
+        </el-form-item>
+        <el-form-item>
+        </el-form-item>
+        <el-button type="primary" @click="Mixins_$Search">
+          查询
         </el-button>
-      </template>
-      <template slot="distributeTime" slot-scope="{scope}">
-        {{scope.row.distributeTime}}
-      </template>
-      <!--操作-->
-      <template slot="operator" slot-scope="{scope}">
-        <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
-          编辑
+        <el-button type="primary" @click="Mixins_$Search">
+          +新增菜品
         </el-button>
-        <el-button v-if="scope.row.status !== '0'" @click.stop="setStatus(scope.row, 0)">
-          菜品下架
-        </el-button>
-        <el-button v-else @click.stop="setStatus(scope.row, 1)" type="success" >
-          菜品上架
-        </el-button>
-        <el-button @click.stop="Mixins_$Del(scope.row)" type="danger">
-          菜品删除
-        </el-button>
-      </template>
-    </base-table-layout>
-    <base-dialog
-      :title="DialogForm['id']?'修改':'新增'"
-      :visible.sync="Mixins_$DialogVisible"
-      center
-      @closed="Mixins_$Reset"
-    >
-      <base-form
-        ref="form"
-        :model="DialogForm"
-        :form-headers="DialogFormHeader"
-        :rules="DialogFormRules"
-        label-width="120px"
-        @submit="Mixins_$Submit"
-        @cancel="Mixins_$DialogVisible = false"
-      >
-        <template #foodId>
-          <el-form-item label="菜品名称" prop="foodId">
-            <food-select ref="foodId" v-model="DialogForm.foodId"/>
-          </el-form-item>
-        </template>
-        <template #foodTypeCn>
-          <el-form-item label="菜品类别" prop="foodTypeCn">
-            <base-input v-model="DialogForm.foodTypeCn" disabled/>
-          </el-form-item>
-        </template>
-        <template #distributeDate>
-          <el-form-item label="配送日期" prop="distributeDate">
-            <base-date-picker v-model="DialogForm.distributeDate"/>
-          </el-form-item>
-        </template>
-        <template #distributeType>
-          <el-form-item label="配送类型" prop="distributeType">
-            <delivery-time-select v-model="DialogForm.distributeType"/>
-          </el-form-item>
-        </template>
-        <template #distributeTime>
-          <el-form-item label="配送时间" prop="distributeTime">
-            <base-time-picker v-model="DialogForm.distributeTime"/>
-          </el-form-item>
-        </template>
       </base-form>
-    </base-dialog>
-  </div>
+    </el-header>
+    <el-scrollbar class="hf-items">
+      <div v-for="item in 10" class="hf-day">
+        <div class="hf-day-title">2020/02/12</div>
+        <el-scrollbar class="hf-day-items">
+          <recipe-item v-for="item in 10" @onclick="click"></recipe-item>
+        </el-scrollbar>
+      </div>
+    </el-scrollbar>
+  </el-container>
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
@@ -105,10 +42,11 @@ import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { deliveryTimeStatus, OFFOrNOStatus } from '@/constants/module/status.constans'
 import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
 import foodSelect from '@/views/components/Select/foodSelect'
+import recipeItem from '@/views/recipe/recipeManagement/recipeItem'
 
 export default {
   name: 'RecipeManagement',
-  components: { deliveryTimeSelect, foodTypeSelect, foodSelect },
+  components: { deliveryTimeSelect, foodTypeSelect, foodSelect, recipeItem },
   mixins: [Mixins],
   data() {
     return {
@@ -178,9 +116,54 @@ export default {
       } catch (e) {
         this.Mixins_$Init()
       }
+    },
+    click(e) {
+      console.log(e)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+  .hf-page {
+    width: 100%;
+    height: calc(100vh - 148px);
+    font-family:Source Han Sans CN;
+    // 兼容el-ui的滚动条样式
+    /deep/ .el-scrollbar__wrap {
+      overflow-x: hidden;
+    }
+    /deep/.hf-items>.el-scrollbar__wrap>.el-scrollbar__view {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-flow: column wrap;
+    }
+
+    .hf-title {
+      height: 60px !important;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 15px;
+      background-color: rgba(238,238,238,0.4);
+    }
+    .hf-day {
+      height: 99%;
+      width: 100%;
+      max-width: 450px;
+      margin: 0 5px;
+      .hf-day-title {
+        display: flex;
+        justify-content: center;
+        line-height: 40px;
+        margin: 5px 0;
+        font-size:19px;
+        font-weight:bold;
+        color:rgba(102,102,102,1);
+        background-color: rgba(238,238,238,0.4);
+      }
+      .hf-day-items {
+        height: calc(100% - 50px);
+      }
+    }
+  }
 </style>

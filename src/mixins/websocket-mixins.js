@@ -1,9 +1,11 @@
 import WebSocketCls from '../utils/websocket'
+import store from '../store'
+import { WS_REQ_CODE } from '../constants/module/WebsocketCode'
 export const WebsocketMixins = {
   data() {
     return {
       _websocket: null,
-      websocketUrl: null,
+      websocketUrl: '/websocket',
       websocketMsgScheduled: null,
       interval: 30 * 1000,
       retryCount: 0, // 重试计数
@@ -11,7 +13,7 @@ export const WebsocketMixins = {
     }
   },
   created() {
-    this.validatekWebSocketEnvironment() && this._initWebSocket()
+    this._initWebSocket()
   },
   beforeDestroy() {
     this._closeWebSocket()
@@ -26,16 +28,31 @@ export const WebsocketMixins = {
     }
   },
   methods: {
+    getWSAuthParams(data) {
+      return this.mergeAuthParams(data)
+    },
+    mergeAuthParams(data) {
+      const authParams = {
+        token: store.getters.token,
+        airportCode: store.getters.userInfo?.airportCode
+      }
+      return { code: WS_REQ_CODE.LOGIN, data: { ...authParams, ...data }}
+    },
     validatekWebSocketEnvironment() {
       return true
     },
     _initWebSocket() {
       this._closeWebSocket()
-      this.websocketMsgScheduled && clearInterval(this.websocketMsgScheduled)
-      if (this.websocketUrl) {
-        this._websocket = this._getWebSocket()
-        this.websocketMsgScheduled = setInterval(_ => this.websocketsend(''), this.interval)
-      }
+      // 防止websocket切换过快
+      setTimeout(_ => {
+        if (this.websocketUrl && this.validatekWebSocketEnvironment()) {
+          this._websocket = this._getWebSocket()
+          this.websocketMsgScheduled = setInterval(
+            _ => this.websocketsend(
+              { code: WS_REQ_CODE.HEARTBEAT, data: null }
+            ), this.interval)
+        }
+      },0 )
     },
     _getWebSocket() {
       return new WebSocketCls({
@@ -43,20 +60,24 @@ export const WebsocketMixins = {
         onmessage: this._websocketonmessage,
         onopen: this._websocketonopen,
         onerror: this._websocketonerror,
-        onclose: this._websocketclose
+        onclose: this._websocketonclose
       })
     },
     _websocketonmessage(e) {
       console.log(`${e.currentTarget.url}返回数据:`, e.data)
-      const data = JSON.parse(e.data)
+      const data = JSON.parse(e.data).data
       this.websocketonmessageCallBack(data)
     },
     websocketonmessageCallBack(data) {},
     _websocketonopen() {
       console.log(`连接建立成功${this.websocketUrl}`)
+      this.sendAuthorization()
       this.websocketonopenCallBack()
     },
-    websocketonopenCallBack() {},
+    sendAuthorization(){
+      this.websocketsend(this.getWSAuthParams())
+    },
+    websocketonopenCallBack() { },
     _websocketonerror() {
       this._websocket && this._websocket.close()
       this.websocketonerrorCallBack()
@@ -66,16 +87,19 @@ export const WebsocketMixins = {
       }
     },
     websocketsend(data) { // 数据发送
+      this._websocket?.readyState === 1 && this._websocket.send(JSON.stringify(data))
       console.log('发送数据:', data)
-      this._websocket && this._websocket.send(data)
     },
     websocketonerrorCallBack() {},
-    _websocketclose() {
+    _websocketonclose() {
       this._websocket = null
+      this.websocketoncloseCallBack()
       console.log(`断开连接${this.websocketUrl}`)
     },
+    websocketoncloseCallBack() {},
     _closeWebSocket() {
-      this._websocket && this._websocket.close && this._websocket.close()
+      this._websocket?.readyState === 1 && this._websocket.close()
+      this.websocketMsgScheduled && clearInterval(this.websocketMsgScheduled)
     }
   }
 }

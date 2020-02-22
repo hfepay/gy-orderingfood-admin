@@ -3,9 +3,9 @@ ws.createServer(function(conn) {
   console.log('有新连接')
   const event = setInterval(function() {
     conn.sendText(JSON.stringify({
-      'title': '标题',
-      'content': Date.now(),
-      'imgUrl': 'url'
+      'code': 1,
+      'data': { 'content': '您有新的外卖订单，配送日期：2020-02-24', 'imgUrl': '', 'title': '新订单通知' },
+      'message': '操作成功'
     }))
   }, 15000)
   // 获取连接信息
