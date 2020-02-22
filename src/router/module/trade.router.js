@@ -27,7 +27,7 @@ const router = [{
       path: 'orderEarly',
       name: 'OrderEarly',
       component: () => import(`@/views${moduleName}/orderEarly`),
-      meta: { title: '商户限制' }
+      meta: { title: '订餐规则' }
     }
     /* {
       path: 'scheduledDeadline',

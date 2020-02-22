@@ -25,9 +25,9 @@
           </el-form-item>
           <el-form-item>
             <el-row>
-              <el-col :span="11"><base-input v-model="QueryParams.todo" placeholder="订单价格区间"/></el-col>
+              <el-col :span="11"><base-input v-model="QueryParams.startPrice" type="number" placeholder="订单价格区间"/></el-col>
               <el-col :span="2" style="text-align: center">至</el-col>
-              <el-col :span="11"><base-input v-model="QueryParams.todo" placeholder="订单价格区间"/></el-col>
+              <el-col :span="11"><base-input v-model="QueryParams.endPrice" type="number" placeholder="订单价格区间"/></el-col>
             </el-row>
           </el-form-item>
           <el-form-item>
@@ -161,7 +161,7 @@ export default {
         // { label: '折扣金额', prop: 'discountAmount' },
         { label: '实付', prop: 'payAmount' },
         { label: '送餐地址', prop: 'addrMore' },
-        { label: '订单备注', prop: 'todo' },
+        { label: '订单备注', prop: 'memberRemark' },
         { label: '订单状态', prop: 'orderStatus', format: orderStatus },
         { label: '下单时间', prop: 'createTime' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 260 }
