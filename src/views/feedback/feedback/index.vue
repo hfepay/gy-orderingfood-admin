@@ -10,7 +10,7 @@
     >
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
-        <el-button @click.stop="Mixins_$Edit(scope.row)">
+        <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           查看详情
         </el-button>
       </template>
@@ -26,13 +26,11 @@
         :model="DialogForm"
         :show-default-foot="false"
         :form-headers="DialogFormHeader"
-        :rules="DialogFormRules"
         label-width="120px"
         :disabled="true"
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
-      >
-      </base-form>
+      />
     </base-dialog>
   </div>
 </template>
@@ -53,15 +51,9 @@ export default {
         { label: '反馈内容', prop: 'content', type: 'text' },
         { label: '反馈时间', prop: 'createTime', type: 'text' }
       ],
-      DialogForm: {
-        account: ''
-      },
-      DialogFormRules: {
-        account: [
-          { required: true }
-        ]
-      },
+      DialogForm: {},
       Headers: [
+        { type: 'index', label: '序号' },
         { label: '微信昵称', prop: 'wechatName' },
         { label: '会员姓名', prop: 'vipName' },
         { label: '联系方式', prop: 'mobile' },
@@ -70,7 +62,6 @@ export default {
         { label: '操作', slot: 'operator', fixed: 'right', width: 120 }
       ],
       QueryParams: {
-        account: ''
       }
     }
   },

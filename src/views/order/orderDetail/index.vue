@@ -12,6 +12,9 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
           <el-form-item>
+            <base-input v-model="QueryParams.orderNo" placeholder="请输入订单号"/>
+          </el-form-item>
+          <el-form-item>
             <base-input v-model="QueryParams.memberName" placeholder="请输入会员姓名"/>
           </el-form-item>
           <el-form-item>
@@ -20,14 +23,24 @@
           <el-form-item>
             <base-input v-model="QueryParams.dishName" placeholder="请输入菜品名称"/>
           </el-form-item>
+          <el-form-item>
+            <el-row>
+              <el-col :span="11"><base-input v-model="QueryParams.todo" placeholder="订单价格区间"/></el-col>
+              <el-col :span="2" style="text-align: center">至</el-col>
+              <el-col :span="11"><base-input v-model="QueryParams.todo" placeholder="订单价格区间"/></el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item>
+            <order-type-select v-model="QueryParams.orderStatus"/>
+          </el-form-item>
+          <el-form-item>
+            <delivery-type-select v-model="QueryParams.transportType"/>
+          </el-form-item>
           <el-form-item prop="distributionDate">
             <base-date-picker v-model="QueryParams.distributionDate" placeholder="请选择配送日期"/>
           </el-form-item>
           <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.distributionType" placeholder="请选择配送类型"/>
-          </el-form-item>
-          <el-form-item>
-            <order-type-select v-model="QueryParams.orderStatus" placeholder="请选择下单状态"/>
+            <deliveryTimeSelect v-model="QueryParams.distributionType" placeholder="全部配送时间段"/>
           </el-form-item>
           <el-form-item>
             <base-date-picker v-model="QueryParams.timeRange" type="daterange" placeholder="请选择下单时间段"/>
@@ -41,9 +54,6 @@
         <el-button type="primary" @click="updateOrderStatusList()">
           批量完成配送
         </el-button>
-      </template>
-      <template slot="distributionDate" slot-scope="{scope}">
-        {{(scope.row.distributionDate || '') + '、' + deliveryTimeStatus[scope.row.distributionType]}}
       </template>
       <template slot="foodList" slot-scope="{scope}">
         {{scope.row.list.map(item => `${item.dishName}：${item.dishNumber}`).join(',')}}
@@ -103,12 +113,13 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
-import { orderStatus, deliveryTimeStatus } from '@/constants/module/status.constans'
+import { orderStatus, deliveryTimeStatus, deliveryType } from '@/constants/module/status.constans'
 import orderTypeSelect from '@/views/components/Select/orderTypeSelect'
+import deliveryTypeSelect from '@/views/components/Select/deliveryTypeSelect'
 
 export default {
   name: 'Account',
-  components: { deliveryTimeSelect, orderTypeSelect },
+  components: { deliveryTimeSelect, orderTypeSelect, deliveryTypeSelect },
   mixins: [Mixins],
   data() {
     return {
@@ -139,14 +150,18 @@ export default {
       selectionList: [],
       Headers: [
         { type: 'index', label: '序号' },
+        { label: '订单号', prop: 'orderNo' },
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
+        { label: '配送方式', prop: 'deliveryType', format: deliveryType },
         { label: '菜品名称及数量', slot: 'foodList' },
-        { label: '配送日期、时间段', slot: 'distributionDate' },
+        { label: '配送日期', prop: 'distributionDate' },
+        { label: '时间段', prop: 'distributionType', format: deliveryTimeStatus },
         { label: '订单金额', prop: 'orderAmount' },
-        { label: '折扣金额', prop: 'discountAmount' },
-        { label: '优惠后金额', prop: 'payAmount' },
+        // { label: '折扣金额', prop: 'discountAmount' },
+        { label: '实付', prop: 'payAmount' },
         { label: '送餐地址', prop: 'addrMore' },
+        { label: '订单备注', prop: 'todo' },
         { label: '订单状态', prop: 'orderStatus', format: orderStatus },
         { label: '下单时间', prop: 'createTime' },
         { label: '操作', slot: 'operator', fixed: 'right', width: 260 }
@@ -163,9 +178,6 @@ export default {
   computed: {
     orderStatus() {
       return orderStatus
-    },
-    deliveryTimeStatus() {
-      return deliveryTimeStatus
     }
   },
   methods: {

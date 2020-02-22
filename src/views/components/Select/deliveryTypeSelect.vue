@@ -1,7 +1,7 @@
 <template>
   <el-select
     v-bind="$attrs"
-    placeholder="全部订单状态"
+    placeholder="全部配送方式"
     clearable
     v-on="$listeners">
     <el-option
@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import { orderStatus } from '@/constants/module/status.constans'
+import { deliveryType } from '@/constants/module/status.constans'
 
 export default {
   name: 'DeptSelect',
   computed: {
     options() {
-      return Object.keys(orderStatus).map((item) => ({
+      return Object.keys(deliveryType).map((item) => ({
         value: item,
-        label: orderStatus[item]
+        label: deliveryType[item]
       }))
     }
   }

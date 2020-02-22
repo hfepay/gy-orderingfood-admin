@@ -66,7 +66,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeMemberApi'
 import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
-import { vipType } from '@/constants/module/status.constans'
+import { vipType, memberStatus } from '@/constants/module/status.constans'
 
 export default {
   name: 'Account',
@@ -102,6 +102,7 @@ export default {
         { label: '联系方式', prop: 'mobile' },
         { label: '注册时间', prop: 'createTime' },
         { label: '消费金额', prop: 'consumptionAmount' },
+        { label: '状态', prop: 'status', format: memberStatus },
         { label: '操作', slot: 'operator', fixed: 'right', width: 240 }
       ],
       QueryParams: {
