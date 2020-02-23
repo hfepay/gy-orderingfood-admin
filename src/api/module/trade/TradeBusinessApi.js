@@ -4,10 +4,10 @@ class TradeBusinessApi extends TradeApi {
     super('business')
   }
   conf(data) {
-    super.customize_put(`/conf`, data)
+    return super.customize_put(`/conf`, data)
   }
   getConf(id) {
-    super.customize_get(`/conf/${id}`)
+    return super.customize_get(`/conf/${id}`)
   }
 }
 

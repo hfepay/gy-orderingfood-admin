@@ -10,7 +10,7 @@
         <div class="font-size-16" style="color:rgba(66,185,131,1);">
           {{+foodItem.isDiscount===1?'已启用员工折扣': '未启用员工折扣'}}
         </div>
-        <div class="font-size-15">{{+foodItem.status===0?'停止销售': '正常销售'}}</div>
+        <div class="font-size-15">{{+foodItem.status===0?'停止销售': ''}}</div>
       </div>
     </div>
     <div class="bottom">
