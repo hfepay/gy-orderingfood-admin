@@ -115,6 +115,7 @@ export default {
   methods: {
     async freeze(obj) {
       try {
+        await this.$confirm(`确认冻结?`, '冻结')
         await ApiObject.frozen(obj.id, 0)
         this.$message.success('操作成功')
         this.Mixins_$Init()
@@ -124,6 +125,7 @@ export default {
     },
     async unblock(obj) {
       try {
+        await this.$confirm(`确认解封?`, '解封')
         await ApiObject.frozen(obj.id, 1)
         this.$message.success('操作成功')
         this.Mixins_$Init()
