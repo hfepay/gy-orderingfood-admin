@@ -35,7 +35,7 @@ import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import deliveryTypeSelect from '@/views/components/Select/deliveryTypeSelect'
-import { deliveryTimeStatus, deliveryType } from '@/constants/module/status.constans'
+import { deliveryTimeStatus, transportType } from '@/constants/module/status.constans'
 
 export default {
   name: 'Account',
@@ -52,7 +52,7 @@ export default {
         { label: '菜品名称', prop: 'dishName' },
         { label: '菜品类别', prop: 'foodTypeCn' },
         { label: '数量', prop: 'subtotal' },
-        { label: '配送方式', prop: 'transportType', format: deliveryType }
+        { label: '配送方式', prop: 'transportType', format: transportType }
       ],
       QueryParams: {
         timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 7)),

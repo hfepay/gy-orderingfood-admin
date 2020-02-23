@@ -113,7 +113,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
-import { orderStatus, deliveryTimeStatus, deliveryType } from '@/constants/module/status.constans'
+import { orderStatus, deliveryTimeStatus, transportType } from '@/constants/module/status.constans'
 import orderTypeSelect from '@/views/components/Select/orderTypeSelect'
 import deliveryTypeSelect from '@/views/components/Select/deliveryTypeSelect'
 
@@ -153,7 +153,7 @@ export default {
         { label: '订单号', prop: 'orderNo' },
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
-        { label: '配送方式', prop: 'deliveryType', format: deliveryType },
+        { label: '配送方式', prop: 'transportType', format: transportType },
         { label: '菜品名称及数量', slot: 'foodList' },
         { label: '配送日期', prop: 'distributionDate' },
         { label: '时间段', prop: 'distributionType', format: deliveryTimeStatus },
