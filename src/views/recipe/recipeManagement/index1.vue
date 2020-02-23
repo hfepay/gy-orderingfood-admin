@@ -3,23 +3,30 @@
     <el-header class="hf-title">
       <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
         <el-form-item>
-          <base-date-picker v-model="DialogForm.timeRange" type="daterange"></base-date-picker>
+          <base-date-picker v-model="QueryParams.timeRange" type="daterange"></base-date-picker>
         </el-form-item>
         <el-button type="primary" @click="Mixins_$Search">
           查询
         </el-button>
-        <el-button type="primary" @click="Mixins_$Search">
+        <el-button type="primary" @click="Mixins_$Add">
           +新增菜品
         </el-button>
       </base-form>
     </el-header>
     <el-scrollbar class="hf-items">
-      <div v-for="item in 30" class="hf-day">
-        <div class="hf-day-title">2020/02/12</div>
-        <el-scrollbar class="hf-day-items">
-          <recipe-item v-for="item in 10" @onclick="Mixins_$Edit"></recipe-item>
-        </el-scrollbar>
-      </div>
+      <template v-if="Object.keys(Mixins_$TableData).length>0">
+        <div v-for="(item, key) in Mixins_$TableData" :key="key" class="hf-day">
+          <div class="hf-day-title">{{key}}</div>
+          <el-scrollbar class="hf-day-items">
+            <recipe-item v-for="items in item" :food-item="items" @onclick="Mixins_$Edit(items, key)"></recipe-item>
+          </el-scrollbar>
+        </div>
+      </template>
+      <template v-else>
+        <div class="nullObj">
+          没有数据
+        </div>
+      </template>
     </el-scrollbar>
     <base-dialog
       :title="DialogForm['id']?'详情':'新增'"
@@ -28,6 +35,7 @@
       @closed="Mixins_$Reset"
     >
       <base-form
+        v-if="Mixins_$DialogVisible"
         ref="form"
         :model="DialogForm"
         :form-headers="DialogFormHeader"
@@ -38,12 +46,22 @@
       >
         <template #foodImg>
           <el-form-item label="图片" prop="foodImg">
-            <base-upload
-              v-if="Mixins_$DialogVisible"
-              :value="DialogForm.foodImg"
-              :show-file-list="false"
-              @success="foodImgSuccess"
-            />
+            <el-row>
+              <el-col :span="12">
+                <base-upload
+                  v-if="Mixins_$DialogVisible"
+                  :value="DialogForm.foodImg"
+                  :show-file-list="false"
+                  @success="foodImgSuccess"
+                />
+                <el-tag v-if="DialogForm.id" size="medium" type="info">可重新上传图片</el-tag>
+              </el-col>
+              <el-col v-if="DialogForm.id" :span="12">
+                <el-button type="primary" v-if="+DialogForm.status === 1" @click="usable(0)">停止当日销售</el-button>
+                <el-button type="primary" v-if="+DialogForm.status === 0" @click="usable(1)">开启当日销售</el-button>
+                <el-button type="danger" @click="Mixins_$Del">删除当前菜品</el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
         </template>
         <template #foodId>
@@ -53,16 +71,16 @@
         </template>
         <template #foodTypeCn>
           <el-form-item label="菜品类别" prop="foodTypeId">
-            <food-type-select v-model="DialogForm.foodTypeId"/>
+            <food-type-select ref="foodTypeId" v-model="DialogForm.foodTypeId"/>
           </el-form-item>
         </template>
         <template #distributeTime>
           <el-form-item label="配送时间" prop="distributeDateList">
-            <el-checkbox-group v-model="distributeDateList">
+            <el-checkbox-group v-model="DialogForm.distributeDateList">
               <el-row>
                 <el-col v-for="(label, key) in distributeDateItems" :key="key" :span="8">
-                  <el-checkbox :label="key">{{label}}</el-checkbox>
-                  <el-form-item v-if="distributeDateList.includes(key)" label-width="0" :prop="key">
+                  <el-checkbox :label="label">{{deliveryTimeStatus[label]}}</el-checkbox>
+                  <el-form-item v-if="DialogForm.distributeDateList.includes(label)" label-width="0" :prop="key">
                     <base-input v-model="DialogForm[key]">
                       <template slot="append">份</template>
                     </base-input>
@@ -73,16 +91,16 @@
           </el-form-item>
         </template>
         <template #distributeDate>
-          <el-form-item label="配送日期" prop="distributeDateRadio">
+          <el-form-item label="配送日期" prop="distributeMode">
             <el-row>
               <el-col :span="10">
-                <el-radio v-model="distributeDateRadio" label="1">按日期循环</el-radio>
+                <el-radio v-model="DialogForm.distributeMode" @change="DialogForm.distributeRules=[]" :label="0">按日期循环</el-radio>
               </el-col>
               <el-col :span="10">
-                <el-radio v-model="distributeDateRadio" label="2">按指定日期生效</el-radio>
+                <el-radio v-model="DialogForm.distributeMode" @change="DialogForm.distributeRules=[]" :label="1">按指定日期生效</el-radio>
               </el-col>
             </el-row>
-            <template v-if="+distributeDateRadio === 1">
+            <template v-if="+DialogForm.distributeMode === 0">
               <el-form-item label-width="0" prop="distributeTimeRange">
                 <base-date-picker v-model="DialogForm.distributeTimeRange" type="daterange"></base-date-picker>
               </el-form-item>
@@ -90,10 +108,11 @@
                 <week-checkbox v-model="DialogForm.distributeRules"/>
               </el-form-item>
             </template>
-            <template v-if="+distributeDateRadio === 2">
+            <template v-if="+DialogForm.distributeMode === 1">
               <el-form-item label-width="0" prop="distributeRules">
                 <el-date-picker
                   type="dates"
+                  value-format="yyyy-MM-dd"
                   v-model="DialogForm.distributeRules"
                   placeholder="选择一个或多个日期">
                 </el-date-picker>
@@ -121,9 +140,16 @@ export default {
   mixins: [Mixins],
   data() {
     const date = new Date()
-    const validateArray = (rule, value, callback) => {
-      console.log(this.distributeDateList)
-      if (this.distributeDateList.length > 0) {
+    const validateDistributeDateList = (rule, value, callback) => {
+      if (this.DialogForm.distributeDateList.length > 0) {
+        callback()
+      } else {
+        callback(new Error('必填项不能为空'))
+      }
+    }
+    const validateDistributeTimeRange = (rule, value, callback) => {
+      console.log(this.DialogForm.distributeTimeRange)
+      if (this.DialogForm.distributeTimeRange.length > 1) {
         callback()
       } else {
         callback(new Error('必填项不能为空'))
@@ -131,7 +157,6 @@ export default {
     }
     return {
       ApiObject: ApiObject,
-      Mixins_$DialogVisible: true,
       Mixins_Pagination: false,
       DialogFormHeader: [
         { label: '菜品名称', slot: 'foodId' },
@@ -143,14 +168,15 @@ export default {
         { label: '菜品图片', slot: 'foodImg' }
       ],
       distributeDateItems: {
-        'mornStock': '早餐',
-        'noonStock': '午餐',
-        'eveStock': '晚餐'
+        'mornStock': '0',
+        'noonStock': '1',
+        'eveStock': '2'
       },
-      distributeDateList: [],
       DialogForm: {
         distributeTimeRange: [],
-        distributeRules: []
+        distributeRules: [],
+        distributeMode: '0',
+        distributeDateList: [],
       },
       DialogFormRules: {
         foodName: [{ required: true, message: '必填项不能为空' }],
@@ -158,9 +184,9 @@ export default {
         price: [{ required: true, message: '必填项不能为空' }],
         isDiscount: [{ required: true, message: '必填项不能为空' }],
         stock: [{ required: true, message: '必填项不能为空' }],
-        distributeDateRadio: [{ required: true, message: '必填项不能为空' }],
-        distributeDateList: [{ required: true, validator: validateArray }],
-        distributeTimeRange: [{ required: true, message: '必填项不能为空' }],
+        distributeMode: [{ required: true, message: '必填项不能为空' }],
+        distributeDateList: [{ required: true, validator: validateDistributeDateList }],
+        distributeTimeRange: [{ validator: validateDistributeTimeRange }],
         status: [{ required: true, message: '必填项不能为空' }],
         foodImg: [{ required: true, message: '必填项不能为空' }],
         mornStock: [{ required: true, message: '必填项不能为空' }],
@@ -168,7 +194,6 @@ export default {
         eveStock: [{ required: true, message: '必填项不能为空' }]
       },
       checkList: [],
-      distributeDateRadio: '1',
       Headers: [
         { type: 'index', label: '序号' },
         { label: '菜品名称', prop: 'foodName' },
@@ -182,23 +207,52 @@ export default {
         { label: '操作', slot: 'operator', fixed: 'right', width: 260 }
       ],
       QueryParams: {
-        timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 7)),
-          this.$Contants.getDateTime(new Date())]
-      }
+        timeRange: [
+          this.$Contants.getDateTime(date),
+          this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * -7))]
+      },
+      distributeDate: '',
+    }
+  },
+  computed: {
+    deliveryTimeStatus() {
+      return deliveryTimeStatus
     }
   },
   methods: {
+    // 编辑
+    async Mixins_$Edit(obj, date) {
+      this.Mixins_EditBefore()
+      const res = await this.Mixins_GetApi.call(this.ApiObject, {foodId:obj.foodId,currentDate: obj.currentDate })
+      const data = res.data
+      const finalEditParams = this.Mixins_GetFinalEditParams(data)
+      this.DialogForm = { ...this.DialogForm, ...finalEditParams }
+      console.log(this.DialogForm)
+      this.Mixins_$SetDialogOperate(this.Mixins_$OperateType.EDIT)
+      this.Mixins_$DialogVisible = true
+      this.distributeDate = date
+      this.Mixins_EditAfter(res, finalEditParams)
+      return true
+    },
     // 提交表单之前的回调
     Mixins_$SubmitBefore() {
-      // 对时间范围进行处理
-      this.$_parseRangeField(this.DialogForm)
       // 对订餐时间进行处理
-      Object.keys(this.distributeDateItems).forEach(item => {
-        if (this.distributeDateList.includes(item)) return
+      Object.values(this.distributeDateItems).forEach(item => {
+        if (this.DialogForm.distributeDateList.includes(item)) return
         delete this.DialogForm[item]
       })
+      if (+this.DialogForm.distributeMode === 1) {
+        this.DialogForm.distributeTimeRange = []
+      }
+      // 对时间范围进行处理
+      this.$_parseRangeField(this.DialogForm)
+      // 对校验规则进行重置
+      this.DialogForm.distributeRules = this.DialogForm.distributeRules.join(',')
+      // 对订餐时间进行格式化
+      this.DialogForm.distributeTypes = this.DialogForm.distributeDateList.join(',')
       this.DialogForm.foodTypeCn = this.$refs.foodTypeId?.list?.find(
         item => item.value === this.DialogForm.foodTypeId)?.label
+      console.log(this.$refs.foodTypeId?.list)
       // this.DialogForm.foodTypeId = this.$refs.foodId?.list?.find(
       //   item => item.value === this.DialogForm.foodId)?.foodTypeId
       // this.DialogForm.foodImg = this.$refs.foodId?.list?.find(
@@ -236,6 +290,27 @@ export default {
       const data = res.data
       this.DialogForm.foodImg = data.imgName
       this.DialogForm.foodImgSmall = data.smallImgName
+    },
+    Mixins_EditAfter(res, finalEditParams){
+      // finalEditParams.distributeStartDate && this.DialogForm.distributeTimeRange.splice(0,1, finalEditParams.distributeStartDate)
+      // finalEditParams.distributeEndDate && this.DialogForm.distributeTimeRange.splice(1, 1, finalEditParams.distributeEndDate)
+      this.DialogForm.distributeTimeRange = [finalEditParams.distributeStartDate, finalEditParams.distributeEndDate]
+      finalEditParams.distributeRules && (this.DialogForm.distributeRules = finalEditParams.distributeRules.split(','))
+      finalEditParams.distributeTypes && (this.DialogForm.distributeDateList = finalEditParams.distributeTypes.split(','))
+    },
+    // 删除
+    async Mixins_$Del(obj, message = '删除') {
+      await this.$confirm(`确认${message}?`, message)
+      const result = await this.Mixins_DelApi.call(this.ApiObject, this.DialogForm.id)
+      this.Mixins_$DialogVisible = false
+      this.Mixins_$Search()
+      this.$message.success(result.message)
+    },
+    async usable(status) {
+      const result = await ApiObject.usable({distributeDate: this.distributeDate, foodId: this.DialogForm.id, status})
+      this.$message.success(result.message)
+      this.Mixins_$DialogVisible = false
+      this.Mixins_$Init()
     }
   }
 }
@@ -255,6 +330,15 @@ export default {
       height: 100%;
       display: flex;
       flex-flow: column wrap;
+    }
+
+    .nullObj {
+      width: 100%;
+      height: 200px;
+      background-color: rgba(238, 238, 238, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .hf-title {

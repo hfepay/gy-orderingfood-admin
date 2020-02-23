@@ -6,6 +6,17 @@ class TradeFoodApi extends TradeApi {
     super('food')
   }
 
+  get(data) {
+    return super.customize_get(`/detail`, data)
+  }
+  del(id) {
+    return super.customize_del(`/del/${id}`)
+  }
+
+  usable(data) {
+    return super.customize_post_formdata('/usable', data)
+  }
+
   async getOptions() {
     const res = await super.page({ page: 1, limit: 999, total: 0 })
     const list = res.data && res.data.records

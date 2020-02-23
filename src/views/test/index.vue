@@ -12,7 +12,6 @@ export default {
   mixins: [WebsocketMixins],
   data() {
     return {
-      websocketUrl: 'ws://localhost:8001',
       count: 1,
       icon: require('@/assets/image/logo.png')
     }
