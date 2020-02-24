@@ -43,7 +43,12 @@
             <deliveryTimeSelect v-model="QueryParams.distributionType" placeholder="全部配送时间段"/>
           </el-form-item>
           <el-form-item>
-            <base-date-picker v-model="QueryParams.timeRange" type="daterange" placeholder="请选择下单时间段"/>
+            <base-date-picker
+              v-model="QueryParams.timeRange"
+              format="yyyy-MM-dd HH:mm"
+              type="datetimerange"
+              placeholder="请选择下单时间段"
+              :default-time="['00:00:00', '23:59:59']"/>
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
@@ -199,6 +204,22 @@ export default {
       } else {
         this.$message.warning('请先选择订单')
       }
+    },
+    $_parseRangeField(queryParams) {
+      for (const condition in queryParams) {
+        // 处理时间问题
+        if (condition.endsWith('imeRange') && Array.isArray(queryParams[condition])) {
+          if (queryParams[condition].length > 0) {
+            const key = this.$_getRangeKey(condition)
+            const startKey = key ? `${key}StartTime` : 'startTime'
+            const endKey = key ? `${key}EndTime` : 'endTime'
+            queryParams[startKey] = queryParams[condition][0]
+            queryParams[endKey] = queryParams[condition][1]
+          }
+          delete queryParams[condition]
+        }
+      }
+      return queryParams
     },
     // 获取选择订单列表
     handleSelectionChange(val) {

@@ -9,7 +9,7 @@ const router = [{
       path: 'employeeDiscount',
       name: 'EmployeeDiscount',
       component: () => import(`@/views${moduleName}/employeeDiscount`),
-      meta: { title: '员工折扣' }
+      meta: { title: '商户折扣' }
     },
     {
       path: 'dishCategory',

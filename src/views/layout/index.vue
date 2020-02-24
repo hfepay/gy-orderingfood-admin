@@ -57,6 +57,7 @@ export default {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     },
     websocketonmessageCallBack(data) {
+      console.log(data, '返回得数据')
       if (typeof data === 'object') notifyMe(data.content, data.title, data.imgUrl)
     }
   }
