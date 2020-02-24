@@ -9,7 +9,7 @@ export const WebsocketMixins = {
       websocketMsgScheduled: null,
       interval: 30 * 1000,
       retryCount: 0, // 重试计数
-      maxRetry: 3 // 最大重连次数
+      maxRetry: Number.MAX_VALUE // 最大重连次数
     }
   },
   created() {
@@ -83,7 +83,7 @@ export const WebsocketMixins = {
       this.websocketonerrorCallBack()
       if (this.retryCount < this.maxRetry) {
         this.retryCount++
-        setTimeout(_ => this._initWebSocket(), this.interval)
+        setTimeout(_ => this._initWebSocket(), 5)
       }
     },
     websocketsend(data) { // 数据发送
