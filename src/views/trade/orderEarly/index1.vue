@@ -187,9 +187,10 @@ export default {
           this.DialogForm[`deadline${key}`] = item.deadline
         }
       })
-      if (!'12'.includes(data.limitType) || +data.limitValue === 0) this.DialogForm.limitType = '3'
+      if (!'01'.includes(data.limitType) || (+data.limitValue === 0 && +data.limitType === 1)) this.DialogForm.limitType = '3'
     },
     async Mixins_$Submit() {
+      await this.$confirm(`是否保存当前设置?`, '确认')
       const result = {}
       result.businessId = this.userInfo.companyId
       // 添加折扣
@@ -203,7 +204,6 @@ export default {
         memberType: '2'
       })
       // 格式化配送条件
-      console.log(this.DialogForm, '123123')
       if (+this.DialogForm.limitType !== 3) {
         result.limitType = this.DialogForm.limitType
         result.limitValue = this.DialogForm.limitValue
@@ -211,7 +211,6 @@ export default {
         result.limitType = '1'
         result.limitValue = 0
       }
-      console.log(result)
       result.transportFee = this.DialogForm.transportFee
       result.enableNotice = this.DialogForm.enableNotice
       // 回显用户配置
