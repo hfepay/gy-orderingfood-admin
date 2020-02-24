@@ -58,17 +58,12 @@
       <template slot="foodList" slot-scope="{scope}">
         {{scope.row.list.map(item => `${item.dishName}：${item.dishNumber}`).join(',')}}
       </template>
-      <el-table-column
-        type="selection"
-        :selectable="selectable"
-        width="55">
-      </el-table-column>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           详情
         </el-button>
-        <el-button v-if="+scope.row.orderStatus < 3" type="success" @click.stop="updateOrderStatus(scope.row)">
+        <el-button v-if="+scope.row.orderStatus === 2" type="success" @click.stop="updateOrderStatus(scope.row)">
           完成配送
         </el-button>
         <el-tag v-else type="success" size="medium" style="margin: 0 4px">{{orderStatus[scope.row.orderStatus]}}
@@ -149,6 +144,7 @@ export default {
       ],
       selectionList: [],
       Headers: [
+        { type: 'selection', selectable: this.selectable },
         { type: 'index', label: '序号' },
         { label: '订单号', prop: 'orderNo' },
         { label: '会员姓名', prop: 'memberName' },
@@ -182,6 +178,7 @@ export default {
   },
   methods: {
     async updateOrderStatus(obj) {
+      await this.$confirm(`是否开始配送当前订单?`, '配送')
       try {
         await ApiObject.updateOrderStatus(obj.id)
         this.$message.success('操作成功')
@@ -194,6 +191,7 @@ export default {
     async updateOrderStatusList(row) {
       if (this.selectionList && this.selectionList.length > 0) {
         try {
+          await this.$confirm(`是否开始配送已选订单?`, '确认')
           await ApiObject.updateOrderStatus(...this.selectionList.map(item => item.id))
         } finally {
           this.Mixins_$Init()
@@ -208,7 +206,7 @@ export default {
     },
     // 判断该行是否可选
     selectable(row) {
-      return row.orderStatus < 3
+      return +row.orderStatus === 2
     }
   }
 }

@@ -220,6 +220,9 @@ export default {
     }
   },
   methods: {
+    Mixins_AddBefore() {
+      this.DialogForm.distributeMode = 0
+    },
     // 编辑
     async Mixins_$Edit(obj, date) {
       this.Mixins_EditBefore()
