@@ -34,7 +34,8 @@ export const WebsocketMixins = {
     mergeAuthParams(data) {
       const authParams = {
         token: store.getters.token,
-        airportCode: store.getters.userInfo?.airportCode
+        businessId: store.getters.userInfo?.companyId,
+        userId: store.getters.userInfo?.id
       }
       return { code: WS_REQ_CODE.LOGIN, data: { ...authParams, ...data }}
     },

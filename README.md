@@ -11,11 +11,14 @@ npm run deploy-sit //发布sit环境
 + 伟东:172.16.42.113  
 
 生产环境地址
-VUE_APP_BASE_URL = https://mp.gzairports.com/foadminserver/
-VUE_APP_IMG_URL = https://mp.gzairports.com/fopic/
+VUE_APP_BASE_URL = //mp.gzairports.com/foadminserver/
+VUE_APP_IMG_URL = //mp.gzairports.com/fopic/
+VUE_APP_WEBSOCKET_URL = wss://mp.gzairports.com/wss
 VUE_APP_SERVER_ID = 1
 
 测试环境地址
-VUE_APP_BASE_URL = https://zhair.hfsmrz.cn/foadminserver/
-VUE_APP_IMG_URL = https://zhair.hfsmrz.cn/fopic/
+VUE_APP_BASE_URL = //zhair.hfsmrz.cn/foadminserver/
+VUE_APP_IMG_URL = //zhair.hfsmrz.cn/fopic/
+VUE_APP_WEBSOCKET_URL = wss://zhair.hfsmrz.cn/wss
 VUE_APP_SERVER_ID = 1
+

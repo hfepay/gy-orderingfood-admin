@@ -169,14 +169,6 @@ export default {
         callback(new Error('必填项不能为空'))
       }
     }
-    // 校验份数为正整数
-    const validateStock = (rule, value, callback) => {
-      if (this.DialogForm.distributeRulesArr.length > 0) {
-        callback()
-      } else {
-        callback(new Error('必填项不能为空'))
-      }
-    }
     return {
       ApiObject: ApiObject,
       Mixins_Pagination: false,
@@ -245,7 +237,7 @@ export default {
   methods: {
     Mixins_AddBefore() {
       this.DialogForm.distributeMode = 0
-      this.DialogForm.distributeRules = ['1', '2', '3', '4', '5', '6', '7']
+      this.DialogForm.distributeRulesArr = ['1', '2', '3', '4', '5', '6', '7']
     },
     // 编辑
     async Mixins_$Edit(obj, date) {
