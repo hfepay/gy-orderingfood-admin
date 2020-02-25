@@ -76,10 +76,10 @@
           订单通知
         </el-col>
         <el-col :span="8">
-          <el-radio v-model="DialogForm.enableNotice" label="0">开启</el-radio>
+          <el-radio v-model="DialogForm.enableNotice" label="1">开启</el-radio>
         </el-col>
         <el-col :span="8">
-          <el-radio v-model="DialogForm.enableNotice" label="1">关闭</el-radio>
+          <el-radio v-model="DialogForm.enableNotice" label="0">关闭</el-radio>
         </el-col>
       </el-row>
     </div>
