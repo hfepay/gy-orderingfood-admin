@@ -1,42 +1,46 @@
 <template>
   <div class="el-transfer">
     <transfer-panel
-      v-bind="$props"
       ref="leftPanel"
+      v-bind="$props"
       :data="sourceData"
       :title="titles[0] || t('el.transfer.titles.0')"
       :default-checked="leftDefaultChecked"
       :placeholder="filterPlaceholder || t('el.transfer.filterPlaceholder')"
-      @checked-change="onSourceCheckedChange">
-      <slot name="left-footer"></slot>
+      @checked-change="onSourceCheckedChange"
+    >
+      <slot name="left-footer" />
     </transfer-panel>
     <div class="el-transfer__buttons">
       <el-button
         type="primary"
         :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        disabled
         @click.native="addToLeft"
-        disabled>
-        <i class="el-icon-arrow-left"></i>
+      >
+        <i class="el-icon-arrow-left" />
         <span v-if="buttonTexts[0] !== undefined">{{ buttonTexts[0] }}</span>
       </el-button>
       <el-button
         type="primary"
         :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        disabled
         @click.native="addToRight"
-        disabled>
+      >
         <span v-if="buttonTexts[1] !== undefined">{{ buttonTexts[1] }}</span>
-        <i class="el-icon-arrow-right"></i>
+        <i class="el-icon-arrow-right" />
       </el-button>
     </div>
     <transfer-panel
-      v-bind="$props"
       ref="rightPanel"
+      v-bind="$props"
       :data="targetData"
       :title="titles[1] || t('el.transfer.titles.1')"
       :default-checked="rightDefaultChecked"
       :placeholder="filterPlaceholder || t('el.transfer.filterPlaceholder')"
-      @checked-change="onTargetCheckedChange">
-      <slot name="right-footer"></slot>
+      @checked-change="onTargetCheckedChange"
+    >
+      <slot name="right-footer" />
     </transfer-panel>
   </div>
 </template>
@@ -51,12 +55,12 @@ import Migrating from 'element-ui/src/mixins/migrating'
 export default {
   name: 'ElTransfer',
 
-  mixins: [Emitter, Locale, Migrating],
-
   components: {
     TransferPanel,
     ElButton
   },
+
+  mixins: [Emitter, Locale, Migrating],
 
   props: {
     data: {
@@ -81,7 +85,12 @@ export default {
       type: String,
       default: ''
     },
-    filterMethod: Function,
+    filterMethod: {
+      type: Function,
+      default: function() {
+        return () => {}
+      }
+    },
     leftDefaultChecked: {
       type: Array,
       default() {
@@ -94,7 +103,12 @@ export default {
         return []
       }
     },
-    renderContent: Function,
+    renderContent: {
+      type: Function,
+      default: function() {
+        return () => {}
+      }
+    },
     value: {
       type: Array,
       default() {
@@ -188,7 +202,7 @@ export default {
     },
 
     addToLeft() {
-      let currentValue = this.value.slice()
+      const currentValue = this.value.slice()
       this.rightChecked.forEach(item => {
         const index = currentValue.indexOf(item)
         if (index > -1) {

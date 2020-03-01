@@ -11,19 +11,19 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item>
-            <base-input v-model="QueryParams.name" placeholder="请输入会员姓名"/>
+            <base-input v-model="QueryParams.name" placeholder="请输入会员姓名" />
           </el-form-item>
           <el-form-item>
-            <vip-type-select v-model="QueryParams.staffType" placeholder="请选择会员类别"/>
+            <vip-type-select v-model="QueryParams.staffType" placeholder="请选择会员类别" />
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.staffOneUnit" placeholder="请输入一级单位"/>
+            <base-input v-model="QueryParams.staffOneUnit" placeholder="请输入一级单位" />
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.staffNo" placeholder="请输入员工工号"/>
+            <base-input v-model="QueryParams.staffNo" placeholder="请输入员工工号" />
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.mobile" placeholder="请输入联系方式"/>
+            <base-input v-model="QueryParams.mobile" placeholder="请输入联系方式" />
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
@@ -57,8 +57,7 @@
         label-width="120px"
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
-      >
-      </base-form>
+      />
     </base-dialog>
   </div>
 </template>

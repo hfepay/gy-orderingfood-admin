@@ -1,14 +1,18 @@
 <template>
   <div class="login-container">
-    <div class="login-left"></div>
+    <div class="login-left" />
     <div class="login-right">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" size="large" class="login-form">
-        <div class="login-logo"></div>
-        <div class="title" style="font-weight: bold">WELCOME</div>
-        <div class="title">欢迎您，<br>使用黔易订订餐管理系统</div>
+        <div class="login-logo" />
+        <div class="title" style="font-weight: bold">
+          WELCOME
+        </div>
+        <div class="title">
+          欢迎您，<br>使用黔易订订餐管理系统
+        </div>
         <br>
         <el-form-item label="" prop="account">
-          <base-input v-model.trim="loginForm.account" placeholder="账号" prefix-icon="el-icon-user-solid"/>
+          <base-input v-model.trim="loginForm.account" placeholder="账号" prefix-icon="el-icon-user-solid" />
         </el-form-item>
         <el-form-item label="" prop="password">
           <base-input
@@ -16,7 +20,8 @@
             type="password"
             placeholder="密码"
             prefix-icon="el-icon-s-cooperation"
-            @keyup.enter.native="handleLogin"/>
+            @keyup.enter.native="handleLogin"
+          />
         </el-form-item>
         <br>
         <el-form-item>
@@ -26,7 +31,8 @@
             round
             size="medium"
             style="margin: 0 5%; width: 90%"
-            @click.native.prevent="handleLogin">
+            @click.native.prevent="handleLogin"
+          >
             登录
           </el-button>
         </el-form-item>

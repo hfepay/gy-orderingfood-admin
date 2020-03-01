@@ -15,10 +15,10 @@
     </el-header>
     <el-scrollbar class="hf-items">
       <template v-if="Object.keys(Mixins_$TableData).length>0">
-        <div v-for="(item, key) in Mixins_$TableData" :key="key" class="hf-day">
+        <div v-for="(items, key) in Mixins_$TableData" :key="key" class="hf-day">
           <div class="hf-day-title">{{key}}</div>
           <el-scrollbar class="hf-day-items">
-            <recipe-item v-for="items in item" :food-item="items" @onclick="Mixins_$Edit(items, key)"></recipe-item>
+            <recipe-item v-for="item in items" :food-item="item" @onclick="Mixins_$Edit(item, key)" :key="key+'s'"></recipe-item>
           </el-scrollbar>
         </div>
       </template>
@@ -268,8 +268,10 @@ export default {
       this.DialogForm.distributeRules = this.DialogForm.distributeRulesArr.join(',')
       // 对订餐时间进行格式化
       this.DialogForm.distributeTypes = this.DialogForm.distributeDateList.join(',')
+      /* eslint-disable */
       this.DialogForm.foodTypeCn = this.$refs.foodTypeId?.list?.find(
         item => item.value === this.DialogForm.foodTypeId)?.label
+      /* eslint-enable */
     },
     $_parseRangeField(queryParams) {
       for (const condition in queryParams) {

@@ -15,13 +15,13 @@
               v-model="QueryParams.timeRange"
               type="daterange"
               :default-time="['00:00:00', '23:59:59']"
-              placeholder="请选择配送日期"/>
+              placeholder="请选择配送日期"
+            />
           </el-form-item>
           <el-form-item>
-            <delivery-time-select v-model="QueryParams.distributionTypes" multiple placeholder="请选择送时间段"/>
+            <delivery-time-select v-model="QueryParams.distributionTypes" multiple placeholder="请选择送时间段" />
           </el-form-item>
-          <el-form-item>
-          </el-form-item>
+          <el-form-item />
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>

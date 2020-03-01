@@ -3,13 +3,14 @@
     v-bind="$attrs"
     placeholder="全部配送方式"
     clearable
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
       :label="item.label"
-      :value="item.value">
-    </el-option>
+      :value="item.value"
+    />
   </el-select>
 </template>
 

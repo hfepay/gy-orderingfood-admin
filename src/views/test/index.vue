@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-button @click="notifyMe">通知功能</el-button>
+    <el-button @click="notifyMe">
+      通知功能
+    </el-button>
   </div>
 </template>
 <script>

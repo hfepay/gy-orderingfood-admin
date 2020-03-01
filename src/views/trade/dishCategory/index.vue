@@ -37,8 +37,7 @@
         label-width="120px"
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
-      >
-      </base-form>
+      />
     </base-dialog>
   </div>
 </template>

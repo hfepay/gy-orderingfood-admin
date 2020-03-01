@@ -37,8 +37,7 @@
         label-width="120px"
         @submit="Mixins_$Submit"
         @cancel="Mixins_$DialogVisible = false"
-      >
-      </base-form>
+      />
     </base-dialog>
   </div>
 </template>
@@ -54,7 +53,7 @@ export default {
       ApiObject: ApiObject,
       DialogFormHeader: [
         { label: '订餐时间段', prop: 'account' },
-        { label: '订餐截止时间', prop: 'account' },
+        { label: '订餐截止时间', prop: 'account' }
       ],
       DialogForm: {
         account: ''

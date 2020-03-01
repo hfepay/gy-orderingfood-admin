@@ -38,13 +38,15 @@
         <template #discountValue>
           <el-form-item label="折扣" prop="discountValue">
             <el-input v-model="DialogForm.discountValue" type="number">
-              <template slot="append">折</template>
+              <template slot="append">
+                折
+              </template>
             </el-input>
           </el-form-item>
         </template>
         <template #memberType>
           <el-form-item label="会员类别" prop="memberType">
-            <vip-type-select v-model="DialogForm.memberType"/>
+            <vip-type-select v-model="DialogForm.memberType" />
           </el-form-item>
         </template>
       </base-form>
@@ -54,7 +56,7 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeMemberDiscountApi'
-import { OFFOrNO, OFFOrNOStatus, vipType } from '@/constants/module/OrderConstant'
+import { OFFOrNO, vipType } from '@/constants/module/OrderConstant'
 import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
 import { mapGetters } from 'vuex'
 
@@ -90,7 +92,6 @@ export default {
         { label: '商户名称', prop: 'businessName' },
         { label: '会员类别', prop: 'memberType', format: vipType },
         { label: '折扣', prop: 'discountValue', format: item => item.discountValue * 10 },
-        // { label: '是否启用', prop: 'status', format: OFFOrNOStatus },
         { label: '操作', slot: 'operator', fixed: 'right', width: 80 }
       ],
       QueryParams: {}

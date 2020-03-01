@@ -3,13 +3,14 @@
     v-bind="$attrs"
     :placeholder="placeholder || '请选择配送时间段'"
     clearable
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
       :label="item.label"
-      :value="item.value">
-    </el-option>
+      :value="item.value"
+    />
   </el-select>
 </template>
 
@@ -18,7 +19,10 @@
 export default {
   name: 'DeptSelect',
   props: {
-    placeholder: String
+    placeholder: {
+      type: String,
+      default: ''
+    }
   },
   computed: {
     options() {

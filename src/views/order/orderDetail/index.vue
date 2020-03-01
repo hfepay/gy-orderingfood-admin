@@ -16,7 +16,8 @@
               v-model="QueryParams.timeRange"
               type="daterange"
               :default-time="['00:00:00', '23:59:59']"
-              placeholder="请选择配送日期"/>
+              placeholder="请选择配送日期"
+            />
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
@@ -81,14 +82,10 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { orderStatus, deliveryTimeStatus, transportType, payType } from '@/constants/module/OrderConstant'
-import orderTypeSelect from '@/views/components/Select/orderTypeSelect'
-import deliveryTypeSelect from '@/views/components/Select/deliveryTypeSelect'
 
 export default {
   name: 'Account',
-  components: { deliveryTimeSelect, orderTypeSelect, deliveryTypeSelect },
   mixins: [Mixins],
   data() {
     return {

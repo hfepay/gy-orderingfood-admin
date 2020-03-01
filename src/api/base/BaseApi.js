@@ -1,3 +1,4 @@
+/* eslint-disable */
 import request, { mergeFormDataConfig } from '@/utils/request'
 export default class BaseApi {
   #BASEURL;

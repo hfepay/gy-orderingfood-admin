@@ -11,16 +11,16 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :show-default-foot="false">
           <el-form-item>
-            <base-date-picker v-model="QueryParams.timeRange" type="daterange" placeholder="请选择下单时间段"/>
+            <base-date-picker v-model="QueryParams.timeRange" type="daterange" placeholder="请选择下单时间段" />
           </el-form-item>
           <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.distributionType" placeholder="请选择配送时间段"/>
+            <deliveryTimeSelect v-model="QueryParams.distributionType" placeholder="请选择配送时间段" />
           </el-form-item>
           <el-form-item>
-            <base-input v-model="QueryParams.dishName" placeholder="请输入菜品名称"/>
+            <base-input v-model="QueryParams.dishName" placeholder="请输入菜品名称" />
           </el-form-item>
           <el-form-item>
-            <delivery-type-select v-model="QueryParams.transportType"/>
+            <delivery-type-select v-model="QueryParams.transportType" />
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询

@@ -2,27 +2,35 @@
   <div v-bind="$attrs" class="item" @click="onclick" v-on="$listeners">
     <div class="top">
       <div class="left">
-        <div class="font-size-18">{{foodItem.foodName}}</div>
-        <div class="font-size-16">{{foodItem.foodTypeCn}}</div>
+        <div class="font-size-18">
+          {{ foodItem.foodName }}
+        </div>
+        <div class="font-size-16">
+          {{ foodItem.foodTypeCn }}
+        </div>
       </div>
       <div class="right align-right">
-        <div class="font-size-15">￥{{foodItem.price}}</div>
-        <div class="font-size-16" style="color:rgba(66,185,131,1);">
-          {{+foodItem.isDiscount===1?'已启用员工折扣': '未启用员工折扣'}}
+        <div class="font-size-15">
+          ￥{{ foodItem.price }}
         </div>
-        <div class="font-size-15">{{+foodItem.status===0?'停止销售': ''}}</div>
+        <div class="font-size-16" style="color:rgba(66,185,131,1);">
+          {{ +foodItem.isDiscount===1?'已启用员工折扣': '未启用员工折扣' }}
+        </div>
+        <div class="font-size-15">
+          {{ +foodItem.status===0?'停止销售': '' }}
+        </div>
       </div>
     </div>
     <div class="bottom">
       <el-row>
         <el-col v-if="foodItem.distributeTypes.includes('0')" :span="8" class="font-size-20">
-          <img :src="breakfast" alt="">早 {{`${foodItem.mornStock}/${foodItem.mornStockCount}`}}
+          <img :src="breakfast" alt="">早 {{ `${foodItem.mornStock}/${foodItem.mornStockCount}` }}
         </el-col>
         <el-col v-if="foodItem.distributeTypes.includes('1')" :span="8" class="font-size-20 dis-center">
-          <img :src="lunch" alt="">午 {{`${foodItem.noonStock}/${foodItem.noonStockCount}`}}
+          <img :src="lunch" alt="">午 {{ `${foodItem.noonStock}/${foodItem.noonStockCount}` }}
         </el-col>
         <el-col v-if="foodItem.distributeTypes.includes('2')" :span="8" class="font-size-20 dis-right">
-          <img :src="dinner" alt="">晚 {{`${foodItem.eveStock}/${foodItem.eveStockCount}`}}
+          <img :src="dinner" alt="">晚 {{ `${foodItem.eveStock}/${foodItem.eveStockCount}` }}
         </el-col>
       </el-row>
     </div>
