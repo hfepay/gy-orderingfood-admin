@@ -35,7 +35,7 @@ import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import deliveryTypeSelect from '@/views/components/Select/deliveryTypeSelect'
-import { deliveryTimeStatus, transportType } from '@/constants/module/status.constans'
+import { deliveryTimeStatus, transportType } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'Account',

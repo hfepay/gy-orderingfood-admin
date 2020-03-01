@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import { deliveryType } from '@/constants/module/status.constans'
+import { transportType } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'DeptSelect',
   computed: {
     options() {
-      return Object.keys(deliveryType).map((item) => ({
+      return Object.keys(transportType).map((item) => ({
         value: item,
-        label: deliveryType[item]
+        label: transportType[item]
       }))
     }
   }

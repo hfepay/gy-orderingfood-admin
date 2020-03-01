@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { deliveryTimeStatus } from '@/constants/module/status.constans'
+import { deliveryTimeStatus } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'DeptSelect',

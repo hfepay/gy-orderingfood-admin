@@ -56,7 +56,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOrderEarlyApi'
 import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
-import {OFFOrNOStatus, OFFOrNO, deliveryTimeStatus} from '@/constants/module/status.constans'
+import {OFFOrNOStatus, OFFOrNO, deliveryTimeStatus} from '@/constants/module/OrderConstant'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { mapGetters } from 'vuex'
 export default {

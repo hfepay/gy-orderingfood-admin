@@ -77,7 +77,7 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/account/AccountSysDeptApi'
-import { menuStatus, zeroOrOneStatus } from '@/constants/module/status.constans'
+import { menuStatus, zeroOrOneStatus } from '@/constants/module/OrderConstant'
 
 export default {
   mixins: [Mixins],

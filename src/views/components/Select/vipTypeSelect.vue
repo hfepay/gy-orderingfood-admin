@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { vipType } from '@/constants/module/status.constans'
+import { vipType } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'DeptSelect',

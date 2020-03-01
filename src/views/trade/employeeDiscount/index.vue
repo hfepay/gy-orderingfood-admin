@@ -54,7 +54,7 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeMemberDiscountApi'
-import { OFFOrNO, OFFOrNOStatus, vipType } from '@/constants/module/status.constans'
+import { OFFOrNO, OFFOrNOStatus, vipType } from '@/constants/module/OrderConstant'
 import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
 import { mapGetters } from 'vuex'
 
@@ -87,7 +87,7 @@ export default {
       },
       Headers: [
         { type: 'index', label: '序号' },
-        // { label: '商户名称', prop: 'businessName' },
+        { label: '商户名称', prop: 'businessName' },
         { label: '会员类别', prop: 'memberType', format: vipType },
         { label: '折扣', prop: 'discountValue', format: item => item.discountValue * 10 },
         // { label: '是否启用', prop: 'status', format: OFFOrNOStatus },

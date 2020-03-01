@@ -12,43 +12,11 @@
       <template slot="layout-search">
         <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
           <el-form-item>
-            <base-input v-model="QueryParams.orderNo" placeholder="请输入订单号"/>
-          </el-form-item>
-          <el-form-item>
-            <base-input v-model="QueryParams.memberName" placeholder="请输入会员姓名"/>
-          </el-form-item>
-          <el-form-item>
-            <base-input v-model="QueryParams.memberMobile" placeholder="请输入联系方式"/>
-          </el-form-item>
-          <el-form-item>
-            <base-input v-model="QueryParams.dishName" placeholder="请输入菜品名称"/>
-          </el-form-item>
-          <el-form-item>
-            <el-row>
-              <el-col :span="11"><base-input v-model="QueryParams.startPrice" type="number" placeholder="订单价格区间"/></el-col>
-              <el-col :span="2" style="text-align: center">至</el-col>
-              <el-col :span="11"><base-input v-model="QueryParams.endPrice" type="number" placeholder="订单价格区间"/></el-col>
-            </el-row>
-          </el-form-item>
-          <el-form-item>
-            <order-type-select v-model="QueryParams.orderStatus"/>
-          </el-form-item>
-          <el-form-item>
-            <delivery-type-select v-model="QueryParams.transportType"/>
-          </el-form-item>
-          <el-form-item prop="distributionDate">
-            <base-date-picker v-model="QueryParams.distributionDate" placeholder="请选择配送日期"/>
-          </el-form-item>
-          <el-form-item>
-            <deliveryTimeSelect v-model="QueryParams.distributionType" placeholder="全部配送时间段"/>
-          </el-form-item>
-          <el-form-item>
             <base-date-picker
               v-model="QueryParams.timeRange"
-              format="yyyy-MM-dd HH:mm"
-              type="datetimerange"
-              placeholder="请选择下单时间段"
-              :default-time="['00:00:00', '23:59:59']"/>
+              type="daterange"
+              :default-time="['00:00:00', '23:59:59']"
+              placeholder="请选择配送日期"/>
           </el-form-item>
           <el-button type="primary" @click="Mixins_$Search">
             查询
@@ -61,7 +29,7 @@
         </el-button>
       </template>
       <template slot="foodList" slot-scope="{scope}">
-        {{scope.row.list.map(item => `${item.dishName}：${item.dishNumber}`).join(',')}}
+        {{ scope.row.list.map(item => `${item.dishName}：${item.dishNumber}`).join(',') }}
       </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
@@ -71,9 +39,10 @@
         <el-button v-if="+scope.row.orderStatus === 2" type="success" @click.stop="updateOrderStatus(scope.row)">
           完成配送
         </el-button>
-        <el-tag v-else type="success" size="medium" style="margin: 0 4px">{{orderStatus[scope.row.orderStatus]}}
+        <el-tag v-else type="success" size="medium" style="margin: 0 4px">
+          {{ orderStatus[scope.row.orderStatus] }}
         </el-tag>
-        <el-button @click.stop="Mixins_$Del(scope.row)" type="danger">
+        <el-button type="danger" @click.stop="Mixins_$Del(scope.row)">
           删除订单
         </el-button>
       </template>
@@ -97,12 +66,12 @@
       >
         <template #orderAmount>
           <el-form-item label="订单详情">
-            <base-table :data="DialogForm.list" :headers="DetailHeaders"></base-table>
+            <base-table :data="DialogForm.list" :headers="DetailHeaders" />
           </el-form-item>
         </template>
         <template #orderStatus>
           <el-form-item label="订单状态">
-            {{orderStatus[DialogForm.orderStatus]}}
+            {{ orderStatus[DialogForm.orderStatus] }}
           </el-form-item>
         </template>
       </base-form>
@@ -113,7 +82,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
-import { orderStatus, deliveryTimeStatus, transportType } from '@/constants/module/status.constans'
+import { orderStatus, deliveryTimeStatus, transportType, payType } from '@/constants/module/OrderConstant'
 import orderTypeSelect from '@/views/components/Select/orderTypeSelect'
 import deliveryTypeSelect from '@/views/components/Select/deliveryTypeSelect'
 
@@ -125,21 +94,23 @@ export default {
     return {
       ApiObject: ApiObject,
       DialogFormHeader: [
+        { label: '订单号', prop: 'orderNo', type: 'text' },
         { label: '会员姓名', prop: 'memberName', type: 'text' },
         { label: '联系方式', prop: 'memberMobile', type: 'text' },
         { label: '订单内容', slot: 'orderAmount' },
+        { label: '配送方式', prop: 'transportType', type: 'text', format: transportType },
+        { label: '支付方式', prop: 'payType', type: 'text', format: payType },
+        { label: '配送日期', prop: 'distributionDate', type: 'text' },
         { label: '配送时间', prop: 'distributionTime', type: 'text' },
+        { label: '配送费', prop: 'transportFee', type: 'text' },
         { label: '订单金额', prop: 'orderAmount', type: 'text' },
-        { label: '折扣金额', prop: 'discountAmount', type: 'text' },
-        { label: '优惠后金额', prop: 'payAmount', type: 'text' },
+        { label: '优惠金额', prop: 'discountAmount', type: 'text' },
+        { label: '实付款', prop: 'payAmount', type: 'text' },
         { label: '送餐地址', prop: 'addrMore', type: 'text' },
         { label: '订单状态', slot: 'orderStatus' },
-        {
-          label: '下单时间', prop: 'createTime', type: 'text', format(obj) {
-            return obj
-          }
-        },
-        { label: '支付时间', prop: 'createTime', type: 'text' }
+        { label: '下单时间', prop: 'createTime', type: 'text' },
+        { label: '支付时间', prop: 'payDate', type: 'text' },
+        { label: '备注', prop: 'memberRemark', type: 'text' }
       ],
       DialogForm: {},
       DetailHeaders: [

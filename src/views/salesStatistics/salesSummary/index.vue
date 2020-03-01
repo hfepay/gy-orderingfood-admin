@@ -51,6 +51,7 @@ export default {
       ApiObject: ApiObject,
       Headers: [
         { type: 'index', label: '序号' },
+        { label: '商户名称', prop: 'businessName' },
         { label: '配送日期', prop: 'distributionDate' },
         { label: '订单金额', prop: 'orderAmount' },
         { label: '实收金额', prop: 'discountAmount' }

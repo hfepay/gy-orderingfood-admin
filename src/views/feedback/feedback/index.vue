@@ -8,6 +8,20 @@
       @sizeChange="Mixins_$SizeChange"
       @currentChange="Mixins_$CurrentChange"
     >
+      <template slot="layout-search">
+        <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
+          <el-form-item>
+            <base-date-picker
+              v-model="QueryParams.timeRange"
+              type="daterange"
+              :default-time="['00:00:00', '23:59:59']"
+              placeholder="请选择配送日期"/>
+          </el-form-item>
+          <el-button type="primary" @click="Mixins_$Search">
+            查询
+          </el-button>
+        </base-form>
+      </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">

@@ -131,7 +131,7 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeFoodApi'
-import { vip, deliveryTimeStatus, OFFOrNOStatus } from '@/constants/module/status.constans'
+import { vip, deliveryTimeStatus, OFFOrNOStatus } from '@/constants/module/OrderConstant'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
 import foodSelect from '@/views/components/Select/foodSelect'

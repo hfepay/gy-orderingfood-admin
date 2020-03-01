@@ -100,7 +100,7 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/account/AccountSysMenuApi'
-import { menuStatus, zeroOrOneStatus } from '@/constants/module/status.constans'
+import { menuStatus, zeroOrOneStatus } from '@/constants/module/OrderConstant'
 import { allIcons } from '../../../icons'
 import BaseDialog from '../../../components/dialog/BaseDialog'
 import { pageOptions } from '../../../router/all.router'

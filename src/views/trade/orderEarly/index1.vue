@@ -124,7 +124,7 @@
 import ApiObject from '../../../api/module/trade/TradeBusinessApi'
 import daySelect from '@/views/trade/orderEarly/daySelect'
 import { mapGetters } from 'vuex'
-import { deliveryTimeStatus } from '@/constants/module/status.constans'
+import { deliveryTimeStatus } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'FoodType',

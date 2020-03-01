@@ -10,7 +10,7 @@
         <slot :name="formheader.slot" />
       </template>
       <template v-if="formheader.type === 'text'">
-        {{ form[formheader.prop] }}
+        {{ getText(form,formheader) }}
       </template>
       <!--输入框-->
       <template v-else-if="isInputType(formheader.type || 'input')">
@@ -96,6 +96,14 @@ export default {
     isInputType() {
       return function(type) {
         return this.inputTypeList.includes(type)
+      }
+    },
+    getText() {
+      return (obj, options) => {
+        const { prop, format } = options
+        return format
+          ? this.$utils.isFunction(format) ? format.call(this, obj) : format[obj[prop]]
+          : obj[prop]
       }
     }
   },

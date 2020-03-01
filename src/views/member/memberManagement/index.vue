@@ -66,7 +66,7 @@
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeMemberApi'
 import vipTypeSelect from '@/views/components/Select/vipTypeSelect'
-import { vipType, memberStatus } from '@/constants/module/status.constans'
+import { vipType, memberStatus } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'Account',

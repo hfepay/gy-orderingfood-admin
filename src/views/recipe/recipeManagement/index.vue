@@ -100,9 +100,9 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeFoodMenuApi'
-import { vip, topOrDown } from '@/constants/module/status.constans'
+import { vip, topOrDown } from '@/constants/module/OrderConstant'
 import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
-import { deliveryTimeStatus, OFFOrNOStatus } from '@/constants/module/status.constans'
+import { deliveryTimeStatus, OFFOrNOStatus } from '@/constants/module/OrderConstant'
 import foodTypeSelect from '@/views/components/Select/foodTypeSelect'
 import foodSelect from '@/views/components/Select/foodSelect'
 

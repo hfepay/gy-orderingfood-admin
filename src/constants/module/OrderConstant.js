@@ -13,6 +13,8 @@ export const transportType = { '0': '外卖', '1': '自取' }
 export const vipType = { '1': '集团员工', '2': '驻场单位员工' }
 // 会员状态
 export const memberStatus = { '1': '正常', '0': '冻结' }
+// 支付方式
+export const payType = { '1': '微信支付', '0': '线下支付' }
 // 订单状态
 export const orderStatus = {
   '1': '待付款',
