@@ -119,7 +119,7 @@ export default {
   data() {
     return {
       reviewDialogVisible: false,
-      ApiObject: ApiObject,
+      ApiObject,
       reviewDialogFormHeader: [
         { label: '订单号', prop: 'orderNo', type: 'text' },
         { label: '下单时间', prop: 'createTime', type: 'text' },
@@ -205,8 +205,11 @@ export default {
       this.reviewDialogVisible = false
       this.Mixins_$Init()
     },
-    resolved(obj) {
-      // todo 调用后端接口
+    async resolved(obj) {
+      await this.$confirm(`确认已解决?`)
+      const res = await ApiObject.resolved(obj.id)
+      this.$message.success(res.message)
+      this.Mixins_$Init()
     },
     async showReviewDialog(obj) {
       await this.Mixins_$InitDialogForm(obj)

@@ -21,6 +21,9 @@ class TradeOfMemberOrderApi extends TradeApi {
   audit(data) {
     return super.customize_put(`/audit`, data)
   }
+  resolved(id) {
+    return super.customize_put(`/resolved/${id}`)
+  }
 }
 
 export default new TradeOfMemberOrderApi()
