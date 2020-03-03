@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "server": "serve -s dist",
+    "inspect": "vue-cli-service inspect --production",
     "mock": "node MockServer.js",
     "local": "vue-cli-service serve --mode local",
     "build": "node build/index.js",

@@ -28,7 +28,7 @@ export const Mixins = {
       Mixins_$TableData: [],
       // page对象
       Mixins_$PageObj: { page: 1, limit: 10, total: 0 },
-      Mixins_$OperateType: { ADD: '_add', 'EDIT': '_edit', 'SHOW': '_show' },
+      Mixins_$OperateType: { ADD: '_add', EDIT: '_edit', SHOW: '_show' },
       // 弹窗
       Mixins_$DialogVisible: false,
       // 表格加载状态
@@ -185,20 +185,24 @@ export const Mixins = {
     },
     // 查看
     async Mixins_$Show(obj) {
-      await this.Mixins_$Edit(obj)
       this.Mixins_$SetDialogOperate(this.Mixins_$OperateType.SHOW)
+      await this.Mixins_$Edit(obj)
     },
     // 编辑
     async Mixins_$Edit(obj) {
       this.Mixins_EditBefore()
-      const res = this.Mixins_QueryItemByRequest ? await this.Mixins_GetApi.call(this.ApiObject, obj.id) : { data: obj }
-      const data = res.data
-      const finalEditParams = this.Mixins_GetFinalEditParams(data)
-      this.DialogForm = { ...this.DialogForm, ...finalEditParams }
+      const [res, finalEditParams] = await this.Mixins_$InitDialogForm(obj)
       this.Mixins_$SetDialogOperate(this.Mixins_$OperateType.EDIT)
       this.Mixins_$DialogVisible = true
       this.Mixins_EditAfter(res, finalEditParams)
       return true
+    },
+    async Mixins_$InitDialogForm(obj) {
+      const res = this.Mixins_QueryItemByRequest ? await this.Mixins_GetApi.call(this.ApiObject, obj.id) : { data: obj }
+      const data = res.data
+      const finalEditParams = this.Mixins_GetFinalEditParams(data)
+      this.DialogForm = { ...this.DialogForm, ...finalEditParams }
+      return [res, finalEditParams]
     },
     // 提交
     async Mixins_$Submit() {

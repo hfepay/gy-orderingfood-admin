@@ -18,6 +18,9 @@ class TradeOfMemberOrderApi extends TradeApi {
   export(data) {
     return super.customize_put(`/subtotalSale/export`, data, { responseType: 'blob' })
   }
+  audit(data) {
+    return super.customize_put(`/audit`, data)
+  }
 }
 
 export default new TradeOfMemberOrderApi()

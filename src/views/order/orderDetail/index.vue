@@ -37,8 +37,14 @@
         <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           详情
         </el-button>
-        <el-button v-if="+scope.row.orderStatus === 2" type="success" @click.stop="updateOrderStatus(scope.row)">
+        <el-button v-if="scope.row.orderStatus == 2" type="success" @click.stop="updateOrderStatus(scope.row)">
           完成配送
+        </el-button>
+        <el-button v-if="scope.row.orderStatus == 7" type="success" @click.stop="showReviewDialog(scope.row)">
+          审核
+        </el-button>
+        <el-button v-if="scope.row.orderStatus == 10" type="success" @click.stop="resolved(scope.row)">
+          已解决
         </el-button>
         <el-tag v-else type="success" size="medium" style="margin: 0 4px">
           {{ orderStatus[scope.row.orderStatus] }}
@@ -77,19 +83,53 @@
         </template>
       </base-form>
     </base-dialog>
+    <base-dialog
+      title="退款审核表"
+      :visible.sync="reviewDialogVisible"
+      top="5vh"
+      center
+    >
+      <base-form
+        ref="form"
+        :model="DialogForm"
+        :show-default-foot="false"
+        :form-headers="reviewDialogFormHeader"
+        label-width="120px"
+        :disabled="true"
+        @submit="reviewSuccess"
+        @cancel="reviewFail"
+      >
+        <template #orderAmount>
+          <el-form-item label="订单详情">
+            <base-table :data="DialogForm.list" :headers="DetailHeaders" />
+          </el-form-item>
+        </template>
+      </base-form>
+    </base-dialog>
   </div>
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import { orderStatus, deliveryTimeStatus, transportType, payType } from '@/constants/module/OrderConstant'
+import { orderStatus, deliveryTimeStatus, transportType, payType, REVIEW_STATUS_ENUM } from '@/constants/module/OrderConstant'
 
 export default {
   name: 'Account',
   mixins: [Mixins],
   data() {
     return {
+      reviewDialogVisible: false,
       ApiObject: ApiObject,
+      reviewDialogFormHeader: [
+        { label: '订单号', prop: 'orderNo', type: 'text' },
+        { label: '下单时间', prop: 'createTime', type: 'text' },
+        { label: '收款人姓名', prop: 'memberName', type: 'text' },
+        { label: '联系方式', prop: 'memberMobile', type: 'text' },
+        { label: '配送方式', prop: 'transportType', type: 'text', format: transportType },
+        { label: '支付方式', prop: 'payType', type: 'text', format: payType },
+        { label: '退款金额', prop: 'payAmount', type: 'text' },
+        { label: '订单内容', slot: 'orderAmount' }
+      ],
       DialogFormHeader: [
         { label: '订单号', prop: 'orderNo', type: 'text' },
         { label: '会员姓名', prop: 'memberName', type: 'text' },
@@ -150,6 +190,28 @@ export default {
     }
   },
   methods: {
+    // 审核通过
+    reviewSuccess() {
+      this.review(REVIEW_STATUS_ENUM.SUCCESS)
+    },
+    // 审核不通过
+    reviewFail() {
+      this.review(REVIEW_STATUS_ENUM.FAIL)
+    },
+    async review(audit) {
+      const orderId = this.DialogForm.id
+      const res = await ApiObject.audit({ orderId, audit })
+      this.$message.success(res.message)
+      this.reviewDialogVisible = false
+      this.Mixins_$Init()
+    },
+    resolved(obj) {
+      // todo 调用后端接口
+    },
+    async showReviewDialog(obj) {
+      await this.Mixins_$InitDialogForm(obj)
+      this.reviewDialogVisible = true
+    },
     async updateOrderStatus(obj) {
       await this.$confirm(`是否开始配送当前订单?`, '配送')
       try {
@@ -195,7 +257,7 @@ export default {
     },
     // 判断该行是否可选
     selectable(row) {
-      return +row.orderStatus === 2
+      return row.orderStatus == 2
     }
   }
 }
