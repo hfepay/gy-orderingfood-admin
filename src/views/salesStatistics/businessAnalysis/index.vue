@@ -15,13 +15,9 @@
               v-model="QueryParams.timeRange"
               type="daterange"
               :default-time="['00:00:00', '23:59:59']"
-              placeholder="请选择配送日期"
+              placeholder="请选择日期范围"
             />
           </el-form-item>
-          <el-form-item>
-            <delivery-time-select v-model="QueryParams.distributionTypes" multiple placeholder="请选择送时间段" />
-          </el-form-item>
-          <el-form-item />
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>
@@ -38,12 +34,10 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'SalesSummary',
-  components: { deliveryTimeSelect },
+  name: 'BusinessAnalysis',
   mixins: [Mixins],
   data() {
     const date = new Date()
@@ -52,17 +46,23 @@ export default {
       Headers: [
         { type: 'index', label: '序号' },
         { label: '商户名称', prop: 'businessName' },
-        { label: '配送日期', prop: 'distributionDate' },
-        { label: '订单金额', prop: 'orderAmount' },
-        { label: '实收金额', prop: 'discountAmount' }
+        { label: '销售日期', prop: 'todo' },
+        { label: '订单数量', prop: 'todo' },
+        { label: '自取订单', prop: 'todo' },
+        { label: '外卖订单', prop: 'todo' },
+        { label: '商品总额（元）', prop: 'todo' },
+        { label: '配送费收入（元）', prop: 'todo' },
+        { label: '优惠金额（元）', prop: 'todo' },
+        { label: '实收金额（元）', prop: 'todo' },
+        { label: '微信支付（元）', prop: 'todo' },
+        { label: '微信支付（元）', prop: 'todo' },
+        { label: '线下支付（元）', prop: 'todo' }
       ],
       QueryParams: {
         timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
-          this.$Contants.getDateTime(new Date())],
-        distributionTypes: []
+          this.$Contants.getDateTime(new Date())]
       },
       QueryParamsRules: {
-        distributionDate: [{ required: true, message: '必填项不能为空' }]
       }
     }
   },

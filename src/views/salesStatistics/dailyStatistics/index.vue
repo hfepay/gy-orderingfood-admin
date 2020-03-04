@@ -9,19 +9,13 @@
       @currentChange="Mixins_$CurrentChange"
     >
       <template slot="layout-search">
-        <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
-          <el-form-item>
-            <base-date-picker
-              v-model="QueryParams.timeRange"
-              type="daterange"
-              :default-time="['00:00:00', '23:59:59']"
-              placeholder="请选择配送日期"
-            />
-          </el-form-item>
-          <el-form-item>
-            <delivery-time-select v-model="QueryParams.distributionTypes" multiple placeholder="请选择送时间段" />
-          </el-form-item>
-          <el-form-item />
+        <base-form
+          :inline="true"
+          :model="QueryParams"
+          :rules="QueryParamsRules"
+          :show-default-foot="false"
+          :form-headers="queryParamsformHeaders"
+        >
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>
@@ -38,29 +32,28 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'SalesSummary',
-  components: { deliveryTimeSelect },
+  name: 'DailyStatistics',
   mixins: [Mixins],
   data() {
-    const date = new Date()
     return {
       ApiObject: ApiObject,
       Headers: [
         { type: 'index', label: '序号' },
         { label: '商户名称', prop: 'businessName' },
-        { label: '配送日期', prop: 'distributionDate' },
-        { label: '订单金额', prop: 'orderAmount' },
+        { label: '菜品名称', prop: 'todo' },
+        { label: '销售数量（份）', prop: 'todo' },
+        { label: '商品总额（元）', prop: 'orderAmount' },
         { label: '实收金额', prop: 'discountAmount' }
       ],
       QueryParams: {
-        timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
-          this.$Contants.getDateTime(new Date())],
-        distributionTypes: []
       },
+      queryParamsformHeaders: [
+        { label: '菜品名称', prop: 'name' },
+        { label: '销售时间', prop: 'date', type: 'date' }
+      ],
       QueryParamsRules: {
         distributionDate: [{ required: true, message: '必填项不能为空' }]
       }

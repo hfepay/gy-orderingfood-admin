@@ -9,19 +9,13 @@
       @currentChange="Mixins_$CurrentChange"
     >
       <template slot="layout-search">
-        <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
-          <el-form-item>
-            <base-date-picker
-              v-model="QueryParams.timeRange"
-              type="daterange"
-              :default-time="['00:00:00', '23:59:59']"
-              placeholder="请选择配送日期"
-            />
-          </el-form-item>
-          <el-form-item>
-            <delivery-time-select v-model="QueryParams.distributionTypes" multiple placeholder="请选择送时间段" />
-          </el-form-item>
-          <el-form-item />
+        <base-form
+          :inline="true"
+          :model="QueryParams"
+          :rules="QueryParamsRules"
+          :show-default-foot="false"
+          :form-headers="queryParamsformHeaders"
+        >
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>
@@ -38,29 +32,35 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import deliveryTimeSelect from '@/views/components/Select/deliveryTimeSelect'
 import { mapGetters } from 'vuex'
-
+import { payType } from '../../../constants/module/OrderConstant'
 export default {
-  name: 'SalesSummary',
-  components: { deliveryTimeSelect },
+  name: 'DailyStatistics',
   mixins: [Mixins],
   data() {
     const date = new Date()
     return {
-      ApiObject: ApiObject,
+      ApiObject,
       Headers: [
         { type: 'index', label: '序号' },
         { label: '商户名称', prop: 'businessName' },
-        { label: '配送日期', prop: 'distributionDate' },
-        { label: '订单金额', prop: 'orderAmount' },
-        { label: '实收金额', prop: 'discountAmount' }
+        { label: '订单号', prop: 'orderNo' },
+        { label: '交易金额', prop: 'orderAmount' },
+        { label: '交易类型', prop: 'payType', format: payType },
+        { label: '交易时间', prop: 'payDate' }
       ],
       QueryParams: {
         timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
           this.$Contants.getDateTime(new Date())],
         distributionTypes: []
       },
+      queryParamsformHeaders: [
+        { label: '订单号', prop: 'orderNo' },
+        { label: '交易类型', prop: 'payType', type: 'select', options: this.$Contants.toOptions(payType) },
+        { label: '交易金额最小值', prop: 'orderNo', type: 'number' },
+        { label: '交易金额最大值', prop: 'orderNo', type: 'number' },
+        { label: '交易时间', prop: 'timeRange', type: 'daterange' }
+      ],
       QueryParamsRules: {
         distributionDate: [{ required: true, message: '必填项不能为空' }]
       }
