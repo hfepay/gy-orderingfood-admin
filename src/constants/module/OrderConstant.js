@@ -23,7 +23,7 @@ export const vipType = { '1': '集团员工', '2': '驻场单位员工' }
 // 会员状态
 export const memberStatus = { '1': '正常', '0': '冻结' }
 // 支付方式
-export const payType = { '1': '微信支付', '2': '线下支付' }
+export const payType = { '1': '线下支付', '2': '微信支付' }
 // 订单状态
 // 1:待付款 2：已下单，3已配送， 4，已完成 5，已取消 6，申诉， 7，退款审核中， 8 退款中 9 ， 退款陈功， 10，退款失败 11退款不通
 export const orderStatus = {
