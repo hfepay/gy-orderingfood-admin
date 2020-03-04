@@ -62,6 +62,7 @@ export const commonRouter = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
+  base: '/foadmin',
   routes: [...commonRouter, ...permissionRouter]
 })
 const router = createRouter()

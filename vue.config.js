@@ -19,8 +19,9 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail https://cli.vuejs.org/config/#baseurl
    */
+  publicPath: '/foadmin/',
   outputDir: 'dist',
-  assetsDir: './foadmin/static',
+  assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV !== 'production',
   productionSourceMap: false,
   devServer: {
