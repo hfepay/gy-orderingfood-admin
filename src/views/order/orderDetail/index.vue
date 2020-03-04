@@ -40,7 +40,7 @@
         <el-button v-if="scope.row.orderStatus == 2" type="success" @click.stop="updateOrderStatus(scope.row)">
           完成配送
         </el-button>
-        <el-button v-if="scope.row.orderStatus == 7" type="success" @click.stop="showReviewDialog(scope.row)">
+        <el-button v-if="scope.row.orderStatus == 7" type="danger" @click.stop="showReviewDialog(scope.row)">
           审核
         </el-button>
         <el-button v-if="scope.row.orderStatus == 10" type="success" @click.stop="resolved(scope.row)">
@@ -90,12 +90,10 @@
       center
     >
       <base-form
-        ref="form"
         :model="DialogForm"
-        :show-default-foot="false"
+        confirm-btn-text="审核通过"
+        cancel-btn-text="审核不通过"
         :form-headers="reviewDialogFormHeader"
-        label-width="120px"
-        :disabled="true"
         @submit="reviewSuccess"
         @cancel="reviewFail"
       >
