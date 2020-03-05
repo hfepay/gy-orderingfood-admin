@@ -22,7 +22,7 @@
         </base-form>
       </template>
       <template slot="layout-operate">
-        <el-button type="primary" @click="Mixins_$ExportExcel()">
+        <el-button type="primary" @click="Mixins_$ExportExcel">
           导出excel
         </el-button>
       </template>
@@ -31,7 +31,7 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
+import ApiObject from '../../../api/module/trade/TradeOfSaleStatisApi'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -39,20 +39,20 @@ export default {
   mixins: [Mixins],
   data() {
     return {
-      ApiObject: ApiObject,
+      ApiObject,
       Headers: [
         { type: 'index', label: '序号' },
         { label: '商户名称', prop: 'businessName' },
-        { label: '菜品名称', prop: 'todo' },
-        { label: '销售数量（份）', prop: 'todo' },
+        { label: '菜品名称', prop: 'foodName' },
+        { label: '销售数量（份）', prop: 'totalNum' },
         { label: '商品总额（元）', prop: 'orderAmount' },
-        { label: '实收金额', prop: 'discountAmount' }
+        { label: '实收金额', prop: 'actualAmount' }
       ],
       QueryParams: {
       },
       queryParamsformHeaders: [
-        { label: '菜品名称', prop: 'name' },
-        { label: '销售时间', prop: 'date', type: 'date' }
+        { label: '菜品名称', prop: 'foodName' },
+        { label: '销售时间', prop: 'currentDate', type: 'date' }
       ],
       QueryParamsRules: {
         distributionDate: [{ required: true, message: '必填项不能为空' }]
@@ -61,16 +61,13 @@ export default {
   },
   computed: {
     Mixins_PageApi() {
-      return this.ApiObject.subtotalSale
+      return this.ApiObject.pageDays
     },
     ...mapGetters([
       'userInfo'
     ])
   },
   methods: {
-    Mixins_ExportApi() {
-      return ApiObject.export
-    },
     // 获取最终查询条件
     Mixins_GetFinalQueryParams(data) {
       return { businessId: this.userInfo.id, ...data }

@@ -55,6 +55,9 @@ export default {
         { label: '配送方式', prop: 'transportType', format: transportType }
       ],
       QueryParams: {
+        distributionType: '',
+        dishName: '',
+        transportType: '',
         timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 7)),
           this.$Contants.getDateTime(new Date())]
       }
