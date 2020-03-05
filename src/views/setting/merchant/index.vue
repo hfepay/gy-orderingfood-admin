@@ -74,8 +74,8 @@
       center
       @closed="Mixins_$Reset"
     >
-      <role-transfer
-        v-if="RoleDialogVisible"
+      <el-transfer
+        :key="RoleDialogVisible"
         v-model="RoleDialogForm.roles"
         :data="rolesList"
         filterable
@@ -89,12 +89,10 @@
 <script>
 import { Mixins } from '@/mixins/mixins'
 import ApiObject from '../../../api/module/trade/TradeBusinessApi'
-import RoleTransfer from '@/views/components/Transfer/RoleTransfer'
 import TradeUserToBusinessApi from '@/api/module/trade/TradeUserToBusinessApi'
 
 export default {
   name: 'Business',
-  components: { RoleTransfer },
   mixins: [Mixins],
   data() {
     return {

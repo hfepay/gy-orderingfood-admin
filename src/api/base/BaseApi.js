@@ -26,8 +26,8 @@ export default class BaseApi {
     return request.get(`${this.#BASEURL}/${id}`)
   }
   list(data = {}) {
-    data && delete data.page
-    data && delete data.limit
+    data?.page && delete data.page
+    data?.limit && delete data.limit
     return request.get(`${this.#BASEURL}/list`, { params: data })
   }
   /* 公共crud page 导出方法 end*/
