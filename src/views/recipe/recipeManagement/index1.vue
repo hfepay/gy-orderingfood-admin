@@ -252,6 +252,10 @@ export default {
       this.Mixins_EditAfter(res, finalEditParams)
       return true
     },
+    Mixins_GetFinalEditParams(data){
+      data.distributeRules && (data.distributeRulesArr = data.distributeRules.split(','))
+      return data
+    },
     // 提交表单之前的回调
     Mixins_$SubmitBefore() {
       // 对订餐时间进行处理
