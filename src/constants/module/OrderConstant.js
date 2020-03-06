@@ -39,7 +39,7 @@ export const orderStatus = {
   '8': '退款中',
   '9': '退款成功',
   '10': '退款失败',
-  '11': '退款不通'
+  '11': '退款不通过'
 }
 export const REVIEW_STATUS_ENUM = {
   SUCCESS: 1,

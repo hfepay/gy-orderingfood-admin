@@ -46,9 +46,6 @@
         <el-button v-if="scope.row.orderStatus == 10" type="success" @click.stop="resolved(scope.row)">
           已解决
         </el-button>
-        <el-tag v-else type="success" size="medium" style="margin: 0 4px">
-          {{ orderStatus[scope.row.orderStatus] }}
-        </el-tag>
         <el-button type="danger" @click.stop="Mixins_$Del(scope.row)">
           删除订单
         </el-button>
