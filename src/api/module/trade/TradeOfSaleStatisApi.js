@@ -19,7 +19,7 @@ class TradeOfSaleStatisApi extends TradeApi {
     return super.customize_get('/pageTransactionDetails', data)
   }
   pageTransactionDetailsExport(data) {
-    return super.customize_export_post('/pageTransactionDetailsExport/export', data)
+    return super.customize_export_post('/pageTransactionDetails/export', data)
   }
 }
 
