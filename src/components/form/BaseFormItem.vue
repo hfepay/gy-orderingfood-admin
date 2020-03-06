@@ -21,7 +21,7 @@
       </template>
       <!--下拉框-->
       <template v-else-if="(formheader.type) === 'select'">
-        <el-select v-model="form[formheader.prop]">
+        <el-select v-model="form[formheader.prop]" clearable>
           <el-option
             v-for="(option, index) in formheader.options"
             :key="index"

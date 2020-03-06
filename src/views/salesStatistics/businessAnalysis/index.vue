@@ -24,7 +24,7 @@
         </base-form>
       </template>
       <template slot="layout-operate">
-        <el-button type="primary" @click="Mixins_$ExportExcel()">
+        <el-button type="primary" @click="Mixins_$ExportExcel">
           导出excel
         </el-button>
       </template>
@@ -33,8 +33,7 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import { mapGetters } from 'vuex'
+import ApiObject from '../../../api/module/trade/TradeOfSaleStatisApi'
 
 export default {
   name: 'BusinessAnalysis',
@@ -42,21 +41,20 @@ export default {
   data() {
     const date = new Date()
     return {
-      ApiObject: ApiObject,
+      ApiObject,
       Headers: [
         { type: 'index', label: '序号' },
         { label: '商户名称', prop: 'businessName' },
-        { label: '销售日期', prop: 'todo' },
-        { label: '订单数量', prop: 'todo' },
-        { label: '自取订单', prop: 'todo' },
-        { label: '外卖订单', prop: 'todo' },
-        { label: '商品总额（元）', prop: 'todo' },
-        { label: '配送费收入（元）', prop: 'todo' },
-        { label: '优惠金额（元）', prop: 'todo' },
-        { label: '实收金额（元）', prop: 'todo' },
-        { label: '微信支付（元）', prop: 'todo' },
-        { label: '微信支付（元）', prop: 'todo' },
-        { label: '线下支付（元）', prop: 'todo' }
+        { label: '销售日期', prop: 'distributionDate' },
+        { label: '订单数量', prop: 'orderNum' },
+        { label: '自取订单', prop: 'selfTakeNum' },
+        { label: '外卖订单', prop: 'noselfTakeNum' },
+        { label: '商品总额（元）', prop: 'orderAmount' },
+        { label: '配送费收入（元）', prop: 'transportFee' },
+        { label: '优惠金额（元）', prop: 'discountAmount' },
+        { label: '实收金额（元）', prop: 'realPayAmount' },
+        { label: '微信支付（元）', prop: 'wechatAmount' },
+        { label: '线下支付（元）', prop: 'offlineAmount' }
       ],
       QueryParams: {
         timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
@@ -68,20 +66,9 @@ export default {
   },
   computed: {
     Mixins_PageApi() {
-      return this.ApiObject.subtotalSale
+      return this.ApiObject.pageOperationAnalysis
     },
-    ...mapGetters([
-      'userInfo'
-    ])
-  },
-  methods: {
-    Mixins_ExportApi() {
-      return ApiObject.export
-    },
-    // 获取最终查询条件
-    Mixins_GetFinalQueryParams(data) {
-      return { businessId: this.userInfo.id, ...data }
-    }
+    Mixins_ExportApi() { return this.ApiObject.pageOperationAnalysisExport }
   }
 }
 </script>

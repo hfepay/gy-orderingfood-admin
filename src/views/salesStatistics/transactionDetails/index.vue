@@ -31,9 +31,8 @@
 </template>
 <script>
 import { Mixins } from '@/mixins/mixins'
-import ApiObject from '../../../api/module/trade/TradeOfMemberOrderApi'
-import { mapGetters } from 'vuex'
-import { payType } from '../../../constants/module/OrderConstant'
+import ApiObject from '../../../api/module/trade/TradeOfSaleStatisApi'
+import { transactionType } from '../../../constants/module/OrderConstant'
 export default {
   name: 'DailyStatistics',
   mixins: [Mixins],
@@ -45,8 +44,8 @@ export default {
         { type: 'index', label: '序号' },
         { label: '商户名称', prop: 'businessName' },
         { label: '订单号', prop: 'orderNo' },
-        { label: '交易金额', prop: 'orderAmount' },
-        { label: '交易类型', prop: 'payType', format: payType },
+        { label: '交易金额', prop: 'payAmount' },
+        { label: '交易类型', prop: 'orderStatus', format: transactionType },
         { label: '交易时间', prop: 'payDate' }
       ],
       QueryParams: {
@@ -56,9 +55,9 @@ export default {
       },
       queryParamsformHeaders: [
         { label: '订单号', prop: 'orderNo' },
-        { label: '交易类型', prop: 'payType', type: 'select', options: this.$Contants.toOptions(payType) },
-        { label: '交易金额最小值', prop: 'orderNo', type: 'number' },
-        { label: '交易金额最大值', prop: 'orderNo', type: 'number' },
+        { label: '交易类型', prop: 'orderStatus', type: 'select', options: this.$Contants.toOptions(transactionType) },
+        { label: '交易金额最小值', prop: 'startPrice', type: 'number' },
+        { label: '交易金额最大值', prop: 'endPrice', type: 'number' },
         { label: '交易时间', prop: 'timeRange', type: 'daterange' }
       ],
       QueryParamsRules: {
@@ -68,20 +67,9 @@ export default {
   },
   computed: {
     Mixins_PageApi() {
-      return this.ApiObject.subtotalSale
+      return this.ApiObject.pageTransactionDetails
     },
-    ...mapGetters([
-      'userInfo'
-    ])
-  },
-  methods: {
-    Mixins_ExportApi() {
-      return ApiObject.export
-    },
-    // 获取最终查询条件
-    Mixins_GetFinalQueryParams(data) {
-      return { businessId: this.userInfo.id, ...data }
-    }
+    Mixins_ExportApi() { return this.ApiObject.pageTransactionDetailsExport }
   }
 }
 </script>

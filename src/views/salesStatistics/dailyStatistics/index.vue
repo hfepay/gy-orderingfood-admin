@@ -60,12 +60,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'userInfo'
+    ]),
     Mixins_PageApi() {
       return this.ApiObject.pageDays
     },
-    ...mapGetters([
-      'userInfo'
-    ])
+    Mixins_ExportApi() { return this.ApiObject.pageDaysExport },
   },
   methods: {
     // 获取最终查询条件
