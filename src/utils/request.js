@@ -183,6 +183,8 @@ function download(res, fileName) {
  * @param filename
  */
 service.exportExcel = (url, data, method) => {
+  data?.page && delete data.page
+  data?.limit && delete data.limit
   loadingInstance = Loading.service({ fullscreen: true, text: '下载中', customClass: 'onload' })
   method = (method || 'get').toLowerCase()
   let action = () => {}

@@ -6,6 +6,9 @@ class TradeOfSaleStatisApi extends TradeApi {
   pageDays(data) {
     return super.customize_get('/pageDays', data)
   }
+  export(data) {
+    return super.customize_export('/pageDays/export', data)
+  }
 }
 
 export default new TradeOfSaleStatisApi()

@@ -46,6 +46,9 @@ export default class BaseApi {
   customize_export(url, data) {
     return request.exportExcel(`${this.#BASEURL}${url}`, data)
   }
+  customize_export_post(url, data) {
+    return request.exportExcel(`${this.#BASEURL}${url}`, data, 'post')
+  }
   customize_get(url, data, config) {
     return request.get(`${this.#BASEURL}${url}`, { params: data, ...config })
   }

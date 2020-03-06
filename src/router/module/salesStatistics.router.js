@@ -9,7 +9,7 @@ const router = [{
       path: 'salesSummary',
       name: 'SalesSummary',
       component: () => import(`@/views${moduleName}/salesSummary`),
-      meta: { title: '销售概况' }
+      meta: { title: '结算报表' }
     },
     {
       path: 'dailyStatistics',
