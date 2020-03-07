@@ -253,22 +253,6 @@ export default {
         this.$message.warning('请先选择订单')
       }
     },
-    $_parseRangeField(queryParams) {
-      for (const condition in queryParams) {
-        // 处理时间问题
-        if (condition.endsWith('imeRange') && Array.isArray(queryParams[condition])) {
-          if (queryParams[condition].length > 0) {
-            const key = this.$_getRangeKey(condition)
-            const startKey = key ? `${key}StartTime` : 'startTime'
-            const endKey = key ? `${key}EndTime` : 'endTime'
-            queryParams[startKey] = queryParams[condition][0]
-            queryParams[endKey] = queryParams[condition][1]
-          }
-          delete queryParams[condition]
-        }
-      }
-      return queryParams
-    },
     // 获取选择订单列表
     handleSelectionChange(val) {
       this.selectionList = val
