@@ -44,7 +44,7 @@
           外卖配送条件
         </el-col>
         <el-col :span="8">
-          <el-radio v-model="DialogForm.limitType" label="0">
+          <el-radio v-model="DialogForm.limitType" :label="0">
             配置起送金额
           </el-radio>
           <el-form-item v-if="+DialogForm.limitType===0" prop="limitValue">
@@ -56,10 +56,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-radio v-model="DialogForm.limitType" label="1">
+          <el-radio v-model="DialogForm.limitType" :label="1">
             配置起送份数
           </el-radio>
-          <el-form-item v-if="+DialogForm.limitType===1" prop="limitValue">
+          <el-form-item v-if="DialogForm.limitType ==1" prop="limitValue">
             <base-input v-model="DialogForm.limitValue">
               <template slot="append">
                 份
@@ -92,12 +92,12 @@
           订单通知
         </el-col>
         <el-col :span="8">
-          <el-radio v-model="DialogForm.enableNotice" label="1">
+          <el-radio v-model="DialogForm.enableNotice" :label="1">
             开启
           </el-radio>
         </el-col>
         <el-col :span="8">
-          <el-radio v-model="DialogForm.enableNotice" label="0">
+          <el-radio v-model="DialogForm.enableNotice" :label="0">
             关闭
           </el-radio>
         </el-col>

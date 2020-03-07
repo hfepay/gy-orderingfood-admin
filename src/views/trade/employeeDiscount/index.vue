@@ -9,15 +9,15 @@
       @currentChange="Mixins_$CurrentChange"
     >
       <template slot="layout-operate">
-        <el-button type="primary" @click="Mixins_$Add">
+        <!--<el-button type="primary" @click="Mixins_$Add">
           新增
-        </el-button>
+        </el-button>-->
       </template>
       <!--操作-->
       <template slot="operator" slot-scope="{scope}">
-        <el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
+        <!--<el-button type="primary" @click.stop="Mixins_$Edit(scope.row)">
           编辑
-        </el-button>
+        </el-button>-->
       </template>
     </base-table-layout>
     <base-dialog

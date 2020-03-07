@@ -10,15 +10,21 @@
       @currentChange="Mixins_$CurrentChange"
     >
       <template slot="layout-search">
-        <base-form :inline="true" :model="QueryParams" :rules="QueryParamsRules" :show-default-foot="false">
-          <el-form-item>
+        <base-form
+          :form-headers="queryParamsHeaders"
+          :inline="true"
+          :model="QueryParams"
+          :rules="QueryParamsRules"
+          :show-default-foot="false"
+        >
+          <!--<el-form-item>
             <base-date-picker
               v-model="QueryParams.timeRange"
               type="daterange"
               :default-time="['00:00:00', '23:59:59']"
               placeholder="请选择配送日期"
             />
-          </el-form-item>
+          </el-form-item>-->
           <el-button type="primary" @click="Mixins_$Search">
             查询
           </el-button>
@@ -158,6 +164,7 @@ export default {
         { label: '会员姓名', prop: 'memberName' },
         { label: '联系方式', prop: 'memberMobile' },
         { label: '配送方式', prop: 'transportType', format: transportType },
+        { label: '支付方式', prop: 'payType', format: payType },
         { label: '菜品名称及数量', slot: 'foodList' },
         { label: '配送日期', prop: 'distributionDate' },
         { label: '时间段', prop: 'distributionType', format: deliveryTimeStatus },
@@ -174,6 +181,19 @@ export default {
         timeRange: [],
         distributionDate: this.$Contants.getDateTime(new Date())
       },
+      queryParamsHeaders: [
+        { label: '订单号', prop: 'orderNo' },
+        { label: '会员姓名', prop: 'memberName' },
+        { label: '联系方式', prop: 'memberMobile' },
+        { label: '菜品名称', prop: 'dishName' },
+        { label: '订单价格最小值', prop: 'startPrice', type: 'number' },
+        { label: '订单价格最大值', prop: 'endPrice', type: 'number' },
+        { label: '订单状态', prop: 'orderStatus', type: 'select', options: this.$Contants.toOptions(orderStatus) },
+        { label: '配送方式', prop: 'transportType', type: 'select', options: this.$Contants.toOptions(transportType) },
+        { label: '配送日期', prop: 'distributionDate', type: 'date' },
+        { label: '配送时间段', prop: 'distributionType', type: 'select', options: this.$Contants.toOptions(deliveryTimeStatus) },
+        { label: '下单时间', prop: 'timeRange', type: 'daterange' }
+      ],
       QueryParamsRules: {
         distributionDate: [{ required: true, message: '必填项不能为空' }]
       }

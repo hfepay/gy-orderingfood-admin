@@ -52,9 +52,9 @@ export default {
         { label: '商品总额（元）', prop: 'orderAmount' },
         { label: '配送费收入（元）', prop: 'transportFee' },
         { label: '优惠金额（元）', prop: 'discountAmount' },
-        { label: '实收金额（元）', prop: 'realPayAmount' },
+        { label: '实收金额（元）', prop: 'realIncomeAmount' },
         { label: '微信支付（元）', prop: 'wechatAmount' },
-        { label: '线下支付（元）', prop: 'offlineAmount' }
+        { label: '线下支付（元）', prop: 'offlineAmunt' }
       ],
       QueryParams: {
         timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
