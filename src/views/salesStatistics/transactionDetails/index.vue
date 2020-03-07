@@ -37,7 +37,6 @@ export default {
   name: 'DailyStatistics',
   mixins: [Mixins],
   data() {
-    const date = new Date()
     return {
       ApiObject,
       Headers: [
@@ -49,7 +48,7 @@ export default {
         { label: '交易时间', prop: 'payDate' }
       ],
       QueryParams: {
-        timeRange: [this.$Contants.getDateTime(new Date(date - 1000 * 60 * 60 * 24 * 30)),
+        timeRange: [this.$Contants.getDateTime(new Date()),
           this.$Contants.getDateTime(new Date())],
         distributionTypes: []
       },
